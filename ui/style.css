@@ -1,0 +1,73 @@
+/*
+
+	Global dezign done by Alex.immer
+
+*/
+
+body {
+    background: #123 url(stars.anim.gif)
+}
+
+
+/*
+	IE workarounds
+*/
+
+.lt-ie9 body {
+    background: #123 url(stars-blue.html) fixed
+}
+
+.lt-ie9 .bg1,
+.lt-ie9 .bg2,
+.lt-ie9 .bg3 {
+    display: none
+}
+
+.lt-ie7 .logo a {
+    background-image: url(aleximmer-logo.gif)
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cards li {
+    background-color: rgba(0, 0, 0, 0.0);
+    color: #fff;
+    flex: 1 1 200px;
+}
+
+.cards h2 {
+    background-color: rgba(0, 0, 0, 0.0);
+    margin: 0;
+    padding: 10px;
+}
+
+.cards p {
+    padding: 10px;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+}
+
+.flex li {
+    flex: 1 1 200px;
+    margin: 10px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /*grid-template-columns: repeat(auto-fill, minmax(200px 1fr));*/
+    grid-gap: 20px;
+}
