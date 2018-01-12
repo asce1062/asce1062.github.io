@@ -4,27 +4,24 @@
 
 */
 
-body {
-    background: #123 url(stars.anim.gif)
-}
-
 
 /*
-	IE workarounds
+
+	Fonts
+
 */
 
-.lt-ie9 body {
-    background: #123 url(stars-blue.html) fixed
+@font-face {
+    font-family: "uni 05_53";
+    src: local("uni 05_53");
+    src: url("fonts/uni0553.eot");
+    src: url("fonts/uni0553d41d.eot?#iefix") format("embedded-opentype"), url("fonts/uni0553.woff") format("woff"), url("fonts/uni0553.ttf") format("truetype"), url("fonts/uni0553.svg#uni_05_53regular") format("svg");
 }
 
-.lt-ie9 .bg1,
-.lt-ie9 .bg2,
-.lt-ie9 .bg3 {
-    display: none
-}
-
-.lt-ie7 .logo a {
-    background-image: url(aleximmer-logo.gif)
+body {
+    background: #123 url(stars.anim.gif);
+    font-family: corbel, sans-serif;
+    font-size: 12px
 }
 
 .wrapper {
@@ -68,6 +65,460 @@ body {
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    /*grid-template-columns: repeat(auto-fill, minmax(200px 1fr));*/
     grid-gap: 20px;
+}
+
+.main {
+    font-size: 13px
+}
+
+h2 {
+    font-family: "uni 05_53";
+    font-size: 24px
+}
+
+.track strong,
+h3 {
+    font-family: "uni 05_53";
+    font-size: 16px;
+    font-weight: normal
+}
+
+.track small {
+    font-family: consolas, monospace;
+    font-size: 11px;
+    font-weight: bold
+}
+
+.dnl {
+    font-family: calibri;
+    font-size: 11px
+}
+
+
+/*
+
+	Colors
+
+*/
+
+body {
+    background-color: #123;
+    color: #246
+}
+
+a {
+    color: #358
+}
+
+a:hover {
+    color: #46a
+}
+
+.main {
+    background-color: #b61;
+    border-color: #840;
+    color: #530
+}
+
+.track {
+    border-top-color: #840
+}
+
+.track small {
+    color: #840
+}
+
+.dnl {
+    background-color: #840;
+    border-color: #630
+}
+
+.dnl:hover {
+    border-color: #d96
+}
+
+.main a,
+h2 {
+    color: #d96
+}
+
+.main a:hover {
+    color: #fff
+}
+
+
+/*
+
+	Sprites
+
+*/
+
+.baseline,
+.social a,
+.play,
+.pause,
+.cc,
+.bandcamp_big {
+    background-image: url("sprite.png")
+}
+
+.logo a,
+.baseline,
+.social a,
+.play,
+.pause,
+.cc,
+.bandcamp_big {
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    text-indent: -999em;
+}
+
+.logo a {
+    background: url(aleximmer-logo.png) no-repeat left top;
+    display: block;
+    height: 190px;
+    width: 300px
+}
+
+.baseline {
+    height: 1px;
+    background-position: -180px -175px;
+    display: block;
+    margin: 0 auto;
+    width: 200px
+}
+
+.social a {
+    display: inline-block;
+    height: 64px;
+}
+
+.social .itunes {
+    background-position: 0 -250px;
+    width: 50px
+}
+
+.social .soundcloud {
+    background-position: -50px -250px;
+    width: 76px
+}
+
+.social .bandcamp {
+    background-position: -126px -250px;
+    width: 66px
+}
+
+.social .twitter {
+    background-position: -192px -250px;
+    width: 48px
+}
+
+.social .facebook {
+    background-position: -240px -250px;
+    width: 56px
+}
+
+.social .youtube {
+    background-position: -294px -250px;
+    width: 53px
+}
+
+.bandcamp_big {
+    background-position: 0 0;
+    display: block;
+    height: 60px;
+    margin: 0 auto;
+    width: 200px
+}
+
+.play,
+.pause {
+    height: 24px;
+    width: 24px
+}
+
+.play {
+    background-position: 0 -314px
+}
+
+.pause,
+.play.pause {
+    background-position: -24px -314px
+}
+
+.cc {
+    background-position: 0 -338px;
+    height: 32px;
+    width: 61px;
+    float: right
+}
+
+
+/*
+
+	Main
+
+*/
+
+.bandcamp_player {
+    background: #333;
+    border-radius: 8px;
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.5);
+    clear: both;
+    margin-top: 20px;
+    overflow: hidden
+}
+
+.bandcamp_player iframe {
+    border: 0;
+    height: 120px;
+    width: 100%;
+    margin: 0;
+    padding: 0
+}
+
+body {
+    line-height: 1.1;
+    margin: 0;
+    padding: 0
+}
+
+a {
+    cursor: pointer;
+    outline: none;
+    text-decoration: none
+}
+
+a img {
+    border: 0
+}
+
+h2 {
+    clear: both;
+    margin: 0;
+    padding: 0.8em 0 .2em 0;
+    text-align: center;
+    text-shadow: 0 1px 7px rgba(0, 0, 0, 0.4);
+}
+
+small {
+    font-size: 80%
+}
+
+.main,
+.dnl {
+    border-style: solid
+}
+
+.clear {
+    clear: both
+}
+
+.wrap {
+    margin: 0 auto;
+    padding: 100px 0;
+    position: relative;
+    width: 400px;
+    max-width: 87.5%
+}
+
+.main {
+    border-radius: 14px;
+    border-width: 5px;
+    box-shadow: 0 0 16px #000;
+    padding: 20px
+}
+
+.logo {
+    margin: -130px auto 0;
+    text-align: center
+}
+
+.logo a {
+    margin: auto
+}
+
+.social {
+    text-align: center;
+    /*display:block;*/
+    /*margin:0 auto; width:73%*/
+}
+
+.social a,
+.play,
+.bandcamp_big {
+    opacity: 0.4;
+    transition: opacity 0.4s
+}
+
+.social a:hover,
+.play:hover,
+.play.pause,
+.bandcamp_big:hover {
+    opacity: 1
+}
+
+.scloud {
+    clear: both;
+    display: block;
+    height: 20px;
+    margin-left: 35px;
+    width: 100%;
+    /*visibility:visible !important*/
+}
+
+.track {
+    clear: both;
+    padding-top: 5px;
+    margin-top: 5px;
+    border-top-width: 1px;
+    border-top-style: dashed
+}
+
+.track strong,
+.track h3 {
+    display: inline
+}
+
+.play,
+.pause {
+    display: block;
+    float: right;
+    margin: 0 0 4px 4px
+}
+
+.dnl {
+    border-radius: 5px;
+    border-width: 2px;
+    float: right;
+    margin: 3px 0 4px 4px;
+    padding: 2px 3px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+    transition: border 0.3s
+}
+
+.dnl:hover {
+    text-shadow: 0 0 2px #e94
+}
+
+.credits {
+    padding: 10px
+}
+
+
+/*
+
+	Animations
+
+*/
+
+@-webkit-keyframes logo {
+    0% {
+        opacity: 0
+    }
+    40% {
+        -webkit-transform: rotate(-18deg) scale(0.8) translateX(20px) translateY(60px);
+        opacity: 0
+    }
+    100% {
+        -webkit-transform: scale(1) translateX(0) translateY(0);
+        opacity: 1
+    }
+}
+
+@-moz-keyframes logo {
+    0% {
+        opacity: 0
+    }
+    40% {
+        -moz-transform: rotate(-18deg) scale(0.8) translateX(20px) translateY(60px);
+        opacity: 0
+    }
+    100% {
+        -moz-transform: scale(1) translateX(0) translateY(0);
+        opacity: 1
+    }
+}
+
+@-o-keyframes logo {
+    0% {
+        opacity: 0
+    }
+    40% {
+        transform: rotate(-18deg) scale(0.8) translateX(20px) translateY(60px);
+        opacity: 0
+    }
+    100% {
+        transform: scale(1) translateX(0) translateY(0);
+        opacity: 1
+    }
+}
+
+@keyframes logo {
+    0% {
+        opacity: 0
+    }
+    40% {
+        transform: rotate(-18deg) scale(0.8) translateX(20px) translateY(60px);
+        opacity: 0
+    }
+    100% {
+        transform: scale(1) translateX(0) translateY(0);
+        opacity: 1
+    }
+}
+
+.logo a {
+    -webkit-animation-name: logo;
+    -moz-animation-name: logo;
+    -o-animation-name: logo;
+    animation-name: logo;
+    -webkit-animation-duration: 1.8s;
+    -moz-animation-duration: 1.8s;
+    -o-animation-duration: 1.8s;
+    animation-duration: 1.8s;
+    transform-origin: bottom left;
+}
+
+
+/*
+
+	Responsive
+
+*/
+
+@media only screen and (max-width:400px) {
+    .wrap {
+        max-width: 95%
+    }
+    .main {
+        padding: 10px
+    }
+    .scloud {
+        margin-left: 0
+    }
+}
+
+
+/*
+	IE workarounds
+*/
+
+.lt-ie9 body {
+    background: #123 url(stars-blue.html) fixed
+}
+
+.lt-ie9 .bg1,
+.lt-ie9 .bg2,
+.lt-ie9 .bg3 {
+    display: none
+}
+
+.lt-ie7 .logo a {
+    background-image: url(aleximmer-logo.gif)
 }
