@@ -1,6 +1,6 @@
 /*
 
-	Global dezign done by Alex.immer
+	Global dezign done by asce1062
 
 */
 
@@ -26,7 +26,9 @@ body {
 
 .wrapper {
     margin: 0 auto;
-    width: 90%;
+    width: 48.5%;
+    padding: 0 0;
+    position: relative;
 }
 
 .cards {
