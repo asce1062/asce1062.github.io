@@ -83,7 +83,9 @@ h2 {
 h3 {
     font-family: "uni 05_53";
     font-size: 16px;
-    font-weight: normal
+    font-weight: normal;
+    margin: 0 1px;
+    cursor: pointer
 }
 
 .track small {
@@ -370,7 +372,6 @@ small {
     height: 20px;
     margin-left: 35px;
     width: 100%;
-    /*visibility:visible !important*/
 }
 
 .track {
@@ -378,7 +379,19 @@ small {
     padding-top: 5px;
     margin-top: 5px;
     border-top-width: 1px;
-    border-top-style: dashed
+    border-top-style: dashed;
+    -webkit-transition: background 0.2s linear, -webkit-box-shadow 0.2s linear;
+    transition: background 0.2s linear, -webkit-box-shadow 0.2s linear;
+    transition: background 0.2s linear, box-shadow 0.2s linear;
+    transition: background 0.2s linear, box-shadow 0.2s linear, -webkit-box-shadow 0.2s linear;
+}
+
+.track:hover {
+    background: #C28754 !important;
+}
+
+.track.playing {
+    background: rgba(194, 135, 84, 0.4) !important;
 }
 
 .track strong,
@@ -523,4 +536,17 @@ small {
 
 .lt-ie7 .logo a {
     background-image: url(aleximmer-logo.gif)
+}
+
+body {
+    font-family: "Andale Mono", AndaleMono, monospace;
+}
+
+#nowPlayingDiv {
+    position: absolute;
+    bottom: 25px;
+}
+
+#asce1062 {
+    font-weight: bold;
 }
