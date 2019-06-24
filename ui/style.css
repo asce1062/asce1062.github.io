@@ -94,6 +94,21 @@ h3 {
     font-weight: bold
 }
 
+.application strong,
+h3 {
+    font-family: "uni 05_53";
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 1px;
+    cursor: pointer
+}
+
+.application small {
+    font-family: consolas, monospace;
+    font-size: 11px;
+    font-weight: bold
+}
+
 .dnl {
     font-family: calibri;
     font-size: 11px
@@ -130,6 +145,14 @@ a:hover {
 }
 
 .track small {
+    color: #840
+}
+
+.application {
+    border-top-color: #840
+}
+
+.application small {
     color: #840
 }
 
@@ -386,6 +409,18 @@ small {
     transition: background 0.2s linear, box-shadow 0.2s linear, -webkit-box-shadow 0.2s linear;
 }
 
+.application {
+    clear: both;
+    padding-top: 5px;
+    margin-top: 5px;
+    border-top-width: 1px;
+    border-top-style: dashed;
+    -webkit-transition: background 0.2s linear, -webkit-box-shadow 0.2s linear;
+    transition: background 0.2s linear, -webkit-box-shadow 0.2s linear;
+    transition: background 0.2s linear, box-shadow 0.2s linear;
+    transition: background 0.2s linear, box-shadow 0.2s linear, -webkit-box-shadow 0.2s linear;
+}
+
 .track:hover {
     background: #C28754 !important;
 }
@@ -396,6 +431,11 @@ small {
 
 .track strong,
 .track h3 {
+    display: inline
+}
+
+.application strong,
+.application h3 {
     display: inline
 }
 
