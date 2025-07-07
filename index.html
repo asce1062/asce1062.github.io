@@ -1,1453 +1,784 @@
-<html dir="ltr" lang="en">
-  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<!DOCTYPE html>
+<html lang="en" class="dark">
 
-  <head>
-    <meta name="msvalidate.01" content="BA1F3DF71B770810ABEDF79A128DA652" />
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Alex.Immer - Electronic Music - Creative Commons</title>
-    <meta
-      name="description"
-      content="High quality MP3 electronic music under the Creative Commons Licence CC BY NC composed by Alex.Immer in various genres: chiptune, nu-disco, instrumental, analog, funk..."
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="image_src" href="apple-touch-icon.png" />
-    <link rel="stylesheet" href="ui/style.css" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-    <link rel="apple-touch-icon" sizes="57x57" href="apple-touch-icon-57x57.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="apple-touch-icon-72x72.png" />
-    <link rel="apple-touch-icon" sizes="76x76" href="apple-touch-icon-76x76.png" />
-    <link rel="apple-touch-icon" sizes="114x114" href="apple-touch-icon-114x114.png" />
-    <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png" />
-    <link rel="apple-touch-icon" sizes="144x144" href="apple-touch-icon-144x144.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152x152.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180x180.png" />
-  </head>
+<head><!-- Critical theme script - must run before any content renders -->
+  <script>
+    // Immediate theme detection and application - prevents flash
+    (function () {
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
 
-  <body>
-    <!-- <div class="wrapper">
-        <ul class="grid cards">
-            <li>
-                <iframe width="100%" height="600" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/232672698&amp;color=%23bb6611&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=true&amp;visual=true"></iframe>
-            </li>
-            <li>
-                <iframe width="100%" height="600" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/232674071&amp;color=%23bb6611&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=true&amp;visual=true"></iframe>
-            </li>
-            <li>
-                <iframe width="100%" height="600" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/308212612&amp;color=%23bb6611&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=true&amp;visual=true"></iframe>
-            </li>
-        </ul>
-    </div> -->
-    <div class="wrap">
-      <div class="main">
-        <h2 class="logo">
-          <a href="index.html" title="Alex.Immer">Alex.Immer</a>
-        </h2>
-        <p class="baseline">Electronic music</p>
-        <div class="social">
-          <a target="_blank" class="soundcloud" href="https://soundcloud.com/aleximmer"
-            >Soundcloud</a
-          >
-          <a target="_blank" class="facebook" href="https://www.facebook.com/kaizoku.asce"
-            >Facebook</a
-          >
-          <a target="_blank" class="twitter" href="https://twitter.com/alex_immer">Twitter</a>
-          <a target="_blank" class="youtube" href="https://www.youtube.com/user/tnkratos1"
-            >Youtube</a
-          >
-        </div>
-        <p align="center">
-          <br />Place:
-          <a href="index.html">Kiambu (C64)</a>
-          <br />Contact me at:
-          <a href="mailto:tnkratos@gmail.com">tnkratos(at)gmail.com</a>
-          <br />
-          Alex Mbugua Ngugi (1361-00900)
-        </p>
+        const html = document.documentElement;
+        if (isDark) {
+          html.classList.add('dark');
+          html.setAttribute('data-theme', 'dark');
+        } else {
+          html.classList.remove('dark');
+          html.setAttribute('data-theme', 'light');
+        }
 
-        <h2>Android APK</h2>
-        <div class="application">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Android%20Application/alex_immer.apk"
-            download="alex_immer.apk"
-            >&darr; APK</a
-          >
-          <h3>alex_immer.apk</h3>
-        </div>
-        <h2>Half of It</h2>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Half%20of%20It/01.Rising%20Sun.mp3"
-            download="01.Rising Sun.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Half%20of%20It/01.Rising%20Sun.mp3')">
-            Rising Sun.
-          </h3>
-          <small>03'14"</small>
-        </div>
-        <h2>Half of It (Extras)</h2>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Half%20of%20It/Extras/01.Rising%20Sun.%20(persona%20interlude).mp3"
-            download="01.Rising Sun. (persona interlude).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Half%20of%20It/Extras/01.Rising%20Sun.%20(persona%20interlude).mp3')"
-          >
-            Rising Sun. (persona interlude)
-          </h3>
-          <small>04'42"</small>
-        </div>
-        <h2>Dis·so·ci·a·tion</h2>
-        <audio id="audio">
-          <source id="source" />
-        </audio>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/01%2EHappy%20New%20Year%2Emp3"
-            download="01.Happy New Year.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/01.Happy%20New%20Year.mp3')">
-            Happy New Year.
-          </h3>
-          <small>03'57"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/02%2EBack%20at%20IT%20Again%2Emp3"
-            download="02.Back at IT Again.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/02.Back%20at%20IT%20Again.mp3')"
-          >
-            Back at IT Again.
-          </h3>
-          <small>03'23"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/03%2EFantasy%2Emp3"
-            download="03.Fantasy.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/03.Fantasy.mp3')">
-            Fantasy.
-          </h3>
-          <small>04'44"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/04%2EEu%2BTu%3DIubire%2Emp3"
-            download="04.Eu+Tu=Iubire.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/04.Eu%2BTu%3DIubire.mp3')">
-            Eu+Tu=Iubire.
-          </h3>
-          <small>03'45"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/05%2EWithout%20You%2Emp3"
-            download="05.Without You.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/05.Without%20You.mp3')">
-            Without You.
-          </h3>
-          <small>01'19"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/06%2ESysop%2Emp3"
-            download="06.Sysop.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/06.Sysop.mp3')">/ˈsɪsɒp/</h3>
-          <small>02'10"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/07%2EVirtual%20Dreams%2Emp3"
-            download="07.Virtual Dreams.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/07.Virtual%20Dreams.mp3')">
-            Virtual Dreams.
-          </h3>
-          <small>07'22"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/08%2EDelta%2Emp3"
-            download="08.Delta.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/08.Delta.mp3')">Delta.</h3>
-          <small>01'30"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/09%2ELast%20Ninja%2Emp3"
-            download="09.Last Ninja.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/09.Last%20Ninja.mp3')">
-            Last Ninja.
-          </h3>
-          <small>06'24"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/10%2EOmicron%2Emp3"
-            download="10.Omicron.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/10.Omicron.mp3')">
-            Omicron.
-          </h3>
-          <small>01'55"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/11%2EBoot%20Camp%20Riot%20XV%2E%20%28TIA%29%2Emp3"
-            download="11.Boot Camp Riot XV. (TIA).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/11.Boot%20Camp%20Riot%20XV.%20%28TIA%29.mp3')"
-          >
-            Boot Camp Riot XV. (TIA)
-          </h3>
-          <small>02'10"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/12%2EMentally%20Ill%2E%20%28Amityville%29%2Emp3"
-            download="12.Mentally Ill. (Amityville).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/12.Mentally%20Ill.%20%28Amityville%29.mp3')"
-          >
-            Mentally Ill. (Amityville)
-          </h3>
-          <small>04'34"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/13%2EIt%27s%20All%20Love%2E%20%28It%27s%20Not%20Though%29%2Emp3"
-            download="13.It's All Love. (It's Not Though).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/13.It%27s%20All%20Love.%20%28It%27s%20Not%20Though%29.mp3')"
-          >
-            It's All Love. (It's Not Though)
-          </h3>
-          <small>03'16"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/14%2EDissociation%2Emp3"
-            download="14.Dissociation.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/14.Dissociation.mp3')">
-            Dis·so·ci·a·tion.
-          </h3>
-          <small>05'10"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/15%2EVirtual%20Dreams%2E%20%28Radio%20Edit%29%2Emp3"
-            download="15.Virtual Dreams. (Radio Edit).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/15.Virtual%20Dreams.%20%28Radio%20Edit%29.mp3')"
-          >
-            Virtual Dreams. (Radio Edit)
-          </h3>
-          <small>05'05"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/16%2EMortal%20Kombat%20Theme%2E%20%28Techno%20Mix%29%2Emp3"
-            download="16.Mortal Kombat Theme. (Techno Mix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/16.Mortal%20Kombat%20Theme.%20%28Techno%20Mix%29.mp3')"
-          >
-            Mortal Kombat Theme. (Techno Mix)
-          </h3>
-          <small>03'12"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/17%2EDelta%2E%20%28Trance%20Mix%29%2Emp3"
-            download="17.Delta. (Trance Mix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/17.Delta.%20%28Trance%20Mix%29.mp3')"
-          >
-            Delta. (Trance Mix)
-          </h3>
-          <small>03'09"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/18%2EInsert%20Tittle%20Here%2Emp3"
-            download="18.Insert Tittle Here.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/18.Insert%20Tittle%20Here.mp3')"
-          >
-            Insert Tittle Here
-          </h3>
-          <small>05'06"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/19%2EOld%20Time%20Something%2E%20%28Dubstep%20Mix%29%2Emp3"
-            download="19.Old Time Something. (Dubstep Mix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/19.Old%20Time%20Something.%20%28Dubstep%20Mix%29.mp3')"
-          >
-            Old Time Something. (Dubstep Mix)
-          </h3>
-          <small>04'21"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/20%2EDreams%20Come%20True%2Emp3"
-            download="20.Dreams Come True.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/20.Dreams%20Come%20True.mp3')"
-          >
-            Dreams Come True.
-          </h3>
-          <small>03'10"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/21%2EModern%20Funk%2Emp3"
-            download="21.Modern Funk.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/21.Modern%20Funk.mp3')">
-            Modern Funk.
-          </h3>
-          Break it down!🔥
-          <small>02'40"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/22%2EMasters%20Of%20Disguise%2Emp3"
-            download="22.Masters Of Disguise.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/22.Masters%20Of%20Disguise.mp3')"
-          >
-            Masters Of Disguise.
-          </h3>
-          <small>03'53"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/23%2Eハイスコ​​アボーイ%2Emp3"
-            download="23.ハイスコ​​アボーイ.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/23.ハイスコ​​アボーイ.mp3')">
-            ハイスコ​​アボーイ.
-          </h3>
-          <small>03'53"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/24%2EGroove%2E%20%281337%29%2Emp3"
-            download="24.Groove. (1337).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/24%2EGroove%2E%20%281337%29%2Emp3')"
-          >
-            Groove. (1337)
-          </h3>
-          <small>07'54"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/25%2EYah00oo%2E%20%28Outro%29%2Emp3"
-            download="25.Yah00oo. (Outro).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/25%2EYah00oo%2E%20%28Outro%29%2Emp3')"
-          >
-            Yah00oo. (Outro).mp3
-          </h3>
-          <small>01'23"</small>
-        </div>
-        <h2>Dis·so·ci·a·tion (Extras)</h2>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/Extras/01%2E%5BKRUT%5D%2Emp3"
-            download="01.[KRUT].mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/Extras/01%2E%5BKRUT%5D%2Emp3')"
-          >
-            [KRUT].
-          </h3>
-          <small>03'49"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/Extras/02%2ELove%20%26%20%CF%80%2Emp3"
-            download="02.Love & π.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/Extras/02%2ELove%20%26%20%CF%80%2Emp3')"
-          >
-            Love & π.
-          </h3>
-          <small>01'35"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/Extras/03%2ENo%2Dop%2Emp3"
-            download="03.No-op.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/Extras/03%2ENo%2Dop%2Emp3')">
-            No-op.
-          </h3>
-          <small>00'57"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/Extras/04%2EPersona%2Emp3"
-            download="04.Persona.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Dissociation/Extras/04%2EPersona%2Emp3')">
-            Persona.
-          </h3>
-          <small>01'35"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Dissociation/Extras/05%2ELast%20Ninja%2E%20%28Remix%29%2Emp3"
-            download="05.Last Ninja. (Remix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Dissociation/Extras/05%2ELast%20Ninja%2E%20%28Remix%29%2Emp3')"
-          >
-            Last Ninja. (Remix).
-          </h3>
-          <small>03'42"</small>
-        </div>
-        <h2>8Bit Seduction</h2>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/01%2EThe%20Day%20They%20Landed%2Emp3"
-            download="01.The Day They Landed.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/01.The%20Day%20They%20Landed.mp3')"
-          >
-            The Day They Landed.
-          </h3>
-          <small>00'29"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/02%2ESecond%20Wave%2Emp3"
-            download="02.Second Wave.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/02.Second%20Wave.mp3')">
-            Second Wave.
-          </h3>
-          <small>02'49"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/03%2EShadowgate%2E%20%28Remix%29%2Emp3"
-            download="03.Shadowgate. (Remix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/03.Shadowgate.%20%28Remix%29.mp3')"
-          >
-            Shadowgate. (Remix)
-          </h3>
-          <small>00'35"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/04%2EEmbrace%2Emp3"
-            download="04.Embrace.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/04.Embrace.mp3')">
-            Embrace.
-          </h3>
-          <small>01'01"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/05%2EAnticipation%2Emp3"
-            download="05.Anticipation.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/05.Anticipation.mp3')">
-            Anticipation.
-          </h3>
-          <small>03'01"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/06%2EPrey%2Emp3"
-            download="06.Prey.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/06.Prey.mp3')">Prey.</h3>
-          <small>01'38"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/07%2EExcite%2Emp3"
-            download="07.Excite.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/07.Excite.mp3')">
-            Excite.
-          </h3>
-          <small>03'39"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/08%2EParadise%20Rain%2Emp3"
-            download="08.Paradise Rain.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/08.Paradise%20Rain.mp3')"
-          >
-            Paradise Rain.
-          </h3>
-          <small>06'16"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/09%2EFor%20Jessica%2Emp3"
-            download="09.For Jessica.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/09.For%20Jessica.mp3')">
-            For Jessica.
-          </h3>
-          <small>02'09"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/10%2EChaos%2Emp3"
-            download="10.Chaos.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/10.Chaos.mp3')">
-            Chaos.
-          </h3>
-          <small>04'30"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/11%2EThird%20Wave%2Emp3"
-            download="11.Third Wave.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/11.Third%20Wave.mp3')">
-            Third Wave.
-          </h3>
-          <small>02'49"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/12%2ELove%2E%20%28Demo%29%2Emp3"
-            download="12.Love. (Demo).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/12.Love.%20%28Demo%29.mp3')"
-          >
-            Love. (Demo)
-          </h3>
-          This is a slow one. It's another personal one. Again not naming names, it’s about someone
-          who helped me through a lot and I thought she felt the same way that I did and then she
-          really let me down. At the same time, it was good that she did, because it was that final
-          push to me figuring out myself.
-          <small>06'13"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/13%2EAbarenbo%20Shogun%2Emp3"
-            download="13.Abarenbo Shogun.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/13.Abarenbo%20Shogun.mp3')"
-          >
-            Abarenbō Shōgun.
-          </h3>
-          <small>03'27"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/14%2EUnknown%20Soldier%2Emp3"
-            download="14.Unknown Soldier.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/14.Unknown%20Soldier.mp3')"
-          >
-            Unknown Soldier.
-          </h3>
-          <small>05'39"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/15%2EI%27m%20the%20Devil%2Emp3"
-            download="15.I'm the Devil.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/15.I%27m%20the%20Devil.mp3')"
-          >
-            I'm the Devil.
-          </h3>
-          <small>06'24"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/16%2EYou%2Emp3"
-            download="16.You.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/16.You.mp3')">You.</h3>
-          <small>03'15"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/17%2EThe%20Peak%2Emp3"
-            download="17.The Peak.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/17.The%20Peak.mp3')">
-            The Peak.
-          </h3>
-          <small>04'44"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/18%2ESamo%2E%20%28Longing%29%2Emp3"
-            download="18.Samo. (Longing).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/18.Samo.%20%28Longing%29.mp3')"
-          >
-            Samo. (Longing)
-          </h3>
-          <small>04'44"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/19%2ESun%20vs%20Moon%2E%20%28Eclipsed%29%2Emp3"
-            download="19.Sun vs Moon. (Eclipsed).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/19.Sun%20vs%20Moon.%20%28Eclipsed%29.mp3')"
-          >
-            Sun vs Moon. (Eclipsed)
-          </h3>
-          <small>03'16"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/20%2EDescendants%20of%20the%20Sun%2Emp3"
-            download="20.Descendants of the Sun.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/20.Descendants%20of%20the%20Sun.mp3')"
-          >
-            Descendants of the Sun.
-          </h3>
-          <small>03'40"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/21%2EGhost%20Town%2Emp3"
-            download="21.Ghost Town.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/21.Ghost%20Town.mp3')">
-            Ghost Town.
-          </h3>
-          <small>05'07"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/22%2EFourth%20Wave%2Emp3"
-            download="22.Fourth Wave.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/22.Fourth%20Wave.mp3')">
-            Fourth Wave.
-          </h3>
-          <small>03'39"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/23%2EStranger%20Things%2Emp3"
-            download="23.Stranger Things.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/23.Stranger%20Things.mp3')"
-          >
-            Stranger Things.
-          </h3>
-          <small>02'11"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/24%2EIt%20Might%20Have%20Been%2Emp3"
-            download="24.It Might Have Been.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/24.It%20Might%20Have%20Been.mp3')"
-          >
-            It Might Have Been.
-          </h3>
-          “Of all the words of mice and men, the saddest are, "It might have been.”
-          <small>03'15"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/25%2EWhen%20Yesterday%20Is%20Today%2Emp3"
-            download="25.When Yesterday Is Today.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/25.When%20Yesterday%20Is%20Today.mp3')"
-          >
-            When Yesterday Is Today.
-          </h3>
-          <small>03'30"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/26%2ELightspeed%2Emp3"
-            download="26.Lightspeed.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/26.Lightspeed.mp3')">
-            Lightspeed.
-          </h3>
-          <small>03'37"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/27%2ESmall%20and%20Tiny%2Emp3"
-            download="27.Small and Tiny.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/27.Small%20and%20Tiny.mp3')"
-          >
-            Small and Tiny.
-          </h3>
-          <small>00'56"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/28%2ELightspeed%202%2Emp3"
-            download="28.Lightspeed 2.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/28.Lightspeed%202.mp3')">
-            Lightspeed.2
-          </h3>
-          <small>04'26"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/29%2ENothing%20Else%20Matters%2Emp3"
-            download="29.Nothing Else Matters.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/29.Nothing%20Else%20Matters.mp3')"
-          >
-            Nothing Else Matters.
-          </h3>
-          <small>01'07"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/30%2EFack%20da%20Hey%2Dter%2Emp3"
-            download="30.Fack da Hey-ter.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/30.Fack%20da%20Hey-ter.mp3')"
-          >
-            Fack da Hey-ter.
-          </h3>
-          <small>03'21"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/31%2EIn%20My%20Mind%2Emp3"
-            download="31.In My Mind.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/31.In%20My%20Mind.mp3')">
-            In My Mind.
-          </h3>
-          <small>05'00"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/32%2EHappy%20Holidays%2Emp3"
-            download="32.Happy Holidays.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/32.Happy%20Holidays.mp3')"
-          >
-            Happy Holidays.
-          </h3>
-          <small>03'16"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/33%2ELast%20One%2E%20%28Sad%20but%20true%29%2Emp3"
-            download="33.Last One. (Sad but true).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/33.Last%20One.%20%28Sad%20but%20true%29.mp3')"
-          >
-            Last One. (Sad but true)
-          </h3>
-          <small>04'17"</small>
-        </div>
-        <h2>8Bit Seduction (Extras)</h2>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/01%2ELove%2E%20%28Orig%29%2Emp3"
-            download="01.Love. (Orig).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/01.Love.%20%28Orig%29.mp3')"
-          >
-            Love. (Orig)
-          </h3>
-          <small>06'11"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/02%2EFruhlingsgefuhle%2E%20%28Remix%29%2Emp3"
-            download="02.Fruhlingsgefuhle. (Remix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/02.Fruhlingsgefuhle.%20%28Remix%29.mp3')"
-          >
-            FrÜhlingsgefÜhle. (Remix)
-          </h3>
-          <small>02'47"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/03%2EBarbie%20Girl%2E%20%28Remix%29%2Emp3"
-            download="03.Barbie Girl. (Remix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/03.Barbie%20Girl.%20%28Remix%29.mp3')"
-          >
-            Barbie Girl. (Remix)
-          </h3>
-          <small>02'58"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/04%2EBoten%20Anna%2E%20%28Remix%29%2Emp3"
-            download="04.Boten Anna. (Remix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/04.Boten%20Anna.%20%28Remix%29.mp3')"
-          >
-            Boten Anna. (Remix)
-          </h3>
-          <small>04'39"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/05%2ESandstorm%2E%20%28Remix%29%2Emp3"
-            download="05.Sandstorm. (Remix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/05.Sandstorm.%20%28Remix%29.mp3')"
-          >
-            Sandstorm. (Remix)
-          </h3>
-          <small>03'58"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/06%2ECannon%20Fodder%2E%20%28Remix%29%2Emp3"
-            download="06.Cannon Fodder. (Remix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/06.Cannon%20Fodder.%20%28Remix%29.mp3')"
-          >
-            Cannon Fodder. (Remix)
-          </h3>
-          <small>02'34"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/07%2ERambo%2E%20%28Part%20II%29%2Emp3"
-            download="07.Rambo. (Part II).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/07.Rambo.%20%28Part%20II%29.mp3')"
-          >
-            Rambo. (Part II)
-          </h3>
-          <small>03'56"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/08%2EGreen%20Beret%2E%20%28Loader%29%2Emp3"
-            download="08.Green Beret. (Loader).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/08.Green%20Beret.%20%28Loader%29.mp3')"
-          >
-            Green Beret. (Loader)
-          </h3>
-          <small>03'41"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/09%2EMove%20Your%20Body%2E%20%28Remix%29%2Emp3"
-            download="09.Move Your Body. (Remix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/09.Move%20Your%20Body.%20%28Remix%29.mp3')"
-          >
-            Move Your Body. (Remix)
-          </h3>
-          <small>04'41"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/10%2ESpace%20Melody%2E%20%28Remix%29%2Emp3"
-            download="10.Space Melody. (Remix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/10.Space%20Melody.%20%28Remix%29.mp3')"
-          >
-            Space Melody. (Remix)
-          </h3>
-          <small>07'03"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/11%2EContra%20Jungle%2E%20%28Metal%20Mix%29%2Emp3"
-            download="11.Contra Jungle. (Metal Mix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/11.Contra%20Jungle.%20%28Metal%20Mix%29.mp3')"
-          >
-            Contra/Jungle. (Metal Mix)
-          </h3>
-          <small>07'31"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="8Bit%20Seduction/Extras/12%2ESandstorm%2E%20%288%2DBit%20Mix%29%2Emp3"
-            download="12.Sandstorm. (8-Bit Mix).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/8Bit%20Seduction/Extras/12.Sandstorm.%20%288-Bit%20Mix%29.mp3')"
-          >
-            Sandstorm. (8-Bit Mix)
-          </h3>
-          <small>04'03"</small>
-        </div>
-        <h2>Escape Artist.</h2>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/01%2EIntro%2Emp3"
-            download="01.Intro.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/01.Intro.mp3')">
-            Intro.
-          </h3>
-          <small>02'13"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/02%2EAnticipation%2Emp3"
-            download="02.Anticipation.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/02.Anticipation.mp3')">
-            Anticipation.
-          </h3>
-          <small>01'15"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/03%2ECold%20Burns%2Emp3"
-            download="03.Cold Burns.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/03.Cold%20Burns.mp3')">
-            Cold Burns.
-          </h3>
-          Smile and you will be happy. Dance and you will enjoy. Forget her and you will understand.
-          Dead feelings.
-          <small>02'41"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/04%2EEscape%20Artist%2Emp3"
-            download="04.Escape Artist.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/04.Escape%20Artist.mp3')">
-            Escape Artist.
-          </h3>
-          <small>06'30"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/05%2EIt%27s%20Alright%2Emp3"
-            download="05.It's Alright.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Escape%20Artist/05.It%27s%20Alright.mp3')"
-          >
-            It's Alright.
-          </h3>
-          <small>01'53"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/06%2EKeep%20Moving%2Emp3"
-            download="06.Keep Moving.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/06.Keep%20Moving.mp3')">
-            Keep Moving.
-          </h3>
-          <small>01'48"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/07%2ELaser%20Beams%2Emp3"
-            download="07.Laser Beams.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/07.Laser%20Beams.mp3')">
-            Laser Beams.
-          </h3>
-          <small>01'51"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/08%2EOne%20For%20You%2Emp3"
-            download="08.One For You.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/08.One%20For%20You.mp3')">
-            One For You.
-          </h3>
-          <small>00'59"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/9%2EPlay%20Ground%2Emp3"
-            download="09.Playground.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/9.Play%20Ground.mp3')">
-            Playground.
-          </h3>
-          <small>01'50"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/10%2EOutro%2Emp3"
-            download="10.Outro.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/10.Outro.mp3')">
-            Outro.
-          </h3>
-          <small>01'09"</small>
-        </div>
-        <h2>Escape Artist. (Extras)</h2>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/Extras/01%2E1%202%203%204%2Emp3"
-            download="01.1 2 3 4.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Escape%20Artist/Extras/01.1%202%203%204.mp3')"
-          >
-            1 2 3 4.
-          </h3>
-          <small>03'08"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/Extras/02%2EDream%2Emp3"
-            download="02.Dream.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/Extras/02.Dream.mp3')">
-            Dream.
-          </h3>
-          <small>02'03"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/Extras/03%2ELove%20%28On%20Speed%29%2Emp3"
-            download="03.Love (On Speed).mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Escape%20Artist/Extras/03.Love%20%28On%20Speed%29.mp3')"
-          >
-            Love. (On Speed)
-          </h3>
-          <small>01'44"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/Extras/04%2ESecrets%2Emp3"
-            download="04.Secrets.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/Extras/04.Secrets.mp3')">
-            Secrets.
-          </h3>
-          <small>01'18"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/Extras/05%2EIf%20You%20Care%2Emp3"
-            download="05.If You Care.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Escape%20Artist/Extras/05.If%20You%20Care.mp3')"
-          >
-            If You Care.
-          </h3>
-          <small>03'49"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/Extras/06%2EParanoia%2Emp3"
-            download="06.Paranoia.mp3"
-            >&darr; MP3</a
-          >
-          <h3 onclick="setSrc('https://asce1062.github.io/Escape%20Artist/Extras/06.Paranoia.mp3')">
-            Paranoia.
-          </h3>
-          <small>00'46"</small>
-        </div>
-        <div class="track">
-          <a
-            class="dnl"
-            target="_blank"
-            href="Escape%20Artist/Extras/07%2EDie%20Qual%20der%20Wahl%2Emp3"
-            download="07.Die Qual der Wahl.mp3"
-            >&darr; MP3</a
-          >
-          <h3
-            onclick="setSrc('https://asce1062.github.io/Escape%20Artist/Extras/07.Die%20Qual%20der%20Wahl.mp3')"
-          >
-            Die Qual der Wahl.
-          </h3>
-          <small>01'06"</small>
-        </div>
+        // Store theme state globally - critical for icon consistency
+        window.__theme = isDark ? 'dark' : 'light';
+        window.__themeApplied = true;
+      } catch (e) {
+        // Fallback to dark theme if localStorage fails
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+        window.__theme = 'dark';
+        window.__themeApplied = true;
+      }
+    })();
+  </script><!-- Global Metadata -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="generator" content="Astro v5.10.2"><!-- Canonical URL -->
+  <link rel="canonical" href="https://asce1062.github.io/"><!-- Primary Meta Tags -->
+  <title>Alex.Immer</title>
+  <meta name="title" content="Alex.Immer">
+  <meta name="description" content="Retro chip tune music player featuring nostalgic 8-bit and MP3 compositions">
+  <meta name="author" content="Alex Mbugua Ngugi">
+  <meta name="keywords"
+    content="retro music, chiptune, 8-bit, electronic music, synthwave, MP3, music player, Alex Ngugi, asce1062">
+  <!-- Favicon and Icons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="sitemap" href="sitemap-index.xml"><!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png"><!-- Apple Mobile Web App -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Alex.Immer"><!-- Mobile Optimizations -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Alex.Immer">
+  <meta name="theme-color" content="#947b82">
+  <meta name="msapplication-TileColor" content="#947b82">
+  <meta name="msapplication-navbutton-color" content="#947b82">
+  <!-- Font Face Definitions - Inline for immediate availability --><!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://asce1062.github.io/">
+  <meta property="og:title" content="Alex.Immer">
+  <meta property="og:description" content="Retro chip tune music player featuring nostalgic 8-bit and MP3 compositions">
+  <meta property="og:image" content="https://asce1062.github.io/art/default-cover.png">
+  <meta property="og:image:alt"
+    content="Alex.Immer - Retro chip tune music player featuring nostalgic 8-bit and MP3 compositions">
+  <meta property="og:site_name" content="Alex.Immer">
+  <meta property="og:locale" content="en_US"><!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://asce1062.github.io/">
+  <meta property="twitter:title" content="Alex.Immer">
+  <meta property="twitter:description"
+    content="Retro chip tune music player featuring nostalgic 8-bit and MP3 compositions">
+  <meta property="twitter:image" content="https://asce1062.github.io/art/default-cover.png">
+  <meta property="twitter:image:alt"
+    content="Alex.Immer - Retro chip tune music player featuring nostalgic 8-bit and MP3 compositions">
+  <meta property="twitter:creator" content="@asce1062">
+  <meta property="twitter:site" content="@asce1062"><!-- Music Schema.org -->
+  <script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": SITE_TITLE,
+      "description": SITE_DESCRIPTION,
+      "url": "https://asce1062.github.io",
+      "image": imageUrl,
+      "author": {
+        "@type": "Person",
+        "name": SITE_AUTHOR,
+        "url": "https://asce1062.github.io"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": SITE_AUTHOR,
+        "url": "https://asce1062.github.io"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `https://asce1062.github.io/?q={search_term_string}`
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "mainEntity": {
+        "@type": "MusicGroup",
+        "name": SITE_AUTHOR,
+        "genre": ["Electronic", "Chiptune", "Retro", "Synthwave"],
+        "url": "https://asce1062.github.io"
+      },
+      "inLanguage": "en-US"
+    })}
+  </script><!-- Performance and Security -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.gstatic.com"><!-- Google Fonts (Fallback only) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap"
+    rel="stylesheet"><!-- Robots and Crawling -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow"><!-- Language and Region -->
+  <meta name="language" content="English">
+  <meta name="geo.region" content="US">
+  <meta name="geo.placename" content="United States"><!-- Additional SEO Meta Tags -->
+  <meta name="rating" content="General">
+  <meta name="distribution" content="Global">
+  <meta name="revisit-after" content="7 days">
+  <meta name="format-detection" content="telephone=no">
+  <link href="/css/style.css" rel="stylesheet"><!-- Prevent flash of unstyled content -->
+  <style>
+    body {
+      visibility: hidden;
+      opacity: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="astro/about.BC89Pmfr.css">
+  <style>
+    .line-clamp-2[data-astro-cid-b3y6remj] {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden
+    }
 
-        <p align="center">
-          <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-            <img
-              alt="Licence Creative Commons"
-              style="border-width: 0"
-              src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"
-            />
-          </a>
-          <br />You are free to Share i.e copy and redistribute the material in any medium of
-          format. <br />i.e remix, transform, and buld upon the material.
-          <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Musics</span> by
-          <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName"
-            >Alex.Immer</span
-          >
-          licensed under
-          <br />
-          <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
-            >Attribution Non-Commercial Creative Commons License</a
-          >.
-          <br />
-          <a> For commercial uses, don't hesitate to contact me:</a>
-          <br />
-          <a href="mailto:tnkratos@gmail.com">tnkratos(at)gmail.com</a>
-        </p>
-      </div>
-      <div class="credits">
-        Page code &amp; design :
-        <a target="_blank" title="Graphic design and web design" href="https://github.com/asce1062"
-          >asce1062</a
-        >
+    html {
+      scroll-behavior: smooth
+    }
+
+    @keyframes float {
+
+      0%,
+      to {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(clamp(-5px, -1vw, -10px))
+      }
+    }
+
+    .hero-float[data-astro-cid-j7pv25f6] {
+      animation: float 6s ease-in-out infinite
+    }
+
+    .hyphens-auto[data-astro-cid-j7pv25f6] {
+      -webkit-hyphens: auto;
+      hyphens: auto;
+      word-break: break-word;
+      overflow-wrap: break-word
+    }
+
+    #albums[data-astro-cid-j7pv25f6] {
+      scroll-margin-top: clamp(160px, 15vw, 140px)
+    }
+
+    @media (max-width: 768px) {
+      #albums[data-astro-cid-j7pv25f6] {
+        scroll-margin-top: clamp(120px, 20vw, 160px)
+      }
+    }
+  </style>
+</head> <!-- Apply theme-aware background immediately -->
+
+<body class="z-10 m-0 h-full min-h-screen overflow-y-scroll font-proto text-palette-900 dark:text-white">
+  <!-- Show body after theme is applied -->
+  <script>
+    // Show body immediately after theme is set
+    document.body.style.visibility = 'visible';
+    document.body.style.opacity = '1';
+    document.body.style.transition = 'opacity 0.2s ease';
+  </script>
+  <div
+    class="fixed inset-0 z-0 pointer-events-none bg-[#e8e5f0] dark:bg-palette-700 bg-topography-light dark:bg-topography-dark"
+    aria-hidden="true"></div> <!-- Header -->
+  <header
+    class="sticky top-0 z-50 bg-[#e8e5f0]/80 dark:bg-palette-700/80 bg-topography-light dark:bg-topography-dark backdrop-blur-md border-b border-palette-800/30 dark:border-palette-300/30">
+    <div class="container mx-auto py-md-responsive">
+      <div class="flex items-center justify-between gap-md-responsive"> <!-- Logo --> <a href="/"
+          class="flex items-center gap-sm-responsive group flex-shrink-0">
+          <div
+            class="w-[clamp(2rem,4vw,2.5rem)] h-[clamp(2rem,4vw,2.5rem)] rounded-lg overflow-hidden flex items-center justify-center">
+            <img src="/icon.png" alt="Alex.Immer logo" class="w-full h-full object-cover"> </div> <span
+            class="text-xl-responsive font-retro font-bold text-palette-900 dark:text-white group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors hidden sm:block">
+            Alex.Immer
+          </span>
+        </a> <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-xl-responsive"> <a href="/#albums"
+            class="nav-link text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive">
+            Albums
+          </a> <a href="/about"
+            class="text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive">
+            About
+          </a> </nav> <!-- Shared Search & Theme Toggle -->
+        <div class="flex items-center gap-sm-responsive"> <!-- Search - responsive width -->
+          <div class="w-[clamp(12rem,25vw,16rem)]">
+            <div class="relative w-full max-w-full" data-astro-cid-axnn5did>
+              <div class="relative" data-astro-cid-axnn5did> <input type="text" id="global-search"
+                  placeholder="Search tracks..."
+                  class="w-full px-lg-responsive py-sm-responsive pl-[clamp(3rem,6vw,3.5rem)] bg-light-200 dark:bg-palette-900 border border-palette-800/30 dark:border-palette-300/30 rounded-lg text-palette-900 dark:text-white placeholder-palette-900/50 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-palette-300 dark:focus:ring-palette-300 focus:border-transparent text-sm-responsive font-proto"
+                  data-astro-cid-axnn5did> <i
+                  class="icon-search-heart absolute left-lg-responsive top-1/2 transform -translate-y-1/2 icon-md text-palette-900/50 dark:text-gray-400"
+                  data-astro-cid-axnn5did></i> <!-- Clear button --> <button id="search-clear"
+                  class="absolute right-md-responsive top-1/2 transform -translate-y-1/2 text-palette-900/50 dark:text-gray-400 hover:text-palette-900 dark:hover:text-white transition-colors hidden"
+                  aria-label="Clear search" data-astro-cid-axnn5did> <i class="icon-x icon-md"
+                    data-astro-cid-axnn5did></i> </button> </div>
+              <div id="search-results"
+                class="absolute top-full left-0 right-0 mt-sm-responsive w-full bg-light-100 dark:bg-palette-900 border border-palette-800/30 dark:border-palette-300/30 rounded-lg shadow-xl z-50 hidden max-h-96 overflow-y-auto"
+                data-astro-cid-axnn5did> <!-- Search results will be populated here --> </div>
+              <!-- Search suggestions (shown when input is empty but focused) -->
+              <div id="search-suggestions"
+                class="absolute top-full left-0 right-0 mt-sm-responsive w-full bg-light-100 dark:bg-palette-900 border border-palette-800/30 dark:border-palette-300/30 rounded-lg shadow-xl z-50 hidden"
+                data-astro-cid-axnn5did>
+                <div class="p-lg-responsive" data-astro-cid-axnn5did>
+                  <div class="text-palette-900 dark:text-gray-400 text-sm-responsive mb-md-responsive font-proto"
+                    data-astro-cid-axnn5did>Popular searches:</div>
+                  <div class="flex flex-wrap gap-sm-responsive" data-astro-cid-axnn5did> <button
+                      class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto"
+                      data-query="electronic" data-astro-cid-axnn5did>
+                      Electronic
+                    </button> <button
+                      class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto"
+                      data-query="synthwave" data-astro-cid-axnn5did>
+                      Synthwave
+                    </button> <button
+                      class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto"
+                      data-query="chiptune" data-astro-cid-axnn5did>
+                      Chiptune
+                    </button> <button
+                      class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto"
+                      data-query="remix" data-astro-cid-axnn5did>
+                      Remix
+                    </button> </div>
+                  <div
+                    class="text-palette-900/70 dark:text-gray-400 text-xs-responsive mt-md-responsive font-proto flex items-center gap-xs-responsive"
+                    data-astro-cid-axnn5did> <kbd
+                      class="px-xs-responsive py-xs-responsive bg-light-200 dark:bg-palette-800 rounded text-xs-responsive font-proto border border-palette-800/20 dark:border-palette-300/20"
+                      data-astro-cid-axnn5did>/</kbd> <span data-astro-cid-axnn5did>to focus search</span> </div>
+                </div>
+              </div>
+            </div>
+            <script type="module" src="astro/GlobalSearch.astro_astro_type_script_index_0_lang.C_7SsAck.js"></script>
+          </div> <!-- Theme Toggle -->
+          <div class="theme-toggle"> <button id="theme-toggle"
+              class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors duration-200"
+              aria-label="Toggle theme"> <!-- Icon will be set immediately by script --> <i id="toggleIcon"
+                class="icon-lg"></i> </button> </div>
+          <script>
+            // Immediate theme detection and icon setting - prevents any flash
+            (function () {
+              // Get current theme state
+              const savedTheme = localStorage.getItem('theme');
+              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+              const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+
+              // Apply theme immediately to prevent flash
+              const html = document.documentElement;
+              if (isDark) {
+                html.classList.add('dark');
+                html.setAttribute('data-theme', 'dark');
+              } else {
+                html.classList.remove('dark');
+                html.setAttribute('data-theme', 'light');
+              }
+
+              // Store the theme state globally
+              window.__theme = isDark ? 'dark' : 'light';
+              window.__themeInitialized = true;
+
+              // Set icon immediately when DOM is ready
+              function setInitialIcon() {
+                const icon = document.getElementById('toggleIcon');
+                if (icon) {
+                  // Set correct icon based on current theme
+                  icon.className = isDark ? "icon-sun icon-lg" : "icon-moon icon-lg";
+                  // Mark as initialized to prevent further changes
+                  icon.setAttribute('data-initialized', 'true');
+                } else {
+                  // If icon not ready, try again shortly
+                  setTimeout(setInitialIcon, 10);
+                }
+              }
+
+              // Set icon as soon as possible
+              if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', setInitialIcon);
+              } else {
+                setInitialIcon();
+              }
+            })();
+          </script>
+          <script
+            type="module">let o = window.__theme || "dark"; function d(e) { o = e; const t = e === "dark", n = document.documentElement; t ? (n.classList.add("dark"), n.setAttribute("data-theme", "dark")) : (n.classList.remove("dark"), n.setAttribute("data-theme", "light")), localStorage.setItem("theme", e), window.__theme = e, c(t) } function s() { d(o === "dark" ? "light" : "dark") } function c(e) { const t = document.getElementById("toggleIcon"); if (t) { const n = e ? "icon-sun icon-lg" : "icon-moon icon-lg"; t.className !== n && (t.className = n) } } function a() { const e = document.getElementById("theme-toggle"); if (e) { const n = e.cloneNode(!0); e.parentNode?.replaceChild(n, e), n.addEventListener("click", i => { i.preventDefault(), i.stopPropagation(), s() }) } const t = document.getElementById("toggleIcon"); t && !t.getAttribute("data-initialized") && (c(o === "dark"), t.setAttribute("data-initialized", "true")) } document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", a) : a(); document.addEventListener("astro:page-load", () => { o = window.__theme || localStorage.getItem("theme") || "dark"; const e = o === "dark", t = document.documentElement; e ? (t.classList.add("dark"), t.setAttribute("data-theme", "dark")) : (t.classList.remove("dark"), t.setAttribute("data-theme", "light")); const n = document.getElementById("toggleIcon"); n && (n.className = e ? "icon-sun icon-lg" : "icon-moon icon-lg", n.setAttribute("data-initialized", "true")), a() }); document.addEventListener("astro:before-preparation", () => { o && (localStorage.setItem("theme", o), window.__theme = o) }); window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => { if (!localStorage.getItem("theme")) { const t = e.matches ? "dark" : "light"; d(t) } });</script>
+          <!-- Mobile Menu Button --> <button id="mobile-menu-toggle"
+            class="p-sm-responsive text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-white transition-colors md:hidden"
+            aria-label="Toggle menu"> <i id="hamburger-icon" class="icon-menu-button icon-md"></i> <i id="close-icon"
+              class="icon-x-lg icon-md" style="display: none;"></i> </button>
+        </div>
+      </div> <!-- Mobile Menu (hidden by default) -->
+      <div id="mobile-menu"
+        class="md:hidden hidden mt-lg-responsive pb-lg-responsive border-t border-palette-800/30 dark:border-palette-300/30">
+        <!-- Mobile Navigation -->
+        <nav class="flex flex-col space-responsive"> <a href="/#albums"
+            class="nav-link mobile-nav-link text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive py-sm-responsive px-sm-responsive rounded hover:bg-light-100 dark:hover:bg-palette-900/50">
+            Albums
+          </a> <a href="/about"
+            class="text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive py-sm-responsive px-sm-responsive rounded hover:bg-light-100 dark:hover:bg-palette-900/50">
+            About
+          </a> </nav>
       </div>
     </div>
-    <script src="ui/jquery-3.2.1.min.js"></script>
-    <script src="ui/index.js"></script>
-  </body>
+  </header>
+  <script
+    type="module">function a() { const l = document.getElementById("mobile-menu-toggle"), e = document.getElementById("mobile-menu"), o = document.getElementById("hamburger-icon"), n = document.getElementById("close-icon"); if (!l || !e || !o || !n) { console.error("Mobile menu elements not found"); return } function c(t) { t.preventDefault(), t.stopPropagation(), e.classList.contains("hidden") ? (e.classList.remove("hidden"), o.style.display = "none", n.style.display = "inline-block") : (e.classList.add("hidden"), o.style.display = "inline-block", n.style.display = "none") } function i() { e.classList.add("hidden"), o.style.display = "inline-block", n.style.display = "none" } l.addEventListener("click", c), document.addEventListener("click", t => { const s = t.target; !l.contains(s) && !e.contains(s) && i() }), window.addEventListener("resize", () => { window.innerWidth >= 768 && i() }), e.querySelectorAll("a").forEach(t => { t.addEventListener("click", () => { setTimeout(i, 100) }) }) } function r() { document.querySelectorAll(".nav-link").forEach(e => { e.addEventListener("click", o => { const n = e.getAttribute("href"); if (n && n.startsWith("/#")) { const c = n.substring(2), i = document.getElementById(c); if (i) { if (o.preventDefault(), window.location.pathname !== "/") { window.location.href = n; return } const d = document.getElementById("mobile-menu"); if (d && !d.classList.contains("hidden")) { d.classList.add("hidden"); const t = document.getElementById("hamburger-icon"), s = document.getElementById("close-icon"); t && (t.style.display = "inline-block"), s && (s.style.display = "none") } setTimeout(() => { i.scrollIntoView({ behavior: "smooth", block: "start" }), history.pushState(null, "", n) }, 150) } } }) }) } document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", () => { a(), r() }) : (a(), r()); document.addEventListener("astro:page-load", () => { a(), r() });</script>
+  <!-- Main Content -->
+  <main class="relative z-20">
+    <section class="relative py-3xl-responsive px-lg-responsive" data-astro-cid-j7pv25f6>
+      <div class="container mx-auto text-center" data-astro-cid-j7pv25f6>
+        <div class="mb-3xl-responsive" data-astro-cid-j7pv25f6>
+          <h1
+            class="text-hero-responsive font-retro-display text-palette-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-palette-300 dark:via-palette-400 dark:to-palette-500 mb-2xl-responsive break-words hyphens-auto retro-text-subtle-glow"
+            data-astro-cid-j7pv25f6></h1>
+          <h1
+            class="text-hero-responsive font-retro-display text-palette-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-palette-300 dark:via-palette-400 dark:to-palette-500 mb-2xl-responsive break-words hyphens-auto retro-hero-glow"
+            data-astro-cid-j7pv25f6>
+            Alex.Immer
+          </h1>
+          <p class="text-subtitle-responsive text-palette-900 dark:text-gray-300 mb-3xl-responsive max-w-4xl mx-auto font-proto break-words px-sm-responsive leading-relaxed hyphens-auto"
+            data-astro-cid-j7pv25f6>
+            Chip tune music player featuring nostalgic 8-bit melodies. Reminiscent of the Atari, C64, Crack-tro scene
+            eras.
+          </p> <!-- Stats -->
+          <div
+            class="flex items-center justify-center gap-3xl-responsive text-sm-responsive text-palette-900 dark:text-gray-400 mb-3xl-responsive flex-wrap"
+            data-astro-cid-j7pv25f6>
+            <div class="text-center" data-astro-cid-j7pv25f6>
+              <div class="text-3xl-responsive font-bold text-palette-800 dark:text-palette-300 font-retro"
+                data-astro-cid-j7pv25f6>4</div>
+              <div class="font-proto" data-astro-cid-j7pv25f6>Albums</div>
+            </div>
+            <div class="text-center" data-astro-cid-j7pv25f6>
+              <div class="text-3xl-responsive font-bold text-palette-300 dark:text-palette-400 font-retro"
+                data-astro-cid-j7pv25f6> 88 </div>
+              <div class="font-proto" data-astro-cid-j7pv25f6>Tracks</div>
+            </div>
+            <div class="text-center" data-astro-cid-j7pv25f6>
+              <div class="text-3xl-responsive font-bold text-palette-500 dark:text-palette-500 font-retro"
+                data-astro-cid-j7pv25f6>MP3</div>
+              <div class="font-proto" data-astro-cid-j7pv25f6>Format</div>
+            </div>
+          </div> <!-- CTA Buttons -->
+          <div class="flex items-center justify-center gap-lg-responsive flex-wrap" data-astro-cid-j7pv25f6> <a
+              href="#albums"
+              class="flex items-center justify-center gap-sm-responsive nav-link px-2xl-responsive py-lg-responsive bg-palette-800 hover:bg-palette-300 text-white hover:text-palette-900 dark:bg-palette-300 dark:hover:bg-palette-400 dark:text-palette-900 font-proto text-sm-responsive rounded-lg transition-all duration-200 transform hover:scale-105"
+              data-astro-cid-j7pv25f6> <i class="icon-music icon-md" data-astro-cid-j7pv25f6></i>
+              Explore Music
+            </a> <a href="/about"
+              class="flex items-center justify-center gap-sm-responsive px-2xl-responsive py-lg-responsive border border-palette-800 text-palette-800 hover:bg-palette-800 hover:text-white dark:border-palette-300 dark:text-palette-300 dark:hover:bg-palette-300 dark:hover:text-palette-900 font-proto text-sm-responsive rounded-lg transition-all duration-200"
+              data-astro-cid-j7pv25f6> <i class="icon-info-circle icon-md" data-astro-cid-j7pv25f6></i>
+              About
+            </a> </div>
+        </div>
+      </div>
+    </section>
+    <section class="py-4xl-responsive px-lg-responsive" data-astro-cid-j7pv25f6>
+      <div class="container mx-auto" data-astro-cid-j7pv25f6>
+        <h2
+          class="text-4xl-responsive font-retro text-center mb-4xl-responsive text-palette-900 dark:text-white retro-text-subtle-glow"
+          data-astro-cid-j7pv25f6>Features</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3xl-responsive" data-astro-cid-j7pv25f6>
+          <div class="text-center p-2xl-responsive" data-astro-cid-j7pv25f6> <i
+              class="icon-mp3 text-palette-800 dark:text-palette-300 icon-xl mb-lg-responsive"
+              data-astro-cid-j7pv25f6></i>
+            <h3 class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive"
+              data-astro-cid-j7pv25f6>High Quality MP3</h3>
+            <p class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive" data-astro-cid-j7pv25f6>Crystal
+              clear audio quality with optimized MP3 compression</p>
+          </div>
+          <div class="text-center p-2xl-responsive" data-astro-cid-j7pv25f6> <i
+              class="icon-phone text-palette-500 dark:text-palette-500 icon-xl mb-lg-responsive"
+              data-astro-cid-j7pv25f6></i>
+            <h3 class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive"
+              data-astro-cid-j7pv25f6>Mobile-First Design</h3>
+            <p class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive" data-astro-cid-j7pv25f6>
+              Responsive design optimized for mobile devices with touch controls</p>
+          </div>
+          <div class="text-center p-2xl-responsive" data-astro-cid-j7pv25f6> <i
+              class="icon-cloud-download text-palette-300 dark:text-palette-400 icon-xl mb-lg-responsive"
+              data-astro-cid-j7pv25f6></i>
+            <h3 class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive"
+              data-astro-cid-j7pv25f6>Custom Downloads</h3>
+            <p class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive" data-astro-cid-j7pv25f6>Create
+              custom ZIP packages with your favorite tracks</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="py-4xl-responsive px-lg-responsive" data-astro-cid-j7pv25f6>
+      <div class="container mx-auto" data-astro-cid-j7pv25f6>
+        <div class="text-center mb-4xl-responsive" data-astro-cid-j7pv25f6>
+          <!-- FIXED: Albums header with proper scroll target and enhanced mobile offset -->
+          <h2 id="albums"
+            class="text-5xl-responsive font-retro-display text-palette-900 dark:text-white mb-lg-responsive retro-text-subtle-glow"
+            data-astro-cid-j7pv25f6>Albums</h2>
+          <p class="text-palette-900 dark:text-gray-400 max-w-2xl mx-auto font-proto text-base-responsive break-words px-sm-responsive leading-relaxed"
+            data-astro-cid-j7pv25f6>
+            Explore my collection of retro-inspired chip tune compositions,
+            from nostalgic remixes of 8-bit melodies to modern electronic experimental synthwave.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2xl-responsive" data-astro-cid-b3y6remj> <a
+            href="/album/half-of-it"
+            class="group block bg-transparent rounded-xl overflow-hidden border border-palette-800/20 dark:border-palette-300/20 hover:border-palette-300/40 dark:hover:border-palette-300/40 transition-all duration-300 hover:scale-105"
+            data-astro-cid-b3y6remj> <!-- Album Cover -->
+            <div class="aspect-square relative overflow-hidden" data-astro-cid-b3y6remj> <img
+                src="/art/half-of-it/cover.png" alt="Half Of It album cover"
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                loading="lazy" data-astro-cid-b3y6remj> <!-- Overlay -->
+              <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"
+                data-astro-cid-b3y6remj></div> <!-- Track Count Badge -->
+              <div
+                class="absolute top-lg-responsive right-lg-responsive bg-black/60 rounded-full px-md-responsive py-sm-responsive"
+                data-astro-cid-b3y6remj> <span class="text-white font-proto text-xs-responsive" data-astro-cid-b3y6remj>
+                  2 tracks
+                </span> </div> <!-- Animated background shimmer effect -->
+              <div class="absolute inset-0 opacity-30" data-astro-cid-b3y6remj>
+                <div
+                  class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
+                  data-astro-cid-b3y6remj></div>
+              </div>
+            </div> <!-- Album Info -->
+            <div class="p-2xl-responsive" data-astro-cid-b3y6remj>
+              <h3
+                class="text-xl-responsive font-proto text-palette-900 dark:text-white mb-sm-responsive group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors"
+                data-astro-cid-b3y6remj> Half Of It </h3>
+              <p class="text-palette-900 dark:text-gray-400 text-sm-responsive mb-lg-responsive line-clamp-2 font-proto"
+                data-astro-cid-b3y6remj> Chip Music </p> <!-- Genre Tags -->
+              <div class="flex flex-wrap gap-sm-responsive mb-lg-responsive" data-astro-cid-b3y6remj> <span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> 8-Bit
+                </span><span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> Chiptune
+                </span><span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> Electronic
+                </span> </div> <!-- Release Date -->
+              <div class="text-palette-900 dark:text-gray-500 text-xs-responsive font-proto" data-astro-cid-b3y6remj>
+                Released 1/6/2024 </div>
+            </div>
+          </a><a href="/album/dissociation"
+            class="group block bg-transparent rounded-xl overflow-hidden border border-palette-800/20 dark:border-palette-300/20 hover:border-palette-300/40 dark:hover:border-palette-300/40 transition-all duration-300 hover:scale-105"
+            data-astro-cid-b3y6remj> <!-- Album Cover -->
+            <div class="aspect-square relative overflow-hidden" data-astro-cid-b3y6remj> <img
+                src="/art/dissociation/cover.png" alt="Dissociation album cover"
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                loading="lazy" data-astro-cid-b3y6remj> <!-- Overlay -->
+              <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"
+                data-astro-cid-b3y6remj></div> <!-- Track Count Badge -->
+              <div
+                class="absolute top-lg-responsive right-lg-responsive bg-black/60 rounded-full px-md-responsive py-sm-responsive"
+                data-astro-cid-b3y6remj> <span class="text-white font-proto text-xs-responsive" data-astro-cid-b3y6remj>
+                  30 tracks
+                </span> </div> <!-- Animated background shimmer effect -->
+              <div class="absolute inset-0 opacity-30" data-astro-cid-b3y6remj>
+                <div
+                  class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
+                  data-astro-cid-b3y6remj></div>
+              </div>
+            </div> <!-- Album Info -->
+            <div class="p-2xl-responsive" data-astro-cid-b3y6remj>
+              <h3
+                class="text-xl-responsive font-proto text-palette-900 dark:text-white mb-sm-responsive group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors"
+                data-astro-cid-b3y6remj> Dissociation </h3>
+              <p class="text-palette-900 dark:text-gray-400 text-sm-responsive mb-lg-responsive line-clamp-2 font-proto"
+                data-astro-cid-b3y6remj> Chip Music </p> <!-- Genre Tags -->
+              <div class="flex flex-wrap gap-sm-responsive mb-lg-responsive" data-astro-cid-b3y6remj> <span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> 8-Bit
+                </span><span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> Chiptune
+                </span><span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> Electronic
+                </span> </div> <!-- Release Date -->
+              <div class="text-palette-900 dark:text-gray-500 text-xs-responsive font-proto" data-astro-cid-b3y6remj>
+                Released 4/25/2017 </div>
+            </div>
+          </a><a href="/album/8bit-seduction"
+            class="group block bg-transparent rounded-xl overflow-hidden border border-palette-800/20 dark:border-palette-300/20 hover:border-palette-300/40 dark:hover:border-palette-300/40 transition-all duration-300 hover:scale-105"
+            data-astro-cid-b3y6remj> <!-- Album Cover -->
+            <div class="aspect-square relative overflow-hidden" data-astro-cid-b3y6remj> <img
+                src="/art/8bit-seduction/cover.png" alt="8bit Seduction album cover"
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                loading="lazy" data-astro-cid-b3y6remj> <!-- Overlay -->
+              <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"
+                data-astro-cid-b3y6remj></div> <!-- Track Count Badge -->
+              <div
+                class="absolute top-lg-responsive right-lg-responsive bg-black/60 rounded-full px-md-responsive py-sm-responsive"
+                data-astro-cid-b3y6remj> <span class="text-white font-proto text-xs-responsive" data-astro-cid-b3y6remj>
+                  39 tracks
+                </span> </div> <!-- Animated background shimmer effect -->
+              <div class="absolute inset-0 opacity-30" data-astro-cid-b3y6remj>
+                <div
+                  class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
+                  data-astro-cid-b3y6remj></div>
+              </div>
+            </div> <!-- Album Info -->
+            <div class="p-2xl-responsive" data-astro-cid-b3y6remj>
+              <h3
+                class="text-xl-responsive font-proto text-palette-900 dark:text-white mb-sm-responsive group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors"
+                data-astro-cid-b3y6remj> 8bit Seduction </h3>
+              <p class="text-palette-900 dark:text-gray-400 text-sm-responsive mb-lg-responsive line-clamp-2 font-proto"
+                data-astro-cid-b3y6remj> Chip Music </p> <!-- Genre Tags -->
+              <div class="flex flex-wrap gap-sm-responsive mb-lg-responsive" data-astro-cid-b3y6remj> <span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> 8-Bit
+                </span><span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> Chiptune
+                </span><span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> Electronic
+                </span> </div> <!-- Release Date -->
+              <div class="text-palette-900 dark:text-gray-500 text-xs-responsive font-proto" data-astro-cid-b3y6remj>
+                Released 4/25/2016 </div>
+            </div>
+          </a><a href="/album/escape-artist"
+            class="group block bg-transparent rounded-xl overflow-hidden border border-palette-800/20 dark:border-palette-300/20 hover:border-palette-300/40 dark:hover:border-palette-300/40 transition-all duration-300 hover:scale-105"
+            data-astro-cid-b3y6remj> <!-- Album Cover -->
+            <div class="aspect-square relative overflow-hidden" data-astro-cid-b3y6remj> <img
+                src="/art/escape-artist/cover.png" alt="Escape Artist album cover"
+                class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                loading="lazy" data-astro-cid-b3y6remj> <!-- Overlay -->
+              <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"
+                data-astro-cid-b3y6remj></div> <!-- Track Count Badge -->
+              <div
+                class="absolute top-lg-responsive right-lg-responsive bg-black/60 rounded-full px-md-responsive py-sm-responsive"
+                data-astro-cid-b3y6remj> <span class="text-white font-proto text-xs-responsive" data-astro-cid-b3y6remj>
+                  17 tracks
+                </span> </div> <!-- Animated background shimmer effect -->
+              <div class="absolute inset-0 opacity-30" data-astro-cid-b3y6remj>
+                <div
+                  class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"
+                  data-astro-cid-b3y6remj></div>
+              </div>
+            </div> <!-- Album Info -->
+            <div class="p-2xl-responsive" data-astro-cid-b3y6remj>
+              <h3
+                class="text-xl-responsive font-proto text-palette-900 dark:text-white mb-sm-responsive group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors"
+                data-astro-cid-b3y6remj> Escape Artist </h3>
+              <p class="text-palette-900 dark:text-gray-400 text-sm-responsive mb-lg-responsive line-clamp-2 font-proto"
+                data-astro-cid-b3y6remj> Chip Music </p> <!-- Genre Tags -->
+              <div class="flex flex-wrap gap-sm-responsive mb-lg-responsive" data-astro-cid-b3y6remj> <span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> 8-Bit
+                </span><span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> Chiptune
+                </span><span
+                  class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto"
+                  data-astro-cid-b3y6remj> <i class="icon-tags mr-xs-responsive" data-astro-cid-b3y6remj></i> Electronic
+                </span> </div> <!-- Release Date -->
+              <div class="text-palette-900 dark:text-gray-500 text-xs-responsive font-proto" data-astro-cid-b3y6remj>
+                Released 4/25/2016 </div>
+            </div>
+          </a> </div>
+      </div>
+    </section>
+  </main> <!-- Now Playing Widget --> <!-- Collapsed Now Playing Widget (always visible when track is playing) -->
+  <div id="now-playing-collapsed"
+    class="fixed rounded-xl p-md-responsive border bg-light-100/80 dark:bg-palette-900/80 border-palette-800/30 dark:border-palette-300/30 shadow-2xl z-50 cursor-pointer hover:scale-105 opacity-0 pointer-events-none"
+    style="width: clamp(200px, 20vw, 280px); bottom: clamp(1rem, 2vw, 1.5rem); right: clamp(1rem, 2vw, 1.5rem); transition: opacity 0.3s ease, scale 0.2s cubic-bezier(0.4, 0, 0.2, 1);"
+    data-astro-cid-dtxkt5ef>
+    <div class="flex items-center gap-sm-responsive" data-astro-cid-dtxkt5ef> <i
+        class="icon-headphones text-palette-500 dark:text-palette-500 icon-md now-playing-format-collapsed"
+        data-astro-cid-dtxkt5ef></i>
+      <div class="flex-1 min-w-0" data-astro-cid-dtxkt5ef>
+        <h4
+          class="text-palette-900 dark:text-white font-bold text-xs-responsive now-playing-title-collapsed font-retro truncate"
+          data-astro-cid-dtxkt5ef>No track playing</h4> <!-- Desktop: Allow album name to wrap, Mobile: Truncate -->
+        <p class="text-palette-900 dark:text-gray-400 text-xs-responsive now-playing-album-collapsed font-proto truncate sm:truncate md:whitespace-normal md:break-words md:leading-tight"
+          data-astro-cid-dtxkt5ef>Select a track to begin</p>
+      </div> <button id="expand-now-playing"
+        class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
+        data-astro-cid-dtxkt5ef> <i class="icon-chevron-up icon-sm" data-astro-cid-dtxkt5ef></i> </button>
+    </div> <!-- Mini Progress Bar -->
+    <div class="mt-sm-responsive" data-astro-cid-dtxkt5ef>
+      <div
+        class="mini-progress-container-collapsed bg-light-200 dark:bg-palette-900 rounded-full h-[2px] cursor-pointer"
+        data-astro-cid-dtxkt5ef>
+        <div
+          class="mini-progress-bar-collapsed bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200"
+          style="width: 0%" data-astro-cid-dtxkt5ef></div>
+      </div>
+    </div>
+  </div> <!-- Expanded Now Playing Widget -->
+  <div id="now-playing-expanded" class="fixed inset-0 bg-black/50 z-50 hidden" data-astro-cid-dtxkt5ef>
+    <!-- Compact Card Layout -->
+    <div
+      class="fixed bottom-lg-responsive left-1/2 transform -translate-x-1/2 bg-light-100/80 dark:bg-palette-900/80 rounded-2xl border border-palette-800/30 dark:border-palette-300/30 shadow-2xl translate-y-full transition-transform duration-300 overflow-hidden"
+      style="width: clamp(280px, 25vw, 320px); max-height: 80vh;" id="now-playing-card" data-astro-cid-dtxkt5ef>
+      <!-- Header with Close Button -->
+      <div
+        class="flex items-center justify-end p-lg-responsive border-b border-palette-800/30 dark:border-palette-300/30"
+        data-astro-cid-dtxkt5ef> <button id="collapse-now-playing"
+          class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
+          data-astro-cid-dtxkt5ef> <i class="icon-x icon-md" data-astro-cid-dtxkt5ef></i> </button> </div>
+      <!-- Album Art Section -->
+      <div class="relative" data-astro-cid-dtxkt5ef>
+        <div class="aspect-square relative overflow-hidden" data-astro-cid-dtxkt5ef> <!-- Album Cover Image --> <img
+            class="w-full h-full object-cover now-playing-album-art" src="/art/default-cover.png" alt="Album cover"
+            loading="lazy" data-astro-cid-dtxkt5ef> <!-- Overlay for better text visibility -->
+          <div class="absolute inset-0 bg-black/20" data-astro-cid-dtxkt5ef></div>
+        </div>
+      </div> <!-- Content Section -->
+      <div class="p-lg-responsive" data-astro-cid-dtxkt5ef> <!-- Track Title -->
+        <h4
+          class="text-lg-responsive font-retro text-palette-900 dark:text-white mb-xs-responsive now-playing-title-expanded truncate"
+          data-astro-cid-dtxkt5ef>No track playing</h4> <!-- Album Title -->
+        <p class="text-sm-responsive text-palette-900 dark:text-gray-400 mb-lg-responsive now-playing-album-expanded truncate font-proto"
+          data-astro-cid-dtxkt5ef>Select a track to begin</p> <!-- Controls Section (replacing description area) -->
+        <div class="space-y-lg-responsive" data-astro-cid-dtxkt5ef> <!-- Media Controls -->
+          <div class="flex items-center justify-center gap-lg-responsive" data-astro-cid-dtxkt5ef> <button
+              id="expanded-prev"
+              class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
+              data-astro-cid-dtxkt5ef> <i class="icon-skip-backward icon-lg" data-astro-cid-dtxkt5ef></i> </button>
+            <button id="expanded-play-pause"
+              class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-all duration-200 transform hover:scale-110"
+              data-astro-cid-dtxkt5ef> <i class="icon-play-fill icon-xl expanded-play-icon" data-astro-cid-dtxkt5ef></i>
+              <i class="icon-pause icon-xl expanded-pause-icon" style="display: none;" data-astro-cid-dtxkt5ef></i>
+            </button> <button id="expanded-next"
+              class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
+              data-astro-cid-dtxkt5ef> <i class="icon-skip-forward icon-lg" data-astro-cid-dtxkt5ef></i> </button>
+          </div> <!-- Volume Control with Repeat Button -->
+          <div class="flex items-center gap-sm-responsive" data-astro-cid-dtxkt5ef> <i
+              class="icon-volume-up icon-sm text-palette-800 dark:text-palette-500" data-astro-cid-dtxkt5ef></i> <input
+              type="range"
+              class="expanded-volume-slider flex-1 bg-light-200 dark:bg-palette-900 rounded-lg appearance-none cursor-pointer h-[4px]"
+              min="0" max="100" value="70" data-astro-cid-dtxkt5ef> <span
+              class="text-xs-responsive text-palette-900 dark:text-gray-400 font-proto w-[2rem] text-right expanded-volume-display"
+              data-astro-cid-dtxkt5ef>70%</span> <!-- Repeat Button moved here --> <button id="expanded-loop"
+              class="text-palette-800 dark:text-palette-800 hover:text-palette-800 dark:hover:text-palette-400 ml-sm-responsive"
+              title="Loop Track" data-astro-cid-dtxkt5ef> <i class="icon-repeat icon-md expanded-loop-icon"
+                data-astro-cid-dtxkt5ef></i> <i class="icon-repeat-1 icon-md expanded-loop-one-icon"
+                style="display: none;" data-astro-cid-dtxkt5ef></i> </button> </div> <!-- Progress Section -->
+          <div data-astro-cid-dtxkt5ef>
+            <div
+              class="flex items-center justify-between text-xs-responsive text-palette-900 dark:text-gray-400 mb-xs-responsive font-proto"
+              data-astro-cid-dtxkt5ef> <span class="expanded-current-time" data-astro-cid-dtxkt5ef>0:00</span> <span
+                class="expanded-total-time" data-astro-cid-dtxkt5ef>0:00</span> </div>
+            <div
+              class="expanded-progress-container bg-light-200 dark:bg-palette-900 rounded-full h-[6px] cursor-pointer"
+              data-astro-cid-dtxkt5ef>
+              <div
+                class="expanded-progress-bar bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200"
+                style="width: 0%" data-astro-cid-dtxkt5ef></div>
+            </div>
+          </div>
+        </div> <!-- Release Date -->
+        <div
+          class="text-palette-900 dark:text-gray-500 text-xs-responsive font-proto mt-lg-responsive now-playing-release-date"
+          data-astro-cid-dtxkt5ef> <!-- Release date will be populated dynamically --> </div>
+      </div>
+    </div>
+  </div> <!-- Global Audio Element (persistent across pages) --> <audio id="global-audio-player" preload="metadata"
+    style="display: none;" data-astro-cid-dtxkt5ef></audio>
+  <script type="module" src="astro/NowPlaying.astro_astro_type_script_index_0_lang.qLrIZcxX.js"></script>
+  <!-- Footer Component --> <!-- Collapsible Footer with Matching Topography Background -->
+  <footer class="relative z-20 bg-transparent mt-5xl-responsive">
+    <div class="container mx-auto py-2xl-responsive">
+      <div class="text-center">
+        <p> <span class="inline-block h-8 w-[10%] bg-palette-50 opacity-60 dark:opacity-100 ">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span><span class="inline-block h-8 w-[10%] bg-palette-100 opacity-60 dark:opacity-100 ">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span><span class="inline-block h-8 w-[10%] bg-palette-200 opacity-60 dark:opacity-100 ">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span><span class="inline-block h-8 w-[10%] bg-palette-300 opacity-60 dark:opacity-100 ">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span><span class="inline-block h-8 w-[10%] bg-palette-400 opacity-60 dark:opacity-100 ">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span><span class="inline-block h-8 w-[10%] bg-palette-500 opacity-60 dark:opacity-100 ">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span><span class="inline-block h-8 w-[10%] bg-palette-600 opacity-60 dark:opacity-100 ">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </span> </p> <!-- Always Visible Section -->
+        <div class="flex items-center justify-center gap-sm-responsive mb-lg-responsive">
+          <div
+            class="w-[clamp(2rem,4vw,2rem)] h-[clamp(2rem,4vw,2rem)] rounded-lg overflow-hidden flex items-center justify-center">
+            <img src="/icon.png" alt="asce1062 logo" class="w-full h-full object-cover"> </div> <a
+            href="https://alexmbugua.me" target="_blank" rel="noopener noreferrer"> <span
+              class="text-xl-responsive font-proto font-bold text-palette-900 dark:text-white hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive">asce1062</span>
+          </a>
+        </div>
+        <p class="text-palette-900 dark:text-gray-400 mb-lg-responsive text-base-responsive font-proto">
+          Alex.Immer's Chip tunes music player
+        </p> <!-- Expand Button --> <button id="footer-expand-btn"
+          class="flex items-center justify-center gap-sm-responsive mx-auto px-lg-responsive py-sm-responsive bg-light-100/50 hover:bg-light-200/50 dark:bg-palette-900/50 dark:hover:bg-palette-800/50 text-palette-900 dark:text-gray-400 hover:text-palette-800 dark:hover:text-white rounded-lg transition-all duration-200 font-proto text-sm-responsive"
+          aria-label="Show licensing information"> <span id="footer-expand-text">Show Licensing Info</span> <i
+            id="footer-expand-icon" class="icon-chevron-down icon-sm transition-transform duration-200"></i> </button>
+        <!-- Collapsible Content -->
+        <div id="footer-expanded-content" class="hidden mt-2xl-responsive"> <!-- Creative Commons License -->
+          <div class="max-w-3xl mx-auto mb-3xl-responsive">
+            <div class="flex justify-center mb-lg-responsive"> <a rel="license"
+                href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:opacity-80 transition-opacity"
+                target="_blank" rel="noopener noreferrer"> <img alt="Creative Commons License" style="border-width: 0"
+                  src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" class="rounded"> </a> </div>
+            <div
+              class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto leading-relaxed space-y-sm-responsive">
+              <p>
+                You are free to <strong class="text-palette-800 dark:text-palette-300">Share</strong> i.e
+                copy and redistribute the material in any medium or format.
+              </p>
+              <p>
+                You are free to <strong class="text-palette-800 dark:text-palette-300">Adapt</strong> i.e
+                remix, transform, and build upon the material.
+              </p>
+              <p> <span class="text-palette-800 dark:text-palette-300 font-medium">Music</span> by
+                <span class="text-palette-800 dark:text-palette-300 font-medium">Alex Ngugi</span> is licensed
+                under
+                <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+                  class="text-palette-300 dark:text-palette-400 hover:text-palette-500 dark:hover:text-palette-500 transition-colors underline"
+                  target="_blank" rel="noopener noreferrer">
+                  Attribution Non-Commercial Creative Commons License</a>.
+              </p>
+              <p>
+                For commercial uses, don't hesitate to contact me:
+                <a href="mailto:tnkratos@gmail.com"
+                  class="text-palette-300 dark:text-palette-400 hover:text-palette-500 dark:hover:text-palette-500 transition-colors underline">
+                  tnkratos@gmail.com
+                </a>
+              </p>
+            </div>
+          </div> <!-- Links and Copyright -->
+          <div
+            class="flex items-center justify-center gap-2xl-responsive text-sm-responsive text-palette-900 dark:text-gray-400 flex-wrap font-proto">
+            <a href="https://github.com/asce1062"
+              class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive"
+              target="_blank" rel="noopener noreferrer"> <i class="icon-github"></i> <span>GitHub</span> </a> <a
+              href="mailto:tnkratos@gmail.com"
+              class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive">
+              <i class="icon-envelope-at"></i> <span>Contact</span> </a> <a href="https://alexmbugua.me"
+              class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive underline"
+              target="_blank" rel="noopener noreferrer"> <span>© 2025 Alex Mbugua Ngugi</span> </a> </div>
+        </div>
+      </div>
+    </div>
+  </footer> <!-- Footer Expand/Collapse Script -->
+  <script
+    type="module">function s() { const t = document.getElementById("footer-expand-btn"), n = document.getElementById("footer-expanded-content"), i = document.getElementById("footer-expand-text"), a = document.getElementById("footer-expand-icon"); if (!t || !n || !i || !a) { console.error("Footer toggle elements not found"); return } let o = !1; function d() { o = !o, o ? (n.classList.remove("hidden"), i.textContent = "Hide Licensing Info", a.classList.add("rotate-180"), t.setAttribute("aria-label", "Hide licensing information"), setTimeout(() => { n.scrollIntoView({ behavior: "smooth", block: "nearest" }) }, 100)) : (n.classList.add("hidden"), i.textContent = "Show Licensing Info", a.classList.remove("rotate-180"), t.setAttribute("aria-label", "Show licensing information")) } t.addEventListener("click", d), t.addEventListener("keydown", e => { (e.key === "Enter" || e.key === " ") && (e.preventDefault(), d()) }), document.addEventListener("click", e => { const c = e.target; o && !t.contains(c) && !n.contains(c) && d() }), document.addEventListener("keydown", e => { e.key === "Escape" && o && d() }) } document.readyState === "loading" ? document.addEventListener("DOMContentLoaded", s) : s(); document.addEventListener("astro:page-load", s);</script>
+  <!-- Keyboard Shortcuts Handler -->
+  <script
+    type="module">document.addEventListener("astro:before-preparation", () => { const e = window.__theme || localStorage.getItem("theme") || "dark"; sessionStorage.setItem("currentTheme", e), localStorage.setItem("theme", e) }); document.addEventListener("astro:page-load", () => { const e = sessionStorage.getItem("currentTheme") || localStorage.getItem("theme") || "dark", a = e === "dark", t = document.documentElement; a ? (t.classList.add("dark"), t.setAttribute("data-theme", "dark")) : (t.classList.remove("dark"), t.setAttribute("data-theme", "light")), window.__theme = e, window.__themeApplied = !0 });</script>
+  <!-- Enhanced theme persistence across navigation -->
+  <script
+    type="module">document.addEventListener("keydown", e => { const t = e.target; if (!(t && ["INPUT", "TEXTAREA"].includes(t.tagName))) switch (e.key) { case " ": e.preventDefault(), document.dispatchEvent(new CustomEvent("globalPlayPause")); break; case "ArrowLeft": e.preventDefault(), document.dispatchEvent(new CustomEvent("globalSeekBackward")); break; case "ArrowRight": e.preventDefault(), document.dispatchEvent(new CustomEvent("globalSeekForward")); break; case "ArrowUp": e.preventDefault(), document.dispatchEvent(new CustomEvent("globalVolumeUp")); break; case "ArrowDown": e.preventDefault(), document.dispatchEvent(new CustomEvent("globalVolumeDown")); break } });</script>
+</body>
+
 </html>

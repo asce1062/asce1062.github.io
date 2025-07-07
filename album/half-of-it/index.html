@@ -1,0 +1,729 @@
+<!DOCTYPE html><!-- Add JSZip via CDN for album download --><script type="module" src="../../astro/_id_.astro_astro_type_script_index_0_lang.qm5uya5Z.js"></script> <html lang="en" class="dark"> <head><!-- Critical theme script - must run before any content renders --><script>
+      // Immediate theme detection and application - prevents flash
+      (function () {
+        try {
+          const savedTheme = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+
+          const html = document.documentElement;
+          if (isDark) {
+            html.classList.add('dark');
+            html.setAttribute('data-theme', 'dark');
+          } else {
+            html.classList.remove('dark');
+            html.setAttribute('data-theme', 'light');
+          }
+
+          // Store theme state globally - critical for icon consistency
+          window.__theme = isDark ? 'dark' : 'light';
+          window.__themeApplied = true;
+        } catch (e) {
+          // Fallback to dark theme if localStorage fails
+          document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
+          window.__theme = 'dark';
+          window.__themeApplied = true;
+        }
+      })();
+    </script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Astro v5.10.2"><!-- Canonical URL --><link rel="canonical" href="https://asce1062.github.io/album/half-of-it/"><!-- Primary Meta Tags --><title>Half Of It | Alex.Immer</title><meta name="title" content="Half Of It | Alex.Immer"><meta name="description" content="Chip Music"><meta name="author" content="Alex Mbugua Ngugi"><meta name="keywords" content="retro music, chiptune, 8-bit, electronic music, synthwave, MP3, music player, Alex Ngugi, asce1062"><!-- Favicon and Icons --><link rel="icon" type="image/x-icon" href="../../favicon.ico"><link rel="sitemap" href="../../sitemap-index.xml"><!-- Apple Touch Icons --><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png"><!-- Apple Mobile Web App --><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Alex.Immer"><!-- Mobile Optimizations --><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="Alex.Immer"><meta name="theme-color" content="#947b82"><meta name="msapplication-TileColor" content="#947b82"><meta name="msapplication-navbutton-color" content="#947b82"><!-- Font Face Definitions - Inline for immediate availability --><!-- Open Graph / Facebook --><meta property="og:type" content="music.album"><meta property="og:url" content="https://asce1062.github.io/album/half-of-it/"><meta property="og:title" content="Half Of It | Alex.Immer"><meta property="og:description" content="Chip Music"><meta property="og:image" content="https://asce1062.github.io/art/half-of-it/cover.png"><meta property="og:image:alt" content="Half Of It | Alex.Immer - Chip Music"><meta property="og:site_name" content="Alex.Immer"><meta property="og:locale" content="en_US"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://asce1062.github.io/album/half-of-it/"><meta property="twitter:title" content="Half Of It | Alex.Immer"><meta property="twitter:description" content="Chip Music"><meta property="twitter:image" content="https://asce1062.github.io/art/half-of-it/cover.png"><meta property="twitter:image:alt" content="Half Of It | Alex.Immer - Chip Music"><meta property="twitter:creator" content="@asce1062"><meta property="twitter:site" content="@asce1062"><!-- Music Schema.org --><script type="application/ld+json">
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MusicAlbum",
+      "name": title,
+      "description": fullDescription,
+      "image": imageUrl,
+      "url": canonicalURL,
+      "datePublished": album ? new Date().toISOString() : undefined,
+      "byArtist": {
+        "@type": "Person",
+        "name": artist,
+        "url": "https://asce1062.github.io"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": SITE_AUTHOR,
+        "url": "https://asce1062.github.io"
+      },
+      "genre": ["Electronic", "Chiptune", "Retro"],
+      "inLanguage": "en-US"
+    })}
+  </script><!-- Performance and Security --><link rel="dns-prefetch" href="//fonts.googleapis.com"><link rel="dns-prefetch" href="//fonts.gstatic.com"><!-- Google Fonts (Fallback only) --><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet"><!-- Robots and Crawling --><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow"><!-- Language and Region --><meta name="language" content="English"><meta name="geo.region" content="US"><meta name="geo.placename" content="United States"><!-- Additional SEO Meta Tags --><meta name="rating" content="General"><meta name="distribution" content="Global"><meta name="revisit-after" content="7 days"><meta name="format-detection" content="telephone=no"><link href="/css/style.css" rel="stylesheet"><!-- Prevent flash of unstyled content --><style>
+      body {
+        visibility: hidden;
+        opacity: 0;
+      }
+    </style><link rel="stylesheet" href="../../astro/about.BC89Pmfr.css">
+<style>.track-item[data-astro-cid-c6un4ezt]{scroll-margin-top:clamp(80px,10vw,100px)}.hyphens-auto[data-astro-cid-x7j5xkcx]{-webkit-hyphens:auto;hyphens:auto;word-break:break-word;overflow-wrap:break-word}
+</style></head> <!-- Apply theme-aware background immediately --> <body class="z-10 m-0 h-full min-h-screen overflow-y-scroll font-proto text-palette-900 dark:text-white"> <!-- Show body after theme is applied --> <script>
+      // Show body immediately after theme is set
+      document.body.style.visibility = 'visible';
+      document.body.style.opacity = '1';
+      document.body.style.transition = 'opacity 0.2s ease';
+    </script> <div class="fixed inset-0 z-0 pointer-events-none bg-[#e8e5f0] dark:bg-palette-700 bg-topography-light dark:bg-topography-dark" aria-hidden="true"></div> <!-- Header --> <header class="sticky top-0 z-50 bg-[#e8e5f0]/80 dark:bg-palette-700/80 bg-topography-light dark:bg-topography-dark backdrop-blur-md border-b border-palette-800/30 dark:border-palette-300/30"> <div class="container mx-auto py-md-responsive"> <div class="flex items-center justify-between gap-md-responsive"> <!-- Logo --> <a href="/" class="flex items-center gap-sm-responsive group flex-shrink-0"> <div class="w-[clamp(2rem,4vw,2.5rem)] h-[clamp(2rem,4vw,2.5rem)] rounded-lg overflow-hidden flex items-center justify-center"> <img src="/icon.png" alt="Alex.Immer logo" class="w-full h-full object-cover"> </div> <span class="text-xl-responsive font-retro font-bold text-palette-900 dark:text-white group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors hidden sm:block">
+Alex.Immer
+</span> </a> <!-- Desktop Navigation --> <nav class="hidden md:flex items-center gap-xl-responsive"> <a href="/#albums" class="nav-link text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive">
+Albums
+</a> <a href="/about" class="text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive">
+About
+</a> </nav> <!-- Shared Search & Theme Toggle --> <div class="flex items-center gap-sm-responsive"> <!-- Search - responsive width --> <div class="w-[clamp(12rem,25vw,16rem)]"> <div class="relative w-full max-w-full" data-astro-cid-axnn5did> <div class="relative" data-astro-cid-axnn5did> <input type="text" id="global-search" placeholder="Search tracks..." class="w-full px-lg-responsive py-sm-responsive pl-[clamp(3rem,6vw,3.5rem)] bg-light-200 dark:bg-palette-900 border border-palette-800/30 dark:border-palette-300/30 rounded-lg text-palette-900 dark:text-white placeholder-palette-900/50 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-palette-300 dark:focus:ring-palette-300 focus:border-transparent text-sm-responsive font-proto" data-astro-cid-axnn5did> <i class="icon-search-heart absolute left-lg-responsive top-1/2 transform -translate-y-1/2 icon-md text-palette-900/50 dark:text-gray-400" data-astro-cid-axnn5did></i> <!-- Clear button --> <button id="search-clear" class="absolute right-md-responsive top-1/2 transform -translate-y-1/2 text-palette-900/50 dark:text-gray-400 hover:text-palette-900 dark:hover:text-white transition-colors hidden" aria-label="Clear search" data-astro-cid-axnn5did> <i class="icon-x icon-md" data-astro-cid-axnn5did></i> </button> </div> <div id="search-results" class="absolute top-full left-0 right-0 mt-sm-responsive w-full bg-light-100 dark:bg-palette-900 border border-palette-800/30 dark:border-palette-300/30 rounded-lg shadow-xl z-50 hidden max-h-96 overflow-y-auto" data-astro-cid-axnn5did> <!-- Search results will be populated here --> </div> <!-- Search suggestions (shown when input is empty but focused) --> <div id="search-suggestions" class="absolute top-full left-0 right-0 mt-sm-responsive w-full bg-light-100 dark:bg-palette-900 border border-palette-800/30 dark:border-palette-300/30 rounded-lg shadow-xl z-50 hidden" data-astro-cid-axnn5did> <div class="p-lg-responsive" data-astro-cid-axnn5did> <div class="text-palette-900 dark:text-gray-400 text-sm-responsive mb-md-responsive font-proto" data-astro-cid-axnn5did>Popular searches:</div> <div class="flex flex-wrap gap-sm-responsive" data-astro-cid-axnn5did> <button class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto" data-query="electronic" data-astro-cid-axnn5did>
+Electronic
+</button> <button class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto" data-query="synthwave" data-astro-cid-axnn5did>
+Synthwave
+</button> <button class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto" data-query="chiptune" data-astro-cid-axnn5did>
+Chiptune
+</button> <button class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto" data-query="remix" data-astro-cid-axnn5did>
+Remix
+</button> </div> <div class="text-palette-900/70 dark:text-gray-400 text-xs-responsive mt-md-responsive font-proto flex items-center gap-xs-responsive" data-astro-cid-axnn5did> <kbd class="px-xs-responsive py-xs-responsive bg-light-200 dark:bg-palette-800 rounded text-xs-responsive font-proto border border-palette-800/20 dark:border-palette-300/20" data-astro-cid-axnn5did>/</kbd> <span data-astro-cid-axnn5did>to focus search</span> </div> </div> </div> </div> <script type="module" src="../../astro/GlobalSearch.astro_astro_type_script_index_0_lang.C_7SsAck.js"></script>  </div> <!-- Theme Toggle --> <div class="theme-toggle"> <button id="theme-toggle" class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors duration-200" aria-label="Toggle theme"> <!-- Icon will be set immediately by script --> <i id="toggleIcon" class="icon-lg"></i> </button> </div> <script>
+  // Immediate theme detection and icon setting - prevents any flash
+  (function() {
+    // Get current theme state
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+    
+    // Apply theme immediately to prevent flash
+    const html = document.documentElement;
+    if (isDark) {
+      html.classList.add('dark');
+      html.setAttribute('data-theme', 'dark');
+    } else {
+      html.classList.remove('dark');
+      html.setAttribute('data-theme', 'light');
+    }
+    
+    // Store the theme state globally
+    window.__theme = isDark ? 'dark' : 'light';
+    window.__themeInitialized = true;
+    
+    // Set icon immediately when DOM is ready
+    function setInitialIcon() {
+      const icon = document.getElementById('toggleIcon');
+      if (icon) {
+        // Set correct icon based on current theme
+        icon.className = isDark ? "icon-sun icon-lg" : "icon-moon icon-lg";
+        // Mark as initialized to prevent further changes
+        icon.setAttribute('data-initialized', 'true');
+      } else {
+        // If icon not ready, try again shortly
+        setTimeout(setInitialIcon, 10);
+      }
+    }
+    
+    // Set icon as soon as possible
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setInitialIcon);
+    } else {
+      setInitialIcon();
+    }
+  })();
+</script> <script type="module">let o=window.__theme||"dark";function d(e){o=e;const t=e==="dark",n=document.documentElement;t?(n.classList.add("dark"),n.setAttribute("data-theme","dark")):(n.classList.remove("dark"),n.setAttribute("data-theme","light")),localStorage.setItem("theme",e),window.__theme=e,c(t)}function s(){d(o==="dark"?"light":"dark")}function c(e){const t=document.getElementById("toggleIcon");if(t){const n=e?"icon-sun icon-lg":"icon-moon icon-lg";t.className!==n&&(t.className=n)}}function a(){const e=document.getElementById("theme-toggle");if(e){const n=e.cloneNode(!0);e.parentNode?.replaceChild(n,e),n.addEventListener("click",i=>{i.preventDefault(),i.stopPropagation(),s()})}const t=document.getElementById("toggleIcon");t&&!t.getAttribute("data-initialized")&&(c(o==="dark"),t.setAttribute("data-initialized","true"))}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",a):a();document.addEventListener("astro:page-load",()=>{o=window.__theme||localStorage.getItem("theme")||"dark";const e=o==="dark",t=document.documentElement;e?(t.classList.add("dark"),t.setAttribute("data-theme","dark")):(t.classList.remove("dark"),t.setAttribute("data-theme","light"));const n=document.getElementById("toggleIcon");n&&(n.className=e?"icon-sun icon-lg":"icon-moon icon-lg",n.setAttribute("data-initialized","true")),a()});document.addEventListener("astro:before-preparation",()=>{o&&(localStorage.setItem("theme",o),window.__theme=o)});window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",e=>{if(!localStorage.getItem("theme")){const t=e.matches?"dark":"light";d(t)}});</script> <!-- Mobile Menu Button --> <button id="mobile-menu-toggle" class="p-sm-responsive text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-white transition-colors md:hidden" aria-label="Toggle menu"> <i id="hamburger-icon" class="icon-menu-button icon-md"></i> <i id="close-icon" class="icon-x-lg icon-md" style="display: none;"></i> </button> </div> </div> <!-- Mobile Menu (hidden by default) --> <div id="mobile-menu" class="md:hidden hidden mt-lg-responsive pb-lg-responsive border-t border-palette-800/30 dark:border-palette-300/30"> <!-- Mobile Navigation --> <nav class="flex flex-col space-responsive"> <a href="/#albums" class="nav-link mobile-nav-link text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive py-sm-responsive px-sm-responsive rounded hover:bg-light-100 dark:hover:bg-palette-900/50">
+Albums
+</a> <a href="/about" class="text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive py-sm-responsive px-sm-responsive rounded hover:bg-light-100 dark:hover:bg-palette-900/50">
+About
+</a> </nav> </div> </div> </header> <script type="module">function a(){const l=document.getElementById("mobile-menu-toggle"),e=document.getElementById("mobile-menu"),o=document.getElementById("hamburger-icon"),n=document.getElementById("close-icon");if(!l||!e||!o||!n){console.error("Mobile menu elements not found");return}function c(t){t.preventDefault(),t.stopPropagation(),e.classList.contains("hidden")?(e.classList.remove("hidden"),o.style.display="none",n.style.display="inline-block"):(e.classList.add("hidden"),o.style.display="inline-block",n.style.display="none")}function i(){e.classList.add("hidden"),o.style.display="inline-block",n.style.display="none"}l.addEventListener("click",c),document.addEventListener("click",t=>{const s=t.target;!l.contains(s)&&!e.contains(s)&&i()}),window.addEventListener("resize",()=>{window.innerWidth>=768&&i()}),e.querySelectorAll("a").forEach(t=>{t.addEventListener("click",()=>{setTimeout(i,100)})})}function r(){document.querySelectorAll(".nav-link").forEach(e=>{e.addEventListener("click",o=>{const n=e.getAttribute("href");if(n&&n.startsWith("/#")){const c=n.substring(2),i=document.getElementById(c);if(i){if(o.preventDefault(),window.location.pathname!=="/"){window.location.href=n;return}const d=document.getElementById("mobile-menu");if(d&&!d.classList.contains("hidden")){d.classList.add("hidden");const t=document.getElementById("hamburger-icon"),s=document.getElementById("close-icon");t&&(t.style.display="inline-block"),s&&(s.style.display="none")}setTimeout(()=>{i.scrollIntoView({behavior:"smooth",block:"start"}),history.pushState(null,"",n)},150)}}})})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",()=>{a(),r()}):(a(),r());document.addEventListener("astro:page-load",()=>{a(),r()});</script> <!-- Main Content --> <main class="relative z-20">   <section class="py-2xl-responsive px-lg-responsive" data-astro-cid-x7j5xkcx> <div class="container mx-auto" data-astro-cid-x7j5xkcx> <div class="grid grid-cols-1 lg:grid-cols-3 gap-3xl-responsive items-start" data-astro-cid-x7j5xkcx> <!-- Album Cover --> <div class="lg:col-span-1" data-astro-cid-x7j5xkcx> <div class="aspect-square relative overflow-hidden rounded-2xl retro-crt" data-astro-cid-x7j5xkcx> <img src="/art/half-of-it/cover.png" alt="Half Of It album cover" class="w-full h-full object-cover" loading="eager" data-astro-cid-x7j5xkcx> <!-- Overlay --> <div class="absolute inset-0 bg-black/20" data-astro-cid-x7j5xkcx></div> <!-- Animated background shimmer effect --> <div class="absolute inset-0 opacity-30" data-astro-cid-x7j5xkcx> <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" data-astro-cid-x7j5xkcx></div> </div> </div> </div> <!-- Album Info --> <div class="lg:col-span-2" data-astro-cid-x7j5xkcx> <div class="mb-2xl-responsive" data-astro-cid-x7j5xkcx> <h1 class="text-6xl-responsive font-retro-display text-palette-900 dark:text-white mb-lg-responsive break-words hyphens-auto retro-text-subtle-glow" data-astro-cid-x7j5xkcx> Half Of It </h1> <p class="text-xl-responsive text-palette-900 dark:text-gray-300 mb-2xl-responsive font-proto break-words hyphens-auto leading-relaxed" data-astro-cid-x7j5xkcx> Chip Music </p> <!-- Genre Tags --> <div class="flex flex-wrap gap-sm-responsive mb-2xl-responsive" data-astro-cid-x7j5xkcx> <span class="px-md-responsive py-sm-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 rounded-full font-proto text-sm-responsive" data-astro-cid-x7j5xkcx> <i class="icon-tags mr-xs-responsive" data-astro-cid-x7j5xkcx></i> 8-Bit </span><span class="px-md-responsive py-sm-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 rounded-full font-proto text-sm-responsive" data-astro-cid-x7j5xkcx> <i class="icon-tags mr-xs-responsive" data-astro-cid-x7j5xkcx></i> Chiptune </span><span class="px-md-responsive py-sm-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 rounded-full font-proto text-sm-responsive" data-astro-cid-x7j5xkcx> <i class="icon-tags mr-xs-responsive" data-astro-cid-x7j5xkcx></i> Electronic </span><span class="px-md-responsive py-sm-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 rounded-full font-proto text-sm-responsive" data-astro-cid-x7j5xkcx> <i class="icon-tags mr-xs-responsive" data-astro-cid-x7j5xkcx></i> Experimental </span><span class="px-md-responsive py-sm-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 rounded-full font-proto text-sm-responsive" data-astro-cid-x7j5xkcx> <i class="icon-tags mr-xs-responsive" data-astro-cid-x7j5xkcx></i> Synthwave </span> </div> <!-- Album Meta - REMOVED containers/borders, kept content size --> <div class="grid grid-cols-3 gap-lg-responsive text-center mb-3xl-responsive" data-astro-cid-x7j5xkcx> <div class="p-lg-responsive" data-astro-cid-x7j5xkcx> <div class="text-3xl-responsive font-retro text-palette-800 dark:text-palette-300" data-astro-cid-x7j5xkcx>2</div> <div class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto" data-astro-cid-x7j5xkcx>Tracks</div> </div> <div class="p-lg-responsive" data-astro-cid-x7j5xkcx> <div class="text-3xl-responsive font-retro text-palette-500 dark:text-palette-500" data-astro-cid-x7j5xkcx> 2024 </div> <div class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto" data-astro-cid-x7j5xkcx>Released</div> </div> <div class="p-lg-responsive" data-astro-cid-x7j5xkcx> <div class="text-3xl-responsive font-retro text-palette-600 dark:text-palette-600" data-astro-cid-x7j5xkcx> 8m
+</div> <div class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto" data-astro-cid-x7j5xkcx>Duration</div> </div> </div> <!-- Album Actions --> <div class="flex flex-wrap gap-lg-responsive" data-astro-cid-x7j5xkcx> <button id="play-album-btn" class="flex items-center justify-center gap-sm-responsive px-2xl-responsive py-lg-responsive bg-palette-800 hover:bg-palette-300 text-white hover:text-palette-900 dark:bg-palette-300 dark:hover:bg-palette-400 dark:text-palette-900 font-retro text-sm-responsive rounded-lg transition-all duration-200 transform hover:scale-105" data-astro-cid-x7j5xkcx> <i class="icon-play-fill icon-md" data-astro-cid-x7j5xkcx></i> <span data-astro-cid-x7j5xkcx>Play Album</span> </button> <button id="download-album-btn" class="flex items-center justify-center gap-sm-responsive px-2xl-responsive py-lg-responsive border border-palette-800 text-palette-800 hover:bg-palette-800 hover:text-white dark:border-palette-300 dark:text-palette-300 dark:hover:bg-palette-300 dark:hover:text-palette-900 font-retro text-sm-responsive rounded-lg transition-all duration-200" data-astro-cid-x7j5xkcx> <i class="icon-cloud-download icon-md" data-astro-cid-x7j5xkcx></i> <span data-astro-cid-x7j5xkcx>Download Album</span> </button> <button id="shuffle-album-btn" class="flex items-center justify-center gap-sm-responsive px-2xl-responsive py-lg-responsive bg-light-100/50 hover:bg-light-200 text-palette-900 dark:bg-palette-900/50 dark:hover:bg-palette-900 dark:text-white font-retro text-sm-responsive rounded-lg transition-all duration-200" data-astro-cid-x7j5xkcx> <i class="icon-shuffle icon-md" data-astro-cid-x7j5xkcx></i> <span data-astro-cid-x7j5xkcx>Shuffle</span> </button> </div> </div> </div> </div> </div> </section>  <section class="py-3xl-responsive px-lg-responsive" data-astro-cid-x7j5xkcx> <div class="container mx-auto" data-astro-cid-x7j5xkcx> <h2 class="text-3xl-responsive font-retro text-palette-900 dark:text-white mb-2xl-responsive retro-text-subtle-glow" data-astro-cid-x7j5xkcx>Chunes</h2> <div class="track-list space-responsive" data-astro-cid-c6un4ezt> <div class="track-item" data-track-index="0" id="track-rising-sun" data-astro-cid-c6un4ezt> <!-- Track Header --> <div class="p-lg-responsive bg-light-100/30 dark:bg-palette-900/30 rounded-t-xl rounded-b-lg border-b border-palette-800/30 dark:border-palette-300/30" data-astro-cid-c6un4ezt> <!-- Desktop Layout --> <div class="hidden md:flex items-center justify-between gap-lg-responsive" data-astro-cid-c6un4ezt> <div class="flex items-center gap-lg-responsive" data-astro-cid-c6un4ezt> <span class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive w-[clamp(2rem,4vw,2.5rem)]" data-astro-cid-c6un4ezt> 01 </span> <div data-astro-cid-c6un4ezt> <h3 class="text-palette-900 dark:text-white font-bold text-lg-responsive font-retro" data-astro-cid-c6un4ezt>Rising Sun</h3> <p class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto" data-astro-cid-c6un4ezt>Chip Music</p> </div> </div> <!-- Track Meta --> <div class="flex items-center gap-lg-responsive text-sm-responsive text-palette-900 dark:text-gray-400" data-astro-cid-c6un4ezt> <span class="font-proto" data-astro-cid-c6un4ezt>MP3</span> <span class="font-proto" data-astro-cid-c6un4ezt>3:15</span> <div class="flex gap-xs-responsive" data-astro-cid-c6un4ezt> <span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> 8-Bit </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Chiptune </span> </div> </div> </div> <!-- Mobile Layout --> <div class="md:hidden space-responsive" data-astro-cid-c6un4ezt> <!-- Track Number and Title --> <div class="flex items-start gap-md-responsive" data-astro-cid-c6un4ezt> <span class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive w-[clamp(2rem,8vw,2.5rem)] mt-xs-responsive" data-astro-cid-c6un4ezt> 01 </span> <div class="flex-1 min-w-0" data-astro-cid-c6un4ezt> <h3 class="text-palette-900 dark:text-white font-bold text-lg-responsive leading-tight font-retro" data-astro-cid-c6un4ezt>Rising Sun</h3> <p class="text-palette-900 dark:text-gray-400 text-sm-responsive mt-xs-responsive leading-relaxed font-proto" data-astro-cid-c6un4ezt>Chip Music</p> </div> </div> <!-- Track Meta List --> <div class="ml-[clamp(3rem,10vw,3.5rem)] space-responsive" data-astro-cid-c6un4ezt> <!-- Duration --> <div class="flex items-center gap-sm-responsive text-sm-responsive" data-astro-cid-c6un4ezt> <span class="text-palette-900 dark:text-gray-500 font-proto" data-astro-cid-c6un4ezt>Duration:</span> <span class="text-palette-900 dark:text-white font-proto" data-astro-cid-c6un4ezt>3:15</span> </div> <!-- Format --> <div class="flex items-center gap-sm-responsive text-sm-responsive" data-astro-cid-c6un4ezt> <span class="text-palette-900 dark:text-gray-500 font-proto" data-astro-cid-c6un4ezt>Format:</span> <span class="text-palette-300 dark:text-palette-300 font-proto font-medium" data-astro-cid-c6un4ezt>MP3</span> </div> <!-- Genres --> <div class="flex items-start gap-sm-responsive" data-astro-cid-c6un4ezt> <span class="text-palette-900 dark:text-gray-500 font-proto text-sm-responsive mt-xs-responsive" data-astro-cid-c6un4ezt>Genres:</span> <div class="flex flex-wrap gap-xs-responsive" data-astro-cid-c6un4ezt> <span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> 8-Bit </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Chiptune </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Electronic </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Experimental </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Synthwave </span> </div> </div> </div> </div> </div> <!-- Track Player --> <div class="track-player bg-light-100/50 dark:bg-palette-900/50 backdrop-blur-sm rounded-xl p-2xl-responsive border border-palette-800/30 dark:border-palette-300/30 retro-crt" data-track-id="rising-sun" data-album-id="half-of-it"> <!-- Track Info --> <div class="flex items-center justify-between mb-lg-responsive gap-lg-responsive"> <div class="flex items-center gap-lg-responsive min-w-0 flex-1"> <i class="icon-mp3 text-palette-500 dark:text-palette-500 icon-lg track-format flex-shrink-0"></i> <div class="min-w-0 flex-1"> <h4 class="text-palette-900 dark:text-white font-bold text-lg-responsive track-title truncate font-retro">Loading...</h4> <p class="text-palette-900 dark:text-gray-400 text-sm-responsive track-duration font-proto">0:00</p> </div> </div> <!-- Download Button --> <button class="download-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors flex-shrink-0"> <i class="icon-cloud-download icon-lg"></i> </button> </div> <!-- Controls --> <div class="flex items-center gap-lg-responsive mb-lg-responsive flex-wrap"> <div class="flex items-center gap-md-responsive"> <button class="prev-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"> <i class="icon-skip-backward icon-lg"></i> </button> <button class="play-pause-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors transform hover:scale-110"> <i class="icon-play-fill icon-xl text-palette-800 dark:text-palette-300 play-icon"></i> <i class="icon-pause icon-xl text-palette-800 dark:text-palette-300 pause-icon" style="display: none;"></i> </button> <button class="next-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"> <i class="icon-skip-forward icon-lg"></i> </button> </div> <!-- Loop Button Only --> <div class="flex gap-sm-responsive ml-auto"> <button class="loop-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors" title="Loop Track"> <i class="icon-repeat icon-lg loop-icon"></i> <i class="icon-repeat-1 icon-lg loop-one-icon" style="display: none;"></i> </button> </div> </div> <!-- Progress Bar --> <div class="mb-lg-responsive"> <div class="flex items-center justify-between text-xs-responsive text-palette-900 dark:text-gray-400 mb-sm-responsive font-proto"> <span class="current-time">0:00</span> <span class="total-time">0:00</span> </div> <div class="progress-container bg-light-200 dark:bg-palette-900 rounded-full h-[clamp(6px,1vw,8px)] cursor-pointer"> <div class="progress-bar bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200" style="width: 0%"></div> </div> </div> <!-- Volume Control with Percentage --> <div class="flex items-center gap-md-responsive mb-lg-responsive"> <i class="icon-volume-up icon-lg text-palette-800 dark:text-palette-500"></i> <div class="flex-1"> <input type="range" class="volume-slider w-full bg-light-200 dark:bg-palette-900 rounded-lg appearance-none cursor-pointer" min="0" max="100" value="70"> </div> <span class="text-sm-responsive text-palette-900 dark:text-gray-400 font-proto w-[3rem] text-right volume-display">70%</span> </div> <!-- Local Audio Element (for UI sync only) --> <audio class="audio-element" preload="metadata" style="display: none;"></audio> </div> <script type="module" src="../../astro/TrackPlayer.astro_astro_type_script_index_0_lang.BPbQ-1zy.js"></script> </div><div class="track-item" data-track-index="1" id="track-rising-sun-persona-interlude" data-astro-cid-c6un4ezt> <!-- Track Header --> <div class="p-lg-responsive bg-light-100/30 dark:bg-palette-900/30 rounded-t-xl rounded-b-lg border-b border-palette-800/30 dark:border-palette-300/30" data-astro-cid-c6un4ezt> <!-- Desktop Layout --> <div class="hidden md:flex items-center justify-between gap-lg-responsive" data-astro-cid-c6un4ezt> <div class="flex items-center gap-lg-responsive" data-astro-cid-c6un4ezt> <span class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive w-[clamp(2rem,4vw,2.5rem)]" data-astro-cid-c6un4ezt> 02 </span> <div data-astro-cid-c6un4ezt> <h3 class="text-palette-900 dark:text-white font-bold text-lg-responsive font-retro" data-astro-cid-c6un4ezt>Rising Sun. (persona interlude)</h3> <p class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto" data-astro-cid-c6un4ezt>Chip Music</p> </div> </div> <!-- Track Meta --> <div class="flex items-center gap-lg-responsive text-sm-responsive text-palette-900 dark:text-gray-400" data-astro-cid-c6un4ezt> <span class="font-proto" data-astro-cid-c6un4ezt>MP3</span> <span class="font-proto" data-astro-cid-c6un4ezt>4:42</span> <div class="flex gap-xs-responsive" data-astro-cid-c6un4ezt> <span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Bonus </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> 8-Bit </span> </div> </div> </div> <!-- Mobile Layout --> <div class="md:hidden space-responsive" data-astro-cid-c6un4ezt> <!-- Track Number and Title --> <div class="flex items-start gap-md-responsive" data-astro-cid-c6un4ezt> <span class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive w-[clamp(2rem,8vw,2.5rem)] mt-xs-responsive" data-astro-cid-c6un4ezt> 02 </span> <div class="flex-1 min-w-0" data-astro-cid-c6un4ezt> <h3 class="text-palette-900 dark:text-white font-bold text-lg-responsive leading-tight font-retro" data-astro-cid-c6un4ezt>Rising Sun. (persona interlude)</h3> <p class="text-palette-900 dark:text-gray-400 text-sm-responsive mt-xs-responsive leading-relaxed font-proto" data-astro-cid-c6un4ezt>Chip Music</p> </div> </div> <!-- Track Meta List --> <div class="ml-[clamp(3rem,10vw,3.5rem)] space-responsive" data-astro-cid-c6un4ezt> <!-- Duration --> <div class="flex items-center gap-sm-responsive text-sm-responsive" data-astro-cid-c6un4ezt> <span class="text-palette-900 dark:text-gray-500 font-proto" data-astro-cid-c6un4ezt>Duration:</span> <span class="text-palette-900 dark:text-white font-proto" data-astro-cid-c6un4ezt>4:42</span> </div> <!-- Format --> <div class="flex items-center gap-sm-responsive text-sm-responsive" data-astro-cid-c6un4ezt> <span class="text-palette-900 dark:text-gray-500 font-proto" data-astro-cid-c6un4ezt>Format:</span> <span class="text-palette-300 dark:text-palette-300 font-proto font-medium" data-astro-cid-c6un4ezt>MP3</span> </div> <!-- Genres --> <div class="flex items-start gap-sm-responsive" data-astro-cid-c6un4ezt> <span class="text-palette-900 dark:text-gray-500 font-proto text-sm-responsive mt-xs-responsive" data-astro-cid-c6un4ezt>Genres:</span> <div class="flex flex-wrap gap-xs-responsive" data-astro-cid-c6un4ezt> <span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Bonus </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> 8-Bit </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Chiptune </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Electronic </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Experimental </span><span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto" data-astro-cid-c6un4ezt> Synthwave </span> </div> </div> </div> </div> </div> <!-- Track Player --> <div class="track-player bg-light-100/50 dark:bg-palette-900/50 backdrop-blur-sm rounded-xl p-2xl-responsive border border-palette-800/30 dark:border-palette-300/30 retro-crt" data-track-id="rising-sun-persona-interlude" data-album-id="half-of-it"> <!-- Track Info --> <div class="flex items-center justify-between mb-lg-responsive gap-lg-responsive"> <div class="flex items-center gap-lg-responsive min-w-0 flex-1"> <i class="icon-mp3 text-palette-500 dark:text-palette-500 icon-lg track-format flex-shrink-0"></i> <div class="min-w-0 flex-1"> <h4 class="text-palette-900 dark:text-white font-bold text-lg-responsive track-title truncate font-retro">Loading...</h4> <p class="text-palette-900 dark:text-gray-400 text-sm-responsive track-duration font-proto">0:00</p> </div> </div> <!-- Download Button --> <button class="download-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors flex-shrink-0"> <i class="icon-cloud-download icon-lg"></i> </button> </div> <!-- Controls --> <div class="flex items-center gap-lg-responsive mb-lg-responsive flex-wrap"> <div class="flex items-center gap-md-responsive"> <button class="prev-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"> <i class="icon-skip-backward icon-lg"></i> </button> <button class="play-pause-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors transform hover:scale-110"> <i class="icon-play-fill icon-xl text-palette-800 dark:text-palette-300 play-icon"></i> <i class="icon-pause icon-xl text-palette-800 dark:text-palette-300 pause-icon" style="display: none;"></i> </button> <button class="next-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"> <i class="icon-skip-forward icon-lg"></i> </button> </div> <!-- Loop Button Only --> <div class="flex gap-sm-responsive ml-auto"> <button class="loop-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors" title="Loop Track"> <i class="icon-repeat icon-lg loop-icon"></i> <i class="icon-repeat-1 icon-lg loop-one-icon" style="display: none;"></i> </button> </div> </div> <!-- Progress Bar --> <div class="mb-lg-responsive"> <div class="flex items-center justify-between text-xs-responsive text-palette-900 dark:text-gray-400 mb-sm-responsive font-proto"> <span class="current-time">0:00</span> <span class="total-time">0:00</span> </div> <div class="progress-container bg-light-200 dark:bg-palette-900 rounded-full h-[clamp(6px,1vw,8px)] cursor-pointer"> <div class="progress-bar bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200" style="width: 0%"></div> </div> </div> <!-- Volume Control with Percentage --> <div class="flex items-center gap-md-responsive mb-lg-responsive"> <i class="icon-volume-up icon-lg text-palette-800 dark:text-palette-500"></i> <div class="flex-1"> <input type="range" class="volume-slider w-full bg-light-200 dark:bg-palette-900 rounded-lg appearance-none cursor-pointer" min="0" max="100" value="70"> </div> <span class="text-sm-responsive text-palette-900 dark:text-gray-400 font-proto w-[3rem] text-right volume-display">70%</span> </div> <!-- Local Audio Element (for UI sync only) --> <audio class="audio-element" preload="metadata" style="display: none;"></audio> </div>  </div> </div> <script type="module">function e(){const a=window.location.hash;if(a.startsWith("#track-")){const n=a.substring(7),t=document.getElementById(`track-${n}`);t&&setTimeout(()=>{t.scrollIntoView({behavior:"smooth",block:"center"}),t.classList.add("highlight-track"),setTimeout(()=>{t.classList.remove("highlight-track")},3e3)},500)}}document.addEventListener("DOMContentLoaded",e);window.addEventListener("hashchange",e);document.addEventListener("astro:page-load",e);</script>  </div> </section>  <section class="py-3xl-responsive px-lg-responsive" data-astro-cid-x7j5xkcx> <div class="container mx-auto" data-astro-cid-x7j5xkcx> <!-- Add JSZip via CDN --><script type="module" src="../../astro/ZipBuilder.astro_astro_type_script_index_0_lang.qm5uya5Z.js"></script> <div class="zip-builder bg-light-100/50 dark:bg-palette-900/50 backdrop-blur-sm rounded-xl p-2xl-responsive border border-palette-800/30 dark:border-palette-300/30"> <h3 class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-lg-responsive flex items-center"> <i class="icon-cloud-download icon-lg mr-sm-responsive text-palette-800 dark:text-palette-300"></i>
+Customize Download
+</h3> <p class="text-palette-900 dark:text-gray-400 mb-2xl-responsive font-proto text-sm-responsive">Select tracks to create a custom download package</p> <!-- Track Selection --> <div class="space-responsive mb-2xl-responsive max-h-64 overflow-y-auto"> <div id="track-selection-list"> <!-- Tracks will be populated here --> </div> </div> <!-- Actions --> <div class="flex items-center justify-between gap-lg-responsive flex-wrap"> <div class="text-sm-responsive text-palette-900 dark:text-gray-400 font-proto"> <span id="selected-count">0</span> tracks selected
+      (<span id="estimated-size">0 MB</span>)
+</div> <div class="flex gap-md-responsive flex-wrap"> <button id="select-all-btn" class="px-lg-responsive py-sm-responsive bg-light-200 hover:bg-light-300 dark:bg-palette-900 dark:hover:bg-palette-800 text-palette-900 dark:text-white font-proto text-sm-responsive rounded-lg transition-colors">
+Select All
+</button> <button id="download-zip-btn" class="px-xl-responsive py-sm-responsive bg-palette-800 hover:bg-palette-300 text-white hover:text-palette-900 dark:bg-palette-300 dark:hover:bg-palette-400 dark:text-palette-900 font-proto text-sm-responsive rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled> <i class="icon-cloud-download icon-sm mr-sm-responsive"></i>
+Download ZIP
+</button> </div> </div> <!-- Progress Bar (hidden by default) --> <div id="zip-progress" class="mt-lg-responsive hidden"> <div class="flex items-center justify-between text-sm-responsive text-palette-900 dark:text-gray-400 mb-sm-responsive font-proto"> <span>Creating ZIP file...</span> <span id="zip-progress-text">0%</span> </div> <div class="bg-light-200 dark:bg-palette-900 rounded-full h-[clamp(6px,1vw,8px)]"> <div id="zip-progress-bar" class="bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200" style="width: 0%"></div> </div> </div> </div> <script>(function(){const musicData = {"albums":[{"id":"8bit-seduction","title":"8bit Seduction","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"coverArt":"/art/8bit-seduction/cover.png","releaseDate":"2016-04-25","tracks":[{"id":"the-day-they-landed","title":"The Day They Landed","format":"mp3","duration":"0:29","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/01.The Day They Landed.mp3","size":1.16},{"id":"second-wave","title":"Second Wave","format":"mp3","duration":"2:49","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/02.Second Wave.mp3","size":6.5},{"id":"shadowgate-remix","title":"Shadowgate. (Remix)","format":"mp3","duration":"0:35","description":"Chip Music","genre":["Remix"],"file":"/audio/8Bit Seduction/03.Shadowgate. (Remix).mp3","size":1.37},{"id":"embrace","title":"Embrace","format":"mp3","duration":"1:01","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/04.Embrace.mp3","size":2.4},{"id":"anticipation","title":"Anticipation","format":"mp3","duration":"3:01","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/05.Anticipation.mp3","size":6.97},{"id":"prey","title":"Prey","format":"mp3","duration":"1:38","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/06.Prey.mp3","size":3.78},{"id":"excite","title":"Excite","format":"mp3","duration":"3:39","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/07.Excite.mp3","size":8.42},{"id":"paradise-rain","title":"Paradise Rain","format":"mp3","duration":"6:16","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/08.Paradise Rain.mp3","size":14.41},{"id":"for-jessica","title":"For Jessica","format":"mp3","duration":"2:09","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/09.For Jessica.mp3","size":4.98},{"id":"chaos","title":"Chaos","format":"mp3","duration":"4:30","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/10.Chaos.mp3","size":10.35},{"id":"third-wave","title":"Third Wave","format":"mp3","duration":"2:49","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/11.Third Wave.mp3","size":6.5},{"id":"love-demo","title":"Love. (Demo)","format":"mp3","duration":"6:13","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/12.Love. (Demo).mp3","size":14.28},{"id":"abarenbo-shogun","title":"Abarenbo Shogun","format":"mp3","duration":"3:27","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/13.Abarenbo Shogun.mp3","size":7.96},{"id":"unknown-soldier","title":"Unknown Soldier","format":"mp3","duration":"5:39","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/14.Unknown Soldier.mp3","size":13},{"id":"im-the-devil","title":"I'm the Devil","format":"mp3","duration":"6:24","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/15.I'm the Devil.mp3","size":14.7},{"id":"you","title":"You","format":"mp3","duration":"3:15","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/16.You.mp3","size":7.49},{"id":"the-peak","title":"The Peak","format":"mp3","duration":"4:44","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/17.The Peak.mp3","size":10.89},{"id":"samo-longing","title":"Samo. (Longing)","format":"mp3","duration":"4:44","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/18.Samo. (Longing).mp3","size":10.88},{"id":"sun-vs-moon-eclipsed","title":"Sun vs Moon. (Eclipsed)","format":"mp3","duration":"3:16","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/19.Sun vs Moon. (Eclipsed).mp3","size":7.51},{"id":"descendants-of-the-sun","title":"Descendants of the Sun","format":"mp3","duration":"3:40","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/20.Descendants of the Sun.mp3","size":8.44},{"id":"ghost-town","title":"Ghost Town","format":"mp3","duration":"5:07","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/21.Ghost Town.mp3","size":11.77},{"id":"fourth-wave","title":"Fourth Wave","format":"mp3","duration":"3:39","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/22.Fourth Wave.mp3","size":8.4},{"id":"stranger-things","title":"Stranger Things","format":"mp3","duration":"2:11","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/23.Stranger Things.mp3","size":5.03},{"id":"it-might-have-been","title":"It Might Have Been","format":"mp3","duration":"3:15","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/24.It Might Have Been.mp3","size":7.49},{"id":"when-yesterday-is-today","title":"When Yesterday Is Today","format":"mp3","duration":"3:30","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/25.When Yesterday Is Today.mp3","size":8.06},{"id":"lightspeed","title":"Lightspeed","format":"mp3","duration":"3:47","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/26.Lightspeed.mp3","size":8.72},{"id":"small-and-tiny","title":"Small and Tiny","format":"mp3","duration":"0:56","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/27.Small and Tiny.mp3","size":2.2},{"id":"lightspeed-2","title":"Lightspeed 2","format":"mp3","duration":"4:26","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/28.Lightspeed 2.mp3","size":10.19},{"id":"nothing-else-matters","title":"Nothing Else Matters","format":"mp3","duration":"1:07","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/29.Nothing Else Matters.mp3","size":2.63},{"id":"fack-da-hey-ter","title":"Fack da Hey-ter","format":"mp3","duration":"3:21","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/30.Fack da Hey-ter.mp3","size":7.72},{"id":"in-my-mind","title":"In My Mind","format":"mp3","duration":"4:60","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/31.In My Mind.mp3","size":11.48},{"id":"happy-holidays","title":"Happy Holidays","format":"mp3","duration":"3:16","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/32.Happy Holidays.mp3","size":7.52},{"id":"last-one-sad-but-true","title":"Last One. (Sad but true)","format":"mp3","duration":"4:17","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/33.Last One. (Sad but true).mp3","size":9.87},{"id":"love-orig","title":"Love. (Orig)","format":"mp3","duration":"6:11","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/Extras/01.Love. (Orig).mp3","size":14.2},{"id":"cannon-fodder-remix","title":"Cannon Fodder. (Remix)","format":"mp3","duration":"2:34","description":"Chip Music","genre":["Bonus","Remix"],"file":"/audio/8Bit Seduction/Extras/06.Cannon Fodder. (Remix).mp3","size":5.95},{"id":"rambo-part-ii","title":"Rambo. (Part II)","format":"mp3","duration":"3:56","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/Extras/07.Rambo. (Part II).mp3","size":9.06},{"id":"green-beret-loader","title":"Green Beret. (Loader)","format":"mp3","duration":"3:41","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/Extras/08.Green Beret. (Loader).mp3","size":8.48},{"id":"space-melody-remix","title":"Space Melody. (Remix)","format":"mp3","duration":"7:03","description":"Chip Music","genre":["Bonus","Remix"],"file":"/audio/8Bit Seduction/Extras/10.Space Melody. (Remix).mp3","size":16.2},{"id":"contra-jungle-metal-mix","title":"Contra Jungle. (Metal Mix)","format":"mp3","duration":"7:31","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/8Bit Seduction/Extras/11.Contra Jungle. (Metal Mix).mp3","size":17.24}]},{"id":"dissociation","title":"Dissociation","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"coverArt":"/art/dissociation/cover.png","releaseDate":"2017-04-25","tracks":[{"id":"happy-new-year","title":"Happy New Year","format":"mp3","duration":"3:57","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/01.Happy New Year.mp3","size":9.36},{"id":"back-at-it-again","title":"Back at IT Again","format":"mp3","duration":"3:23","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/02.Back at IT Again.mp3","size":8.09},{"id":"fantasy","title":"Fantasy","format":"mp3","duration":"4:44","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/03.Fantasy.mp3","size":11.1},{"id":"eutuiubire","title":"Eu+Tu=Iubire","format":"mp3","duration":"3:45","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/04.Eu+Tu=Iubire.mp3","size":8.86},{"id":"without-you","title":"Without You","format":"mp3","duration":"1:19","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/05.Without You.mp3","size":3.28},{"id":"sysop","title":"Sysop","format":"mp3","duration":"2:10","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/06.Sysop.mp3","size":5.22},{"id":"virtual-dreams","title":"Virtual Dreams","format":"mp3","duration":"7:22","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/07.Virtual Dreams.mp3","size":17.15},{"id":"delta","title":"Delta","format":"mp3","duration":"1:30","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/08.Delta.mp3","size":3.71},{"id":"last-ninja","title":"Last Ninja","format":"mp3","duration":"6:24","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/09.Last Ninja.mp3","size":14.92},{"id":"omicron","title":"Omicron","format":"mp3","duration":"1:55","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/10.Omicron.mp3","size":4.67},{"id":"boot-camp-riot-xv-tia","title":"Boot Camp Riot XV. (TIA)","format":"mp3","duration":"2:10","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/11.Boot Camp Riot XV. (TIA).mp3","size":5.25},{"id":"mentally-ill-amityville","title":"Mentally Ill. (Amityville)","format":"mp3","duration":"4:34","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/12.Mentally Ill. (Amityville).mp3","size":10.74},{"id":"its-all-love-its-not-though","title":"It's All Love. (It's Not Though)","format":"mp3","duration":"3:16","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/13.It's All Love. (It's Not Though).mp3","size":7.76},{"id":"dissociation","title":"Dissociation","format":"mp3","duration":"5:10","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/14.Dissociation.mp3","size":12.1},{"id":"virtual-dreams-radio-edit","title":"Virtual Dreams. (Radio Edit)","format":"mp3","duration":"5:05","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/15.Virtual Dreams. (Radio Edit).mp3","size":11.92},{"id":"mortal-kombat-theme-techno-mix","title":"Mortal Kombat Theme. (Techno Mix)","format":"mp3","duration":"3:12","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/16.Mortal Kombat Theme. (Techno Mix).mp3","size":7.6},{"id":"delta-trance-mix","title":"Delta. (Trance Mix)","format":"mp3","duration":"3:09","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/17.Delta. (Trance Mix).mp3","size":7.49},{"id":"insert-tittle-here","title":"Insert Tittle Here","format":"mp3","duration":"5:06","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/18.Insert Tittle Here.mp3","size":11.95},{"id":"old-time-something-dubstep-mix","title":"Old Time Something. (Dubstep Mix)","format":"mp3","duration":"4:21","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/19.Old Time Something. (Dubstep Mix).mp3","size":10.22},{"id":"dreams-come-true","title":"Dreams Come True","format":"mp3","duration":"3:10","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/20.Dreams Come True.mp3","size":7.53},{"id":"modern-funk","title":"Modern Funk","format":"mp3","duration":"2:40","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/21.Modern Funk.mp3","size":6.39},{"id":"masters-of-disguise","title":"Masters Of Disguise","format":"mp3","duration":"3:53","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/22.Masters Of Disguise.mp3","size":9.18},{"id":"gamer-boy","title":"Gamer Boy","format":"mp3","duration":"3:56","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/23.Gamer Boy.mp3","size":9.3},{"id":"groove-1337","title":"Groove. (1337)","format":"mp3","duration":"7:55","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/24.Groove. (1337).mp3","size":18.39},{"id":"yah00oo-outro","title":"Yah00oo. (Outro)","format":"mp3","duration":"1:23","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/25.Yah00oo. (Outro).mp3","size":3.46},{"id":"krut","title":"[KRUT]","format":"mp3","duration":"3:49","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/Extras/01.[KRUT].mp3","size":9},{"id":"love-and-p","title":"Love & π","format":"mp3","duration":"1:35","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/Extras/02.Love & π.mp3","size":3.92},{"id":"no-op","title":"No-op","format":"mp3","duration":"0:57","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/Extras/03.No-op.mp3","size":2.47},{"id":"persona","title":"Persona","format":"mp3","duration":"1:35","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Dissociation/Extras/04.Persona.mp3","size":3.92},{"id":"last-ninja-remix","title":"Last Ninja. (Remix)","format":"mp3","duration":"3:42","description":"Chip Music","genre":["Bonus","Remix"],"file":"/audio/Dissociation/Extras/05.Last Ninja. (Remix).mp3","size":8.76}]},{"id":"escape-artist","title":"Escape Artist","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"coverArt":"/art/escape-artist/cover.png","releaseDate":"2016-04-25","tracks":[{"id":"intro","title":"Intro","format":"mp3","duration":"2:13","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/01.Intro.mp3","size":5.08},{"id":"anticipation","title":"Anticipation","format":"mp3","duration":"1:15","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/02.Anticipation.mp3","size":2.86},{"id":"cold-burns","title":"Cold Burns","format":"mp3","duration":"2:41","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/03.Cold Burns.mp3","size":6.18},{"id":"escape-artist","title":"Escape Artist","format":"mp3","duration":"6:30","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/04.Escape Artist.mp3","size":14.88},{"id":"its-alright","title":"It's Alright","format":"mp3","duration":"1:53","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/05.It's Alright.mp3","size":4.32},{"id":"keep-moving","title":"Keep Moving","format":"mp3","duration":"1:48","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/06.Keep Moving.mp3","size":4.12},{"id":"laser-beams","title":"Laser Beams","format":"mp3","duration":"1:51","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/07.Laser Beams.mp3","size":4.27},{"id":"one-for-you","title":"One For You","format":"mp3","duration":"0:59","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/08.One For You.mp3","size":2.27},{"id":"play-ground","title":"Play Ground","format":"mp3","duration":"1:50","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/09.Play Ground.mp3","size":4.2},{"id":"outro","title":"Outro","format":"mp3","duration":"1:09","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/10.Outro.mp3","size":2.63},{"id":"1-2-3-4","title":"1 2 3 4","format":"mp3","duration":"3:08","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/01.1 2 3 4.mp3","size":7.18},{"id":"dream","title":"Dream","format":"mp3","duration":"2:03","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/02.Dream.mp3","size":4.73},{"id":"love-on-speed","title":"Love (On Speed)","format":"mp3","duration":"1:44","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/03.Love (On Speed).mp3","size":3.99},{"id":"secrets","title":"Secrets","format":"mp3","duration":"1:18","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/04.Secrets.mp3","size":2.99},{"id":"if-you-care","title":"If You Care","format":"mp3","duration":"3:49","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/05.If You Care.mp3","size":8.76},{"id":"paranoia","title":"Paranoia","format":"mp3","duration":"0:46","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/06.Paranoia.mp3","size":1.77},{"id":"die-qual-der-wahl","title":"Die Qual der Wahl","format":"mp3","duration":"1:06","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/07.Die Qual der Wahl.mp3","size":2.55}]},{"id":"half-of-it","title":"Half Of It","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"coverArt":"/art/half-of-it/cover.png","releaseDate":"2024-01-06","tracks":[{"id":"rising-sun","title":"Rising Sun","format":"mp3","duration":"3:15","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Half of iT/01.Rising Sun.mp3","size":7.71},{"id":"rising-sun-persona-interlude","title":"Rising Sun. (persona interlude)","format":"mp3","duration":"4:42","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Half of iT/Extras/01.Rising Sun. (persona interlude).mp3","size":11.04}]}]};
+
+  class ZipBuilder {
+    constructor(element) {
+      this.element = element;
+      this.selectedTracks = new Set();
+      this.allTracks = [];
+      this.init();
+    }
+
+    init() {
+      this.loadTracks();
+      this.setupEventListeners();
+    }
+
+    loadTracks() {
+      // Flatten all tracks from all albums
+      musicData.albums.forEach(album => {
+        album.tracks.forEach(track => {
+          this.allTracks.push({
+            ...track,
+            albumTitle: album.title,
+            albumId: album.id
+          });
+        });
+      });
+
+      this.renderTrackList();
+    }
+
+    renderTrackList() {
+      const listContainer = this.element.querySelector('#track-selection-list');
+      if (!listContainer) return;
+
+      listContainer.innerHTML = this.allTracks.map(track => `
+        <label class="flex items-center gap-md-responsive p-md-responsive bg-light-100/30 dark:bg-palette-900/30 rounded-lg hover:bg-light-200 dark:hover:bg-palette-800/50 cursor-pointer transition-colors">
+          <input
+            type="checkbox"
+            class="track-checkbox w-[clamp(1rem,2vw,1rem)] h-[clamp(1rem,2vw,1rem)] text-palette-800 dark:text-palette-300 bg-light-200 dark:bg-palette-900 border-palette-800/30 dark:border-palette-300/30 rounded focus:ring-palette-800 dark:focus:ring-palette-300 focus:ring-2"
+            data-track-id="${track.id}"
+            data-album-id="${track.albumId}"
+          />
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-lg-responsive">
+              <div class="min-w-0 flex-1">
+                <div class="text-palette-900 dark:text-white font-medium truncate text-sm-responsive font-proto">${track.title}</div>
+                <div class="text-palette-900 dark:text-gray-400 text-xs-responsive font-proto">${track.albumTitle}</div>
+              </div>
+              <div class="flex items-center gap-sm-responsive text-xs-responsive text-palette-900 dark:text-gray-400 flex-shrink-0">
+                <span class="font-proto">${track.format.toUpperCase()}</span>
+                <span class="font-proto">${track.duration}</span>
+              </div>
+            </div>
+          </div>
+        </label>
+      `).join('');
+    }
+
+    setupEventListeners() {
+      // Track checkboxes
+      this.element.addEventListener('change', (e) => {
+        const target = e.target;
+        if (target.classList.contains('track-checkbox')) {
+          const trackId = target.dataset.trackId;
+          if (trackId) {
+            if (target.checked) {
+              this.selectedTracks.add(trackId);
+            } else {
+              this.selectedTracks.delete(trackId);
+            }
+            this.updateSelectionInfo();
+          }
+        }
+      });
+
+      // Select all button
+      const selectAllBtn = this.element.querySelector('#select-all-btn');
+      selectAllBtn?.addEventListener('click', () => this.toggleSelectAll());
+
+      // Download button
+      const downloadBtn = this.element.querySelector('#download-zip-btn');
+      downloadBtn?.addEventListener('click', () => this.createAndDownloadZip());
+    }
+
+    toggleSelectAll() {
+      const checkboxes = this.element.querySelectorAll('.track-checkbox');
+      const selectAllBtn = this.element.querySelector('#select-all-btn');
+
+      // Check actual DOM state instead of relying on Set size
+      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+
+      // Always rebuild selectedTracks from scratch
+      this.selectedTracks.clear();
+      if (allChecked) {
+        // Deselect all
+        checkboxes.forEach(cb => cb.checked = false);
+        if (selectAllBtn) selectAllBtn.textContent = 'Select All';
+      } else {
+        // Select all
+        checkboxes.forEach(cb => {
+          cb.checked = true;
+          const trackId = cb.dataset.trackId;
+          if (trackId) this.selectedTracks.add(trackId);
+        });
+        if (selectAllBtn) selectAllBtn.textContent = 'Deselect All';
+      }
+
+      this.updateSelectionInfo();
+    }
+
+    updateSelectionInfo() {
+      // Rebuild selectedTracks from DOM to ensure consistency
+      const checkedBoxes = this.element.querySelectorAll('.track-checkbox:checked');
+      const selectedCountEl = this.element.querySelector('#selected-count');
+      const estimatedSizeEl = this.element.querySelector('#estimated-size');
+      const downloadBtn = this.element.querySelector('#download-zip-btn');
+      const selectAllBtn = this.element.querySelector('#select-all-btn');
+
+      // Rebuild selectedTracks from checkboxes to ensure consistency
+      this.selectedTracks.clear();
+      checkedBoxes.forEach(cb => {
+        const trackId = cb.dataset.trackId;
+        if (trackId) this.selectedTracks.add(trackId);
+      });
+      if (selectedCountEl) {
+        selectedCountEl.textContent = this.selectedTracks.size.toString();
+      }
+
+      // Calculate actual size from music data
+      const actualSize = this.allTracks
+        .filter(track => this.selectedTracks.has(track.id))
+        .reduce((total, track) => total + (track.size || 0), 0);
+
+      if (estimatedSizeEl) {
+        estimatedSizeEl.textContent = `${actualSize.toFixed(1)} MB`;
+      }
+
+      // Update download button state
+      if (downloadBtn) {
+        downloadBtn.disabled = this.selectedTracks.size === 0;
+      }
+
+      // Update select all button text
+      if (selectAllBtn) {
+        const allCheckboxes = this.element.querySelectorAll('.track-checkbox');
+        const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+        selectAllBtn.textContent = allChecked ? 'Deselect All' : 'Select All';
+      }
+    }
+
+    async createAndDownloadZip() {
+      if (this.selectedTracks.size === 0) return;
+
+      const progressContainer = this.element.querySelector('#zip-progress');
+      const progressBar = this.element.querySelector('#zip-progress-bar');
+      const progressText = this.element.querySelector('#zip-progress-text');
+      const downloadBtn = this.element.querySelector('#download-zip-btn');
+
+      try {
+        // Show progress
+        progressContainer?.classList.remove('hidden');
+        downloadBtn.disabled = true;
+        downloadBtn.innerHTML = '<i class="icon-cloud-download icon-sm mr-sm-responsive"></i>Creating ZIP...';
+
+        // Use the global JSZip from CDN
+        const zip = new window.JSZip();
+        const selectedTrackData = this.allTracks.filter(track =>
+          this.selectedTracks.has(track.id)
+        );
+
+        // Process tracks with parallel fetching and throttling
+        await this.processTracksWithThrottling(zip, selectedTrackData, progressBar, progressText);
+
+        // Generate and download ZIP
+        const zipBlob = await zip.generateAsync({
+          type: 'blob',
+          compression: 'DEFLATE',
+          compressionOptions: { level: 6 }
+        });
+
+        // Create download link
+        const url = URL.createObjectURL(zipBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `alex_immer_selected_tracks_${new Date().toISOString().split('T')[0]}.zip`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+      } catch (error) {
+        console.error('Failed to create ZIP:', error);
+        alert('Failed to create ZIP file. Please try again.');
+      } finally {
+        // Hide progress
+        progressContainer?.classList.add('hidden');
+        downloadBtn.disabled = false;
+        downloadBtn.innerHTML = '<i class="icon-cloud-download icon-sm mr-sm-responsive"></i>Download ZIP';
+
+        if (progressBar) progressBar.style.width = '0%';
+        if (progressText) progressText.textContent = '0%';
+      }
+    }
+
+    // Enhanced fetch function with retry logic and timeout
+    async fetchWithRetry(url, retries = 3, timeout = 10000) {
+      for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), timeout);
+
+          console.log(`🔄 Fetching ${url} (attempt ${attempt}/${retries})`);
+
+          const response = await fetch(url, {
+            signal: controller.signal,
+            cache: 'no-cache'
+          });
+
+          clearTimeout(timer);
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const blob = await response.blob();
+          console.log(`✅ Successfully fetched ${url} (${(blob.size / 1024 / 1024).toFixed(2)} MB)`);
+          return blob;
+
+        } catch (error) {
+          console.warn(`⚠️ Attempt ${attempt} failed for ${url}:`, error.message);
+
+          if (attempt === retries) {
+            console.error(`❌ All ${retries} attempts failed for ${url}`);
+            throw error;
+          }
+
+          // Exponential backoff: 1s, 2s, 4s
+          const delay = Math.pow(2, attempt - 1) * 1000;
+          console.log(`⏳ Waiting ${delay}ms before retry...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+
+    // Process tracks with parallel fetching and throttling
+    async processTracksWithThrottling(zip, tracks, progressBar, progressText) {
+      const MAX_CONCURRENT = 3; // Maximum concurrent downloads
+      const total = tracks.length;
+      let completed = 0;
+      let successful = 0;
+      let failed = 0;
+
+      console.log(`🚀 Starting parallel download of ${total} tracks (max ${MAX_CONCURRENT} concurrent)`);
+
+      // Create a semaphore to limit concurrent downloads
+      const semaphore = new Array(MAX_CONCURRENT).fill(null);
+      let semaphoreIndex = 0;
+
+      // Function to acquire semaphore slot
+      const acquireSlot = () => {
+        return new Promise(resolve => {
+          const checkSlot = () => {
+            for (let i = 0; i < semaphore.length; i++) {
+              if (semaphore[i] === null) {
+                semaphore[i] = true;
+                resolve(i);
+                return;
+              }
+            }
+            // No slot available, check again in 50ms
+            setTimeout(checkSlot, 50);
+          };
+          checkSlot();
+        });
+      };
+
+      // Function to release semaphore slot
+      const releaseSlot = (slotIndex) => {
+        semaphore[slotIndex] = null;
+      };
+
+      // Process each track with throttling
+      const downloadPromises = tracks.map(async (track) => {
+        const slotIndex = await acquireSlot();
+
+        try {
+          const blob = await this.fetchWithRetry(track.file);
+
+          // Organize by album
+          const folderName = track.albumTitle.replace(/[^a-zA-Z0-9]/g, '_');
+          const fileName = `${track.title}.${track.format}`;
+
+          zip.folder(folderName)?.file(fileName, blob);
+          successful++;
+
+        } catch (error) {
+          console.error(`❌ Failed to download ${track.title}:`, error.message);
+          failed++;
+        } finally {
+          releaseSlot(slotIndex);
+          completed++;
+
+          // Update progress
+          const progress = (completed / total) * 100;
+          if (progressBar) progressBar.style.width = `${progress}%`;
+          if (progressText) progressText.textContent = `${Math.round(progress)}%`;
+        }
+      });
+
+      // Wait for all downloads to complete
+      await Promise.all(downloadPromises);
+
+      console.log(`📊 Download Summary: ${successful} successful, ${failed} failed, ${total} total`);
+
+      // Show user feedback about results
+      if (failed > 0) {
+        const message = `Download completed with ${failed} failed tracks. ${successful} tracks were successfully added to the ZIP.`;
+        alert(message);
+        console.warn(`⚠️ ${message}`);
+      } else {
+        console.log(`🎉 All ${successful} tracks downloaded successfully!`);
+      }
+    }
+  }
+
+  // Initialize ZIP builder
+  document.addEventListener('DOMContentLoaded', () => {
+    const zipBuilders = document.querySelectorAll('.zip-builder');
+    zipBuilders.forEach(builder => {
+      new ZipBuilder(builder);
+    });
+  });
+})();</script> </div> </section>  </main> <!-- Now Playing Widget --> <!-- Collapsed Now Playing Widget (always visible when track is playing) --><div id="now-playing-collapsed" class="fixed rounded-xl p-md-responsive border bg-light-100/80 dark:bg-palette-900/80 border-palette-800/30 dark:border-palette-300/30 shadow-2xl z-50 cursor-pointer hover:scale-105 opacity-0 pointer-events-none" style="width: clamp(200px, 20vw, 280px); bottom: clamp(1rem, 2vw, 1.5rem); right: clamp(1rem, 2vw, 1.5rem); transition: opacity 0.3s ease, scale 0.2s cubic-bezier(0.4, 0, 0.2, 1);" data-astro-cid-dtxkt5ef> <div class="flex items-center gap-sm-responsive" data-astro-cid-dtxkt5ef> <i class="icon-headphones text-palette-500 dark:text-palette-500 icon-md now-playing-format-collapsed" data-astro-cid-dtxkt5ef></i> <div class="flex-1 min-w-0" data-astro-cid-dtxkt5ef> <h4 class="text-palette-900 dark:text-white font-bold text-xs-responsive now-playing-title-collapsed font-retro truncate" data-astro-cid-dtxkt5ef>No track playing</h4> <!-- Desktop: Allow album name to wrap, Mobile: Truncate --> <p class="text-palette-900 dark:text-gray-400 text-xs-responsive now-playing-album-collapsed font-proto truncate sm:truncate md:whitespace-normal md:break-words md:leading-tight" data-astro-cid-dtxkt5ef>Select a track to begin</p> </div> <button id="expand-now-playing" class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors" data-astro-cid-dtxkt5ef> <i class="icon-chevron-up icon-sm" data-astro-cid-dtxkt5ef></i> </button> </div> <!-- Mini Progress Bar --> <div class="mt-sm-responsive" data-astro-cid-dtxkt5ef> <div class="mini-progress-container-collapsed bg-light-200 dark:bg-palette-900 rounded-full h-[2px] cursor-pointer" data-astro-cid-dtxkt5ef> <div class="mini-progress-bar-collapsed bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200" style="width: 0%" data-astro-cid-dtxkt5ef></div> </div> </div> </div> <!-- Expanded Now Playing Widget --> <div id="now-playing-expanded" class="fixed inset-0 bg-black/50 z-50 hidden" data-astro-cid-dtxkt5ef> <!-- Compact Card Layout --> <div class="fixed bottom-lg-responsive left-1/2 transform -translate-x-1/2 bg-light-100/80 dark:bg-palette-900/80 rounded-2xl border border-palette-800/30 dark:border-palette-300/30 shadow-2xl translate-y-full transition-transform duration-300 overflow-hidden" style="width: clamp(280px, 25vw, 320px); max-height: 80vh;" id="now-playing-card" data-astro-cid-dtxkt5ef> <!-- Header with Close Button --> <div class="flex items-center justify-end p-lg-responsive border-b border-palette-800/30 dark:border-palette-300/30" data-astro-cid-dtxkt5ef> <button id="collapse-now-playing" class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors" data-astro-cid-dtxkt5ef> <i class="icon-x icon-md" data-astro-cid-dtxkt5ef></i> </button> </div> <!-- Album Art Section --> <div class="relative" data-astro-cid-dtxkt5ef> <div class="aspect-square relative overflow-hidden" data-astro-cid-dtxkt5ef> <!-- Album Cover Image --> <img class="w-full h-full object-cover now-playing-album-art" src="/art/default-cover.png" alt="Album cover" loading="lazy" data-astro-cid-dtxkt5ef> <!-- Overlay for better text visibility --> <div class="absolute inset-0 bg-black/20" data-astro-cid-dtxkt5ef></div> </div> </div> <!-- Content Section --> <div class="p-lg-responsive" data-astro-cid-dtxkt5ef> <!-- Track Title --> <h4 class="text-lg-responsive font-retro text-palette-900 dark:text-white mb-xs-responsive now-playing-title-expanded truncate" data-astro-cid-dtxkt5ef>No track playing</h4> <!-- Album Title --> <p class="text-sm-responsive text-palette-900 dark:text-gray-400 mb-lg-responsive now-playing-album-expanded truncate font-proto" data-astro-cid-dtxkt5ef>Select a track to begin</p> <!-- Controls Section (replacing description area) --> <div class="space-y-lg-responsive" data-astro-cid-dtxkt5ef> <!-- Media Controls --> <div class="flex items-center justify-center gap-lg-responsive" data-astro-cid-dtxkt5ef> <button id="expanded-prev" class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors" data-astro-cid-dtxkt5ef> <i class="icon-skip-backward icon-lg" data-astro-cid-dtxkt5ef></i> </button> <button id="expanded-play-pause" class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-all duration-200 transform hover:scale-110" data-astro-cid-dtxkt5ef> <i class="icon-play-fill icon-xl expanded-play-icon" data-astro-cid-dtxkt5ef></i> <i class="icon-pause icon-xl expanded-pause-icon" style="display: none;" data-astro-cid-dtxkt5ef></i> </button> <button id="expanded-next" class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors" data-astro-cid-dtxkt5ef> <i class="icon-skip-forward icon-lg" data-astro-cid-dtxkt5ef></i> </button> </div> <!-- Volume Control with Repeat Button --> <div class="flex items-center gap-sm-responsive" data-astro-cid-dtxkt5ef> <i class="icon-volume-up icon-sm text-palette-800 dark:text-palette-500" data-astro-cid-dtxkt5ef></i> <input type="range" class="expanded-volume-slider flex-1 bg-light-200 dark:bg-palette-900 rounded-lg appearance-none cursor-pointer h-[4px]" min="0" max="100" value="70" data-astro-cid-dtxkt5ef> <span class="text-xs-responsive text-palette-900 dark:text-gray-400 font-proto w-[2rem] text-right expanded-volume-display" data-astro-cid-dtxkt5ef>70%</span> <!-- Repeat Button moved here --> <button id="expanded-loop" class="text-palette-800 dark:text-palette-800 hover:text-palette-800 dark:hover:text-palette-400 ml-sm-responsive" title="Loop Track" data-astro-cid-dtxkt5ef> <i class="icon-repeat icon-md expanded-loop-icon" data-astro-cid-dtxkt5ef></i> <i class="icon-repeat-1 icon-md expanded-loop-one-icon" style="display: none;" data-astro-cid-dtxkt5ef></i> </button> </div> <!-- Progress Section --> <div data-astro-cid-dtxkt5ef> <div class="flex items-center justify-between text-xs-responsive text-palette-900 dark:text-gray-400 mb-xs-responsive font-proto" data-astro-cid-dtxkt5ef> <span class="expanded-current-time" data-astro-cid-dtxkt5ef>0:00</span> <span class="expanded-total-time" data-astro-cid-dtxkt5ef>0:00</span> </div> <div class="expanded-progress-container bg-light-200 dark:bg-palette-900 rounded-full h-[6px] cursor-pointer" data-astro-cid-dtxkt5ef> <div class="expanded-progress-bar bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200" style="width: 0%" data-astro-cid-dtxkt5ef></div> </div> </div> </div> <!-- Release Date --> <div class="text-palette-900 dark:text-gray-500 text-xs-responsive font-proto mt-lg-responsive now-playing-release-date" data-astro-cid-dtxkt5ef> <!-- Release date will be populated dynamically --> </div> </div> </div> </div> <!-- Global Audio Element (persistent across pages) --> <audio id="global-audio-player" preload="metadata" style="display: none;" data-astro-cid-dtxkt5ef></audio> <script type="module" src="../../astro/NowPlaying.astro_astro_type_script_index_0_lang.qLrIZcxX.js"></script>  <!-- Footer Component --> <!-- Collapsible Footer with Matching Topography Background --><footer class="relative z-20 bg-transparent mt-5xl-responsive"> <div class="container mx-auto py-2xl-responsive"> <div class="text-center"> <p> <span class="inline-block h-8 w-[10%] bg-palette-50 opacity-60 dark:opacity-100 ">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span class="inline-block h-8 w-[10%] bg-palette-100 opacity-60 dark:opacity-100 ">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span class="inline-block h-8 w-[10%] bg-palette-200 opacity-60 dark:opacity-100 ">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span class="inline-block h-8 w-[10%] bg-palette-300 opacity-60 dark:opacity-100 ">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span class="inline-block h-8 w-[10%] bg-palette-400 opacity-60 dark:opacity-100 ">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span class="inline-block h-8 w-[10%] bg-palette-500 opacity-60 dark:opacity-100 ">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span class="inline-block h-8 w-[10%] bg-palette-600 opacity-60 dark:opacity-100 ">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span> </p> <!-- Always Visible Section --> <div class="flex items-center justify-center gap-sm-responsive mb-lg-responsive"> <div class="w-[clamp(2rem,4vw,2rem)] h-[clamp(2rem,4vw,2rem)] rounded-lg overflow-hidden flex items-center justify-center"> <img src="/icon.png" alt="asce1062 logo" class="w-full h-full object-cover"> </div> <a href="https://alexmbugua.me" target="_blank" rel="noopener noreferrer"> <span class="text-xl-responsive font-proto font-bold text-palette-900 dark:text-white hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive">asce1062</span> </a> </div> <p class="text-palette-900 dark:text-gray-400 mb-lg-responsive text-base-responsive font-proto">
+Alex.Immer's Chip tunes music player
+</p> <!-- Expand Button --> <button id="footer-expand-btn" class="flex items-center justify-center gap-sm-responsive mx-auto px-lg-responsive py-sm-responsive bg-light-100/50 hover:bg-light-200/50 dark:bg-palette-900/50 dark:hover:bg-palette-800/50 text-palette-900 dark:text-gray-400 hover:text-palette-800 dark:hover:text-white rounded-lg transition-all duration-200 font-proto text-sm-responsive" aria-label="Show licensing information"> <span id="footer-expand-text">Show Licensing Info</span> <i id="footer-expand-icon" class="icon-chevron-down icon-sm transition-transform duration-200"></i> </button> <!-- Collapsible Content --> <div id="footer-expanded-content" class="hidden mt-2xl-responsive"> <!-- Creative Commons License --> <div class="max-w-3xl mx-auto mb-3xl-responsive"> <div class="flex justify-center mb-lg-responsive"> <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="hover:opacity-80 transition-opacity" target="_blank" rel="noopener noreferrer"> <img alt="Creative Commons License" style="border-width: 0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" class="rounded"> </a> </div> <div class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto leading-relaxed space-y-sm-responsive"> <p>
+You are free to <strong class="text-palette-800 dark:text-palette-300">Share</strong> i.e
+              copy and redistribute the material in any medium or format.
+</p> <p>
+You are free to <strong class="text-palette-800 dark:text-palette-300">Adapt</strong> i.e
+              remix, transform, and build upon the material.
+</p> <p> <span class="text-palette-800 dark:text-palette-300 font-medium">Music</span> by
+<span class="text-palette-800 dark:text-palette-300 font-medium">Alex Ngugi</span> is licensed
+              under
+<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="text-palette-300 dark:text-palette-400 hover:text-palette-500 dark:hover:text-palette-500 transition-colors underline" target="_blank" rel="noopener noreferrer">
+Attribution Non-Commercial Creative Commons License</a>.
+</p> <p>
+For commercial uses, don't hesitate to contact me:
+<a href="mailto:tnkratos@gmail.com" class="text-palette-300 dark:text-palette-400 hover:text-palette-500 dark:hover:text-palette-500 transition-colors underline">
+tnkratos@gmail.com
+</a> </p> </div> </div> <!-- Links and Copyright --> <div class="flex items-center justify-center gap-2xl-responsive text-sm-responsive text-palette-900 dark:text-gray-400 flex-wrap font-proto"> <a href="https://github.com/asce1062" class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive" target="_blank" rel="noopener noreferrer"> <i class="icon-github"></i> <span>GitHub</span> </a> <a href="mailto:tnkratos@gmail.com" class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive"> <i class="icon-envelope-at"></i> <span>Contact</span> </a> <a href="https://alexmbugua.me" class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive underline" target="_blank" rel="noopener noreferrer"> <span>© 2025 Alex Mbugua Ngugi</span> </a> </div> </div> </div> </div> </footer> <!-- Footer Expand/Collapse Script --> <script type="module">function s(){const t=document.getElementById("footer-expand-btn"),n=document.getElementById("footer-expanded-content"),i=document.getElementById("footer-expand-text"),a=document.getElementById("footer-expand-icon");if(!t||!n||!i||!a){console.error("Footer toggle elements not found");return}let o=!1;function d(){o=!o,o?(n.classList.remove("hidden"),i.textContent="Hide Licensing Info",a.classList.add("rotate-180"),t.setAttribute("aria-label","Hide licensing information"),setTimeout(()=>{n.scrollIntoView({behavior:"smooth",block:"nearest"})},100)):(n.classList.add("hidden"),i.textContent="Show Licensing Info",a.classList.remove("rotate-180"),t.setAttribute("aria-label","Show licensing information"))}t.addEventListener("click",d),t.addEventListener("keydown",e=>{(e.key==="Enter"||e.key===" ")&&(e.preventDefault(),d())}),document.addEventListener("click",e=>{const c=e.target;o&&!t.contains(c)&&!n.contains(c)&&d()}),document.addEventListener("keydown",e=>{e.key==="Escape"&&o&&d()})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",s):s();document.addEventListener("astro:page-load",s);</script> <!-- Keyboard Shortcuts Handler --> <script type="module">document.addEventListener("astro:before-preparation",()=>{const e=window.__theme||localStorage.getItem("theme")||"dark";sessionStorage.setItem("currentTheme",e),localStorage.setItem("theme",e)});document.addEventListener("astro:page-load",()=>{const e=sessionStorage.getItem("currentTheme")||localStorage.getItem("theme")||"dark",a=e==="dark",t=document.documentElement;a?(t.classList.add("dark"),t.setAttribute("data-theme","dark")):(t.classList.remove("dark"),t.setAttribute("data-theme","light")),window.__theme=e,window.__themeApplied=!0});</script> <!-- Enhanced theme persistence across navigation --> <script type="module">document.addEventListener("keydown",e=>{const t=e.target;if(!(t&&["INPUT","TEXTAREA"].includes(t.tagName)))switch(e.key){case" ":e.preventDefault(),document.dispatchEvent(new CustomEvent("globalPlayPause"));break;case"ArrowLeft":e.preventDefault(),document.dispatchEvent(new CustomEvent("globalSeekBackward"));break;case"ArrowRight":e.preventDefault(),document.dispatchEvent(new CustomEvent("globalSeekForward"));break;case"ArrowUp":e.preventDefault(),document.dispatchEvent(new CustomEvent("globalVolumeUp"));break;case"ArrowDown":e.preventDefault(),document.dispatchEvent(new CustomEvent("globalVolumeDown"));break}});</script> </body> </html>  <script>(function(){const album = {"id":"half-of-it","title":"Half Of It","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"coverArt":"/art/half-of-it/cover.png","releaseDate":"2024-01-06","tracks":[{"id":"rising-sun","title":"Rising Sun","format":"mp3","duration":"3:15","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Half of iT/01.Rising Sun.mp3","size":7.71},{"id":"rising-sun-persona-interlude","title":"Rising Sun. (persona interlude)","format":"mp3","duration":"4:42","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Half of iT/Extras/01.Rising Sun. (persona interlude).mp3","size":11.04}]};
+
+  // Album player functionality
+  class AlbumPlayer {
+    constructor() {
+      this.currentTrackIndex = 0;
+      this.isShuffled = false;
+      this.shuffledOrder = [];
+      this.init();
+    }
+
+    init() {
+      this.setupEventListeners();
+      this.generateShuffledOrder();
+    }
+
+    setupEventListeners() {
+      // Play album button
+      const playAlbumBtn = document.getElementById('play-album-btn');
+      playAlbumBtn?.addEventListener('click', () => this.playAlbum());
+
+      // Download album button
+      const downloadAlbumBtn = document.getElementById('download-album-btn');
+      downloadAlbumBtn?.addEventListener('click', () => this.downloadAlbum());
+
+      // Shuffle button
+      const shuffleBtn = document.getElementById('shuffle-album-btn');
+      shuffleBtn?.addEventListener('click', () => this.toggleShuffle());
+
+      // Listen for track navigation events
+      document.addEventListener('nextTrack', (e) => {
+        this.nextTrack(e.detail?.shuffle);
+      });
+
+      document.addEventListener('previousTrack', () => {
+        this.previousTrack();
+      });
+    }
+
+    playAlbum() {
+      // Start playing the first track
+      this.currentTrackIndex = 0;
+      this.playCurrentTrack();
+    }
+
+    playCurrentTrack() {
+      const trackIndex = this.isShuffled ?
+        this.shuffledOrder[this.currentTrackIndex] :
+        this.currentTrackIndex;
+
+      const trackElement = document.querySelector(`[data-track-index="${trackIndex}"]`);
+      if (trackElement) {
+        const playButton = trackElement.querySelector('.play-pause-btn');
+        playButton?.click();
+
+        // Scroll to track
+        trackElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    nextTrack(shuffle = false) {
+      if (shuffle || this.isShuffled) {
+        this.currentTrackIndex = (this.currentTrackIndex + 1) % album.tracks.length;
+      } else {
+        this.currentTrackIndex = Math.min(this.currentTrackIndex + 1, album.tracks.length - 1);
+      }
+
+      this.playCurrentTrack();
+    }
+
+    previousTrack() {
+      if (this.isShuffled) {
+        this.currentTrackIndex = this.currentTrackIndex > 0 ?
+          this.currentTrackIndex - 1 :
+          album.tracks.length - 1;
+      } else {
+        this.currentTrackIndex = Math.max(this.currentTrackIndex - 1, 0);
+      }
+
+      this.playCurrentTrack();
+    }
+
+    toggleShuffle() {
+      this.isShuffled = !this.isShuffled;
+      const shuffleBtn = document.getElementById('shuffle-album-btn');
+
+      if (shuffleBtn) {
+        if (this.isShuffled) {
+          shuffleBtn.classList.remove('bg-light-100/50', 'hover:bg-light-200', 'dark:bg-palette-900/50', 'dark:hover:bg-palette-900');
+          shuffleBtn.classList.add('bg-palette-800', 'hover:bg-palette-300', 'dark:bg-palette-300', 'dark:hover:bg-palette-400');
+          shuffleBtn.classList.add('text-white', 'dark:text-palette-900');
+          shuffleBtn.classList.remove('text-palette-900', 'dark:text-white');
+        } else {
+          shuffleBtn.classList.add('bg-light-100/50', 'hover:bg-light-200', 'dark:bg-palette-900/50', 'dark:hover:bg-palette-900');
+          shuffleBtn.classList.remove('bg-palette-800', 'hover:bg-palette-300', 'dark:bg-palette-300', 'dark:hover:bg-palette-400');
+          shuffleBtn.classList.remove('text-white', 'dark:text-palette-900');
+          shuffleBtn.classList.add('text-palette-900', 'dark:text-white');
+        }
+      }
+    }
+
+    generateShuffledOrder() {
+      this.shuffledOrder = Array.from({ length: album.tracks.length }, (_, i) => i);
+      for (let i = this.shuffledOrder.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [this.shuffledOrder[i], this.shuffledOrder[j]] = [this.shuffledOrder[j], this.shuffledOrder[i]];
+      }
+    }
+
+    async downloadAlbum() {
+      try {
+        console.log(`🎵 Starting album download: ${album.title}`);
+
+        // Use the global JSZip from CDN
+        const zip = new window.JSZip();
+        const albumFolder = zip.folder(album.title.replace(/[^a-zA-Z0-9]/g, '_'));
+
+        let successful = 0;
+        let failed = 0;
+        const total = album.tracks.length;
+
+        console.log(`📦 Processing ${total} tracks for album ZIP...`);
+
+        // Enhanced fetch function with retry logic
+        const fetchWithRetry = async (url, retries = 3, timeout = 10000) => {
+          for (let attempt = 1; attempt <= retries; attempt++) {
+            try {
+              const controller = new AbortController();
+              const timer = setTimeout(() => controller.abort(), timeout);
+
+              const response = await fetch(url, {
+                signal: controller.signal,
+                cache: 'no-cache'
+              });
+
+              clearTimeout(timer);
+
+              if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+              }
+
+              return await response.blob();
+
+            } catch (error) {
+              console.warn(`⚠️ Attempt ${attempt} failed for ${url}:`, error.message);
+
+              if (attempt === retries) {
+                throw error;
+              }
+
+              // Exponential backoff
+              const delay = Math.pow(2, attempt - 1) * 1000;
+              await new Promise(resolve => setTimeout(resolve, delay));
+            }
+          }
+        };
+
+        // Process tracks with parallel downloading (max 3 concurrent)
+        const MAX_CONCURRENT = 3;
+        const semaphore = new Array(MAX_CONCURRENT).fill(null);
+
+        const acquireSlot = () => {
+          return new Promise(resolve => {
+            const checkSlot = () => {
+              for (let i = 0; i < semaphore.length; i++) {
+                if (semaphore[i] === null) {
+                  semaphore[i] = true;
+                  resolve(i);
+                  return;
+                }
+              }
+              setTimeout(checkSlot, 50);
+            };
+            checkSlot();
+          });
+        };
+
+        const releaseSlot = (slotIndex) => {
+          semaphore[slotIndex] = null;
+        };
+
+        const downloadPromises = album.tracks.map(async (track) => {
+          const slotIndex = await acquireSlot();
+
+          try {
+            console.log(`🔄 Downloading: ${track.title}`);
+            const blob = await fetchWithRetry(track.file);
+            albumFolder?.file(`${track.title}.${track.format}`, blob);
+            successful++;
+            console.log(`✅ Downloaded: ${track.title} (${(blob.size / 1024 / 1024).toFixed(2)} MB)`);
+          } catch (error) {
+            console.error(`❌ Failed to download ${track.title}:`, error.message);
+            failed++;
+          } finally {
+            releaseSlot(slotIndex);
+          }
+        });
+
+        // Wait for all downloads to complete
+        await Promise.all(downloadPromises);
+
+        console.log(`📊 Album Download Summary: ${successful} successful, ${failed} failed, ${total} total`);
+
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+        const url = URL.createObjectURL(zipBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${album.title.replace(/[^a-zA-Z0-9]/g, '_')}.zip`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+
+        // Show user feedback about results
+        if (failed > 0) {
+          const message = `Album download completed with ${failed} failed tracks. ${successful} tracks were successfully downloaded.`;
+          alert(message);
+        } else {
+          console.log(`🎉 Album "${album.title}" downloaded successfully with all ${successful} tracks!`);
+        }
+
+      } catch (error) {
+        console.error('Failed to download album:', error);
+        alert('Failed to download album. Please try again.');
+      }
+    }
+  }
+
+  // Initialize album player
+  document.addEventListener('DOMContentLoaded', () => {
+    new AlbumPlayer();
+  });
+})();</script>
