@@ -1,0 +1,230 @@
+---
+// Footer component with collapsible licensing information
+const colours = [
+  'bg-palette-50',
+  'bg-palette-100',
+  'bg-palette-200',
+  'bg-palette-300',
+  'bg-palette-400',
+  'bg-palette-500',
+  'bg-palette-600',
+];
+---
+
+<!-- Collapsible Footer with Matching Topography Background -->
+<footer class="relative z-20 bg-transparent mt-5xl-responsive">
+  <div class="container mx-auto py-2xl-responsive">
+    <div class="text-center">
+      <p>
+        {
+          colours.map((colour) => (
+            <span class={`inline-block h-8 w-[10%] ${colour} opacity-60 dark:opacity-100 `}>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+          ))
+        }
+      </p>
+
+      <!-- Always Visible Section -->
+
+      <div class="flex items-center justify-center gap-sm-responsive mb-lg-responsive">
+        <div
+          class="w-[clamp(2rem,4vw,2rem)] h-[clamp(2rem,4vw,2rem)] rounded-lg overflow-hidden flex items-center justify-center"
+        >
+          <img src="/icon.png" alt="asce1062 logo" class="w-full h-full object-cover" />
+        </div>
+        <a href="https://alexmbugua.me" target="_blank" rel="noopener noreferrer">
+          <span
+            class="text-xl-responsive font-proto font-bold text-palette-900 dark:text-white hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive"
+            >asce1062</span
+          >
+        </a>
+      </div>
+      <p
+        class="text-palette-900 dark:text-gray-400 mb-lg-responsive text-base-responsive font-proto"
+      >
+        Alex.Immer's Chip tunes music player
+      </p>
+
+      <!-- Expand Button -->
+      <button
+        id="footer-expand-btn"
+        class="flex items-center justify-center gap-sm-responsive mx-auto px-lg-responsive py-sm-responsive bg-light-100/50 hover:bg-light-200/50 dark:bg-palette-900/50 dark:hover:bg-palette-800/50 text-palette-900 dark:text-gray-400 hover:text-palette-800 dark:hover:text-white rounded-lg transition-all duration-200 font-proto text-sm-responsive"
+        aria-label="Show licensing information"
+      >
+        <span id="footer-expand-text">Show Licensing Info</span>
+        <i
+          id="footer-expand-icon"
+          class="icon-chevron-down icon-sm transition-transform duration-200"></i>
+      </button>
+
+      <!-- Collapsible Content -->
+      <div id="footer-expanded-content" class="hidden mt-2xl-responsive">
+        <!-- Creative Commons License -->
+        <div class="max-w-3xl mx-auto mb-3xl-responsive">
+          <div class="flex justify-center mb-lg-responsive">
+            <a
+              rel="license"
+              href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+              class="hover:opacity-80 transition-opacity"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                alt="Creative Commons License"
+                style="border-width: 0"
+                src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"
+                class="rounded"
+              />
+            </a>
+          </div>
+
+          <div
+            class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto leading-relaxed space-y-sm-responsive"
+          >
+            <p>
+              You are free to <strong class="text-palette-800 dark:text-palette-300">Share</strong> i.e
+              copy and redistribute the material in any medium or format.
+            </p>
+            <p>
+              You are free to <strong class="text-palette-800 dark:text-palette-300">Adapt</strong> i.e
+              remix, transform, and build upon the material.
+            </p>
+            <p>
+              <span class="text-palette-800 dark:text-palette-300 font-medium">Music</span> by
+              <span class="text-palette-800 dark:text-palette-300 font-medium">Alex Ngugi</span> is licensed
+              under
+              <a
+                rel="license"
+                href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+                class="text-palette-300 dark:text-palette-400 hover:text-palette-500 dark:hover:text-palette-500 transition-colors underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Attribution Non-Commercial Creative Commons License</a
+              >.
+            </p>
+            <p>
+              For commercial uses, don't hesitate to contact me:
+              <a
+                href="mailto:tnkratos@gmail.com"
+                class="text-palette-300 dark:text-palette-400 hover:text-palette-500 dark:hover:text-palette-500 transition-colors underline"
+              >
+                tnkratos@gmail.com
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <!-- Links and Copyright -->
+        <div
+          class="flex items-center justify-center gap-2xl-responsive text-sm-responsive text-palette-900 dark:text-gray-400 flex-wrap font-proto"
+        >
+          <a
+            href="https://github.com/asce1062"
+            class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="icon-github"></i>
+            <span>GitHub</span>
+          </a>
+          <a
+            href="mailto:tnkratos@gmail.com"
+            class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive"
+          >
+            <i class="icon-envelope-at"></i>
+            <span>Contact</span>
+          </a>
+          <a
+            href="https://alexmbugua.me"
+            class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>© 2025 Alex Mbugua Ngugi</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Footer Expand/Collapse Script -->
+<script>
+  function initFooterToggle() {
+    const expandBtn = document.getElementById('footer-expand-btn');
+    const expandedContent = document.getElementById('footer-expanded-content');
+    const expandText = document.getElementById('footer-expand-text');
+    const expandIcon = document.getElementById('footer-expand-icon');
+
+    if (!expandBtn || !expandedContent || !expandText || !expandIcon) {
+      console.error('Footer toggle elements not found');
+      return;
+    }
+
+    let isExpanded = false;
+
+    function toggleFooter() {
+      isExpanded = !isExpanded;
+
+      if (isExpanded) {
+        // Show expanded content
+        expandedContent.classList.remove('hidden');
+        expandText.textContent = 'Hide Licensing Info';
+        expandIcon.classList.add('rotate-180');
+        expandBtn.setAttribute('aria-label', 'Hide licensing information');
+
+        // Smooth scroll to show the expanded content
+        setTimeout(() => {
+          expandedContent.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+          });
+        }, 100);
+      } else {
+        // Hide expanded content
+        expandedContent.classList.add('hidden');
+        expandText.textContent = 'Show Licensing Info';
+        expandIcon.classList.remove('rotate-180');
+        expandBtn.setAttribute('aria-label', 'Show licensing information');
+      }
+    }
+
+    // Add click event listener
+    expandBtn.addEventListener('click', toggleFooter);
+
+    // Add keyboard support
+    expandBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleFooter();
+      }
+    });
+
+    // Close expanded content when clicking outside
+    document.addEventListener('click', (e) => {
+      const target = e.target as Node;
+      if (isExpanded && !expandBtn.contains(target) && !expandedContent.contains(target)) {
+        toggleFooter();
+      }
+    });
+
+    // Close expanded content on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isExpanded) {
+        toggleFooter();
+      }
+    });
+  }
+
+  // Initialize on DOM load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFooterToggle);
+  } else {
+    initFooterToggle();
+  }
+
+  // Also initialize on page navigation (for SPAs)
+  document.addEventListener('astro:page-load', initFooterToggle);
+</script>

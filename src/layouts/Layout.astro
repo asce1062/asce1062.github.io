@@ -1,0 +1,178 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import NowPlaying from '../components/NowPlaying.astro';
+import Footer from '../components/Footer.astro';
+import ThemeBackgroundWrapper from '../components/ThemeBackgroundWrapper.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'music.album' | 'music.song';
+  album?: string;
+  artist?: string;
+  duration?: string;
+  musicData?: any;
+}
+
+const { title, description, image, type, album, artist, duration, musicData } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <!-- Critical theme script - must run before any content renders -->
+    <script is:inline>
+      // Immediate theme detection and application - prevents flash
+      (function () {
+        try {
+          const savedTheme = localStorage.getItem('theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+
+          const html = document.documentElement;
+          if (isDark) {
+            html.classList.add('dark');
+            html.setAttribute('data-theme', 'dark');
+          } else {
+            html.classList.remove('dark');
+            html.setAttribute('data-theme', 'light');
+          }
+
+          // Store theme state globally - critical for icon consistency
+          window.__theme = isDark ? 'dark' : 'light';
+          window.__themeApplied = true;
+        } catch (e) {
+          // Fallback to dark theme if localStorage fails
+          document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
+          window.__theme = 'dark';
+          window.__themeApplied = true;
+        }
+      })();
+    </script>
+
+    <BaseHead
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      album={album}
+      artist={artist}
+      duration={duration}
+    />
+    <link href="/css/style.css" rel="stylesheet" />
+
+    <!-- Prevent flash of unstyled content -->
+    <style is:inline>
+      body {
+        visibility: hidden;
+        opacity: 0;
+      }
+    </style>
+  </head>
+
+  <!-- Apply theme-aware background immediately -->
+  <body
+    class="z-10 m-0 h-full min-h-screen overflow-y-scroll font-proto text-palette-900 dark:text-white"
+  >
+    <!-- Show body after theme is applied -->
+    <script is:inline>
+      // Show body immediately after theme is set
+      document.body.style.visibility = 'visible';
+      document.body.style.opacity = '1';
+      document.body.style.transition = 'opacity 0.2s ease';
+    </script>
+
+    <ThemeBackgroundWrapper />
+
+    <!-- Header -->
+    <Header musicData={musicData} />
+
+    <!-- Main Content -->
+    <main class="relative z-20">
+      <slot />
+    </main>
+
+    <!-- Now Playing Widget -->
+    <NowPlaying />
+
+    <!-- Footer Component -->
+    <Footer />
+
+    <!-- Keyboard Shortcuts Handler -->
+    <script>
+      // Global keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        // Ignore if user is typing in an input
+        const target = e.target as HTMLElement;
+        if (target && ['INPUT', 'TEXTAREA'].includes(target.tagName)) {
+          return;
+        }
+
+        switch (e.key) {
+          case ' ':
+            e.preventDefault();
+            document.dispatchEvent(new CustomEvent('globalPlayPause'));
+            break;
+          case 'ArrowLeft':
+            e.preventDefault();
+            document.dispatchEvent(new CustomEvent('globalSeekBackward'));
+            break;
+          case 'ArrowRight':
+            e.preventDefault();
+            document.dispatchEvent(new CustomEvent('globalSeekForward'));
+            break;
+          case 'ArrowUp':
+            e.preventDefault();
+            document.dispatchEvent(new CustomEvent('globalVolumeUp'));
+            break;
+          case 'ArrowDown':
+            e.preventDefault();
+            document.dispatchEvent(new CustomEvent('globalVolumeDown'));
+            break;
+        }
+      });
+    </script>
+
+    <!-- Global Download Manager -->
+    <script>
+      import { downloadManager } from '../utils/downloadManager';
+
+      // Make download manager globally available
+      window.downloadManager = downloadManager;
+    </script>
+
+    <!-- Enhanced theme persistence across navigation -->
+    <script>
+      // Ensure theme persists across Astro page navigation
+      document.addEventListener('astro:before-preparation', () => {
+        // Store current theme state before navigation
+        const currentTheme = window.__theme || localStorage.getItem('theme') || 'dark';
+        sessionStorage.setItem('currentTheme', currentTheme);
+        localStorage.setItem('theme', currentTheme);
+      });
+
+      document.addEventListener('astro:page-load', () => {
+        // Restore theme state immediately after navigation
+        const savedTheme =
+          sessionStorage.getItem('currentTheme') || localStorage.getItem('theme') || 'dark';
+        const isDark = savedTheme === 'dark';
+
+        const html = document.documentElement;
+        if (isDark) {
+          html.classList.add('dark');
+          html.setAttribute('data-theme', 'dark');
+        } else {
+          html.classList.remove('dark');
+          html.setAttribute('data-theme', 'light');
+        }
+
+        // Update global state immediately
+        window.__theme = savedTheme;
+        window.__themeApplied = true;
+      });
+    </script>
+  </body>
+</html>

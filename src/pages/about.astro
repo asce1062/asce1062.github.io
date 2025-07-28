@@ -1,0 +1,262 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="About" description="More about Alex.Immer and the chip tune music player project">
+  <section class="py-2xl-responsive px-lg-responsive">
+    <div class="container mx-auto max-w-4xl">
+      <div class="text-center mb-4xl-responsive">
+        <!-- ASCII Art Container with responsive scaling -->
+        <div class='mb-lg-responsive"'>
+          <pre
+            class="ascii-art text-palette-900 dark:text-white retro-text-subtle-glow">
+     █████╗ ██╗     ███████╗██╗  ██╗   ██╗███╗   ███╗███╗   ███╗███████╗██████╗
+     ██╔══██╗██║     ██╔════╝╚██╗██╔╝   ██║████╗ ████║████╗ ████║██╔════╝██╔══██╗
+     ███████║██║     █████╗   ╚███╔╝    ██║██╔████╔██║██╔████╔██║█████╗  ██████╔╝
+     ██╔══██║██║     ██╔══╝   ██╔██╗    ██║██║╚██╔╝██║██║╚██╔╝██║██╔══╝  ██╔══██╗
+     ██║  ██║███████╗███████╗██╔╝ ██╗██╗██║██║ ╚═╝ ██║██║ ╚═╝ ██║███████╗██║  ██║
+     ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝╚═╝     ╚═╝╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝
+</pre>
+        </div>
+        <p
+          class="text-subtitle-responsive text-palette-900 dark:text-gray-300 font-proto break-words px-sm-responsive leading-relaxed hyphens-auto"
+        >
+          Celebrating the golden age of 8-bit chip music made using programmable sound generator sound chips or synthesizers in vintage arcade machines, computers and video game consoles.
+        </p>
+      </div>
+
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 gap-4xl-responsive items-center mb-4xl-responsive"
+      >
+        <!-- Profile -->
+        <div class="order-2 lg:order-1">
+          <h2
+            class="text-4xl-responsive font-retro text-palette-900 dark:text-white mb-2xl-responsive retro-text-subtle-glow"
+          >
+            Alex Mbugua Ngugi
+          </h2>
+          <p
+            class="text-palette-900 dark:text-gray-300 mb-2xl-responsive leading-relaxed font-proto text-base-responsive"
+          >
+            Welcome to my chip music player! I'm Alex, a passionate developer and musician who grew
+            up during the golden age of 8-bit and 16-bit gaming. This project combines my love for
+            nostalgic chip tune music with modern web technologies.
+          </p>
+          <p
+            class="text-palette-900 dark:text-gray-300 mb-2xl-responsive leading-relaxed font-proto text-base-responsive"
+          >
+            The music featured here represents years of experimentation with synthesizers, audio
+            programming, and modern production techniques. Each track is crafted to evoke the spirit
+            of classic arcade games, home computers, and the demoscene culture, delivered in
+            high-quality MP3 format.
+          </p>
+        </div>
+
+        <!-- About Image - Full Image Display with Center Alignment -->
+        <div class="order-1 lg:order-2 flex items-center justify-center">
+          <div
+            class="relative overflow-hidden rounded-2xl retro-crt max-w-lg mx-auto lg:max-w-none"
+          >
+            <img
+              src="/art/about.png"
+              alt="Alex Ngugi - asce1062 profile"
+              class="w-full h-auto object-contain"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="mb-4xl-responsive">
+        <h2
+          class="text-4xl-responsive font-retro text-palette-900 dark:text-white mb-3xl-responsive text-center retro-text-subtle-glow"
+        >
+          Features
+        </h2>
+        <div class="space-responsive">
+          <div class="flex items-start gap-lg-responsive p-2xl-responsive">
+            <i
+              class="icon-mp3 text-palette-800 dark:text-palette-300 icon-xl flex-shrink-0 mt-sm-responsive"
+            ></i>
+            <div>
+              <h3
+                class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive"
+              >
+                High-Quality MP3 Audio
+              </h3>
+              <p class="text-palette-900 dark:text-gray-300 font-proto text-sm-responsive">
+                All tracks are delivered in high-quality MP3 format, ensuring compatibility across
+                all devices and browsers while maintaining excellent audio fidelity.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-lg-responsive p-2xl-responsive">
+            <i
+              class="icon-phone text-palette-300 dark:text-palette-300 icon-xl flex-shrink-0 mt-sm-responsive"
+            ></i>
+            <div>
+              <h3
+                class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive"
+              >
+                Mobile-First Design
+              </h3>
+              <p class="text-palette-900 dark:text-gray-300 font-proto text-sm-responsive">
+                Responsive design optimized for mobile devices with touch-friendly controls and
+                seamless playback across all screen sizes.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-lg-responsive p-2xl-responsive">
+            <i
+              class="icon-binoculars text-palette-600 dark:text-palette-500 icon-xl flex-shrink-0 mt-sm-responsive"
+            ></i>
+            <div>
+              <h3
+                class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive"
+              >
+                Advanced Search
+              </h3>
+              <p class="text-palette-900 dark:text-gray-300 font-proto text-sm-responsive">
+                Powerful search functionality with live filtering by track title, album, genre, and
+                format. Keyboard shortcuts for power users.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-lg-responsive p-2xl-responsive">
+            <i
+              class="icon-cloud-download text-palette-500 dark:text-palette-600 icon-xl flex-shrink-0 mt-sm-responsive"
+            ></i>
+            <div>
+              <h3
+                class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive"
+              >
+                Custom Downloads
+              </h3>
+              <p class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto">
+                Create custom ZIP packages with your favorite tracks for offline listening.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technology Stack - Clean Icon Row with Larger Icons -->
+      <div class="mb-4xl-responsive">
+        <h2
+          class="text-4xl-responsive font-retro text-palette-900 dark:text-white mb-3xl-responsive text-center retro-text-subtle-glow"
+        >
+          Technology Stack
+        </h2>
+        <div class="flex items-center justify-center gap-4xl-responsive flex-wrap">
+          <i
+            class="icon-astro text-palette-800 dark:text-palette-300 icon-xl hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
+            title="Astro"></i>
+          <i
+            class="icon-tailwindcss text-palette-500 dark:text-palette-500 icon-xl hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
+            title="Tailwind CSS"></i>
+          <i
+            class="icon-javascript text-palette-300 dark:text-palette-400 icon-xl hover:text-palette-500 dark:hover:text-palette-500 transition-colors"
+            title="JavaScript"></i>
+          <i
+            class="icon-mp3 text-palette-600 dark:text-palette-600 icon-xl hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
+            title="MP3 Audio"></i>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="text-center">
+        <h2
+          class="text-4xl-responsive font-retro text-palette-900 dark:text-white mb-2xl-responsive retro-text-subtle-glow"
+        >
+          Get in Touch
+        </h2>
+        <p
+          class="text-palette-900 dark:text-gray-300 mb-3xl-responsive max-w-2xl mx-auto font-proto text-base-responsive break-words px-sm-responsive leading-relaxed"
+        >
+          Have questions about the music, want to collaborate, or just want to chat about retro
+          gaming and chip tunes? I'd love to hear from you!
+        </p>
+        <div class="flex items-center justify-center gap-2xl-responsive flex-wrap">
+          <a
+            href="https://github.com/asce1062"
+            class="flex items-center justify-center gap-sm-responsive px-2xl-responsive py-lg-responsive bg-palette-800 hover:bg-palette-300 text-white hover:text-palette-900 dark:bg-palette-300 dark:hover:bg-palette-400 dark:text-palette-900 font-proto text-sm-responsive rounded-lg transition-all duration-200"
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            <i class="icon-github icon-md"></i>
+            GitHub
+          </a>
+          <a
+            href="mailto:tnkratos@gmail.com"
+            class="flex items-center justify-center gap-sm-responsive px-2xl-responsive py-lg-responsive border border-palette-800 text-palette-800 hover:bg-palette-800 hover:text-white dark:border-palette-300 dark:text-palette-300 dark:hover:bg-palette-300 dark:hover:text-palette-900 font-proto text-sm-responsive rounded-lg transition-all duration-200"
+          >
+            <i class="icon-envelope-at icon-md"></i>
+            Contact
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Enhanced responsive text handling */
+  .hyphens-auto {
+    hyphens: auto;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* ASCII Art Responsive Styling */
+  /* Responsive breakpoints for ASCII art */
+  @media (max-width: 480px) {
+    .ascii-art {
+      font-size: clamp(0.25rem, 2.5vw, 0.4rem);
+      letter-spacing: clamp(-0.1em, -0.05em, -0.02em);
+      padding: clamp(0.25rem, 1vw, 0.5rem);
+    }
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    .ascii-art {
+      font-size: clamp(0.4rem, 1.8vw, 0.6rem);
+      letter-spacing: clamp(-0.05em, -0.03em, -0.01em);
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .ascii-art {
+      font-size: clamp(0.6rem, 1.5vw, 0.7rem);
+      letter-spacing: clamp(-0.03em, -0.02em, 0);
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .ascii-art {
+      font-size: clamp(0.7rem, 1.2vw, 0.75rem);
+      letter-spacing: 0;
+    }
+  }
+
+  /* Ensure ASCII art doesn't break on very small screens */
+  @media (max-width: 320px) {
+    .ascii-art {
+      font-size: 0.2rem;
+      letter-spacing: -0.1em;
+      transform: scale(0.9);
+      transform-origin: center;
+    }
+  }
+
+  /* Enhanced glow effect for ASCII art in dark mode */
+  html.dark .ascii-art {
+    text-shadow:
+      0 0 clamp(1px, 0.2vw, 2px) rgba(220, 184, 176, 0.6),
+      0 0 clamp(2px, 0.4vw, 4px) rgba(220, 184, 176, 0.4),
+      0 0 clamp(4px, 0.8vw, 8px) rgba(155, 176, 205, 0.3);
+  }
+</style>

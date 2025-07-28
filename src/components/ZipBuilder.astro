@@ -1,0 +1,449 @@
+---
+interface Props {
+  musicData: any;
+}
+
+const { musicData } = Astro.props;
+---
+
+<!-- Add JSZip via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+<div class="zip-builder bg-light-100/50 dark:bg-palette-900/50 backdrop-blur-sm rounded-xl p-2xl-responsive border border-palette-800/30 dark:border-palette-300/30">
+  <h3 class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-lg-responsive flex items-center">
+    <i class="icon-cloud-download icon-lg mr-sm-responsive text-palette-800 dark:text-palette-300"></i>
+    Customize Download
+  </h3>
+
+  <p class="text-palette-900 dark:text-gray-400 mb-lg-responsive font-proto text-sm-responsive">Select tracks to create a custom download package</p>
+
+  <!-- Search Input -->
+  <div class="mb-2xl-responsive">
+    <div class="relative">
+      <input
+        type="text"
+        id="track-search"
+        placeholder="Search tracks or albums..."
+        class="w-full px-lg-responsive py-md-responsive pl-[3rem] bg-light-200 dark:bg-palette-900 border border-palette-800/30 dark:border-palette-300/30 rounded-lg text-palette-900 dark:text-white placeholder-palette-900/50 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-palette-300 dark:focus:ring-palette-300 focus:border-transparent text-sm-responsive font-proto"
+      />
+      <div class="absolute inset-y-0 left-0 pl-lg-responsive flex items-center pointer-events-none">
+        <i class="icon-search-heart icon-sm text-palette-900/50 dark:text-gray-400"></i>
+      </div>
+      <button
+        id="clear-search"
+        class="absolute inset-y-0 right-0 pr-lg-responsive flex items-center text-palette-900/50 dark:text-gray-400 hover:text-palette-900 dark:hover:text-white transition-colors opacity-0 pointer-events-none"
+      >
+        <i class="icon-x icon-sm"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Track Selection -->
+  <div class="space-responsive mb-2xl-responsive max-h-64 overflow-y-auto">
+    <div id="track-selection-list">
+      <!-- Tracks will be populated here -->
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex items-center justify-between gap-lg-responsive flex-wrap">
+    <div class="text-sm-responsive text-palette-900 dark:text-gray-400 font-proto">
+      <span id="selected-count">0</span> tracks selected
+      (<span id="estimated-size">0 MB</span>)
+    </div>
+
+    <div class="flex gap-md-responsive flex-wrap">
+      <button
+        id="select-all-btn"
+        class="px-lg-responsive py-sm-responsive bg-light-200 hover:bg-light-300 dark:bg-palette-900 dark:hover:bg-palette-800 text-palette-900 dark:text-white font-proto text-sm-responsive rounded-lg transition-colors"
+      >
+        Select All
+      </button>
+      <button
+        id="download-zip-btn"
+        class="px-xl-responsive py-sm-responsive bg-palette-800 hover:bg-palette-300 text-white hover:text-palette-900 dark:bg-palette-300 dark:hover:bg-palette-400 dark:text-palette-900 font-proto text-sm-responsive rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled
+      >
+        <i class="icon-cloud-download icon-sm mr-sm-responsive"></i>
+        Download ZIP
+      </button>
+    </div>
+  </div>
+
+  <!-- Progress Bar (hidden by default) -->
+  <div id="zip-progress" class="mt-lg-responsive hidden">
+    <div class="flex items-center justify-between text-sm-responsive text-palette-900 dark:text-gray-400 mb-sm-responsive font-proto">
+      <span>Creating ZIP file...</span>
+      <span id="zip-progress-text">0%</span>
+    </div>
+    <div class="bg-light-200 dark:bg-palette-900 rounded-full h-[clamp(6px,1vw,8px)]">
+      <div id="zip-progress-bar" class="bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200" style="width: 0%"></div>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ musicData }}>
+  class ZipBuilder {
+    constructor(element) {
+      this.element = element;
+      this.selectedTracks = new Set();
+      this.allTracks = [];
+      this.filteredTracks = [];
+      this.searchQuery = '';
+      this.isAllSelected = false;
+      this.init();
+    }
+
+    init() {
+      this.loadTracks();
+      this.setupEventListeners();
+    }
+
+    loadTracks() {
+      // Flatten all tracks from all albums
+      musicData.albums.forEach(album => {
+        album.tracks.forEach(track => {
+          this.allTracks.push({
+            ...track,
+            albumTitle: album.title,
+            albumId: album.id
+          });
+        });
+      });
+
+      this.filteredTracks = [...this.allTracks];
+      this.renderTrackList();
+    }
+
+    filterTracks(query) {
+      this.searchQuery = query.toLowerCase().trim();
+
+      if (!this.searchQuery) {
+        this.filteredTracks = [...this.allTracks];
+      } else {
+        this.filteredTracks = this.allTracks.filter(track =>
+          track.title.toLowerCase().includes(this.searchQuery) ||
+          track.albumTitle.toLowerCase().includes(this.searchQuery) ||
+          track.format.toLowerCase().includes(this.searchQuery)
+        );
+      }
+
+      this.renderTrackList();
+      this.updateSearchUI();
+    }
+
+    updateSearchUI() {
+      const searchInput = this.element.querySelector('#track-search');
+      const clearButton = this.element.querySelector('#clear-search');
+
+      if (this.searchQuery) {
+        clearButton?.classList.remove('opacity-0', 'pointer-events-none');
+        clearButton?.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        clearButton?.classList.add('opacity-0', 'pointer-events-none');
+        clearButton?.classList.remove('opacity-100', 'pointer-events-auto');
+      }
+    }
+
+    clearSearch() {
+      const searchInput = this.element.querySelector('#track-search');
+      if (searchInput) searchInput.value = '';
+      this.filterTracks('');
+    }
+
+    renderTrackList() {
+      const listContainer = this.element.querySelector('#track-selection-list');
+      if (!listContainer) return;
+
+      const tracksToShow = this.filteredTracks;
+
+      if (tracksToShow.length === 0 && this.searchQuery) {
+        listContainer.innerHTML = `
+          <div class="text-center py-2xl-responsive text-palette-900 dark:text-gray-400">
+            <i class="icon-search icon-lg mb-md-responsive"></i>
+            <p class="font-proto text-sm-responsive">No results found for "${this.searchQuery}"</p>
+          </div>
+        `;
+        this.updateSelectionInfo(); // Update UI when no results
+        return;
+      }
+
+      listContainer.innerHTML = tracksToShow.map(track => `
+        <label class="flex items-center gap-md-responsive p-md-responsive bg-light-100/30 dark:bg-palette-900/30 rounded-lg hover:bg-light-200 dark:hover:bg-palette-800/50 cursor-pointer transition-colors">
+          <input
+            type="checkbox"
+            class="track-checkbox w-[clamp(1rem,2vw,1rem)] h-[clamp(1rem,2vw,1rem)] text-palette-800 dark:text-palette-300 bg-light-200 dark:bg-palette-900 border-palette-800/30 dark:border-palette-300/30 rounded focus:ring-palette-800 dark:focus:ring-palette-300 focus:ring-2"
+            data-track-id="${track.id}"
+            data-album-id="${track.albumId}"
+          />
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-lg-responsive">
+              <div class="min-w-0 flex-1">
+                <div class="text-palette-900 dark:text-white font-medium truncate text-sm-responsive font-proto">${track.title}</div>
+                <div class="text-palette-900 dark:text-gray-400 text-xs-responsive font-proto">${track.albumTitle}</div>
+              </div>
+              <div class="flex items-center gap-sm-responsive text-xs-responsive text-palette-900 dark:text-gray-400 flex-shrink-0">
+                <span class="font-proto">${track.format.toUpperCase()}</span>
+                <span class="font-proto">${track.duration}</span>
+              </div>
+            </div>
+          </div>
+        </label>
+      `).join('');
+      
+      // After rendering, sync any changes from individual checkbox interactions
+      this.syncDOMSelections();
+    }
+    
+    syncDOMSelections() {
+      // Sync DOM checkboxes with selectedTracks Set (single source of truth)
+      const checkboxes = this.element.querySelectorAll('.track-checkbox');
+      checkboxes.forEach(cb => {
+        const trackId = cb.dataset.trackId;
+        if (trackId) {
+          cb.checked = this.selectedTracks.has(trackId);
+        }
+      });
+    }
+
+    setupEventListeners() {
+      // Track checkboxes
+      this.element.addEventListener('change', (e) => {
+        const target = e.target;
+        if (target.classList.contains('track-checkbox')) {
+          const trackId = target.dataset.trackId;
+          if (trackId) {
+            if (target.checked) {
+              this.selectedTracks.add(trackId);
+            } else {
+              this.selectedTracks.delete(trackId);
+              // If any track is deselected, we're no longer in "all selected" state
+              if (this.isAllSelected) {
+                this.isAllSelected = false;
+                const searchInput = this.element.querySelector('#track-search');
+                if (searchInput) {
+                  searchInput.disabled = false;
+                  searchInput.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+              }
+            }
+            this.updateSelectionInfo();
+          }
+        }
+      });
+
+      // Select all button
+      const selectAllBtn = this.element.querySelector('#select-all-btn');
+      selectAllBtn?.addEventListener('click', () => this.toggleSelectAll());
+
+      // Download button
+      const downloadBtn = this.element.querySelector('#download-zip-btn');
+      downloadBtn?.addEventListener('click', () => this.createAndDownloadZip());
+
+      // Search functionality
+      const searchInput = this.element.querySelector('#track-search');
+      const clearButton = this.element.querySelector('#clear-search');
+
+      searchInput?.addEventListener('input', (e) => {
+        this.filterTracks(e.target.value);
+      });
+
+      clearButton?.addEventListener('click', () => {
+        this.clearSearch();
+      });
+
+      // Clear search on Escape key
+      searchInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          this.clearSearch();
+          searchInput.blur();
+        }
+      });
+    }
+
+    toggleSelectAll() {
+      const checkboxes = this.element.querySelectorAll('.track-checkbox');
+      const selectAllBtn = this.element.querySelector('#select-all-btn');
+      const searchInput = this.element.querySelector('#track-search');
+
+      // If no search query, we're dealing with all tracks
+      if (!this.searchQuery) {
+        if (this.isAllSelected) {
+          // Deselect all tracks
+          this.selectedTracks.clear();
+          this.isAllSelected = false;
+          if (selectAllBtn) selectAllBtn.textContent = 'Select All';
+          // Re-enable search
+          if (searchInput) {
+            searchInput.disabled = false;
+            searchInput.classList.remove('opacity-50', 'cursor-not-allowed');
+          }
+        } else {
+          // Select all tracks
+          this.allTracks.forEach(track => this.selectedTracks.add(track.id));
+          this.isAllSelected = true;
+          if (selectAllBtn) selectAllBtn.textContent = 'Deselect All';
+          // Disable search when all selected
+          if (searchInput) {
+            searchInput.disabled = true;
+            searchInput.classList.add('opacity-50', 'cursor-not-allowed');
+          }
+        }
+        this.renderTrackList(); // Re-render to update checkboxes
+      } else {
+        // Search is active, only affect visible results
+        const allVisibleChecked = Array.from(checkboxes).every(cb => cb.checked);
+
+        if (allVisibleChecked) {
+          // Deselect all visible tracks
+          checkboxes.forEach(cb => {
+            cb.checked = false;
+            const trackId = cb.dataset.trackId;
+            if (trackId) this.selectedTracks.delete(trackId);
+          });
+          if (selectAllBtn) selectAllBtn.textContent = 'Select Results';
+        } else {
+          // Select all visible tracks
+          checkboxes.forEach(cb => {
+            cb.checked = true;
+            const trackId = cb.dataset.trackId;
+            if (trackId) this.selectedTracks.add(trackId);
+          });
+          if (selectAllBtn) selectAllBtn.textContent = 'Deselect Results';
+        }
+      }
+
+      this.updateSelectionInfo();
+    }
+
+    updateSelectionInfo() {
+      const selectedCountEl = this.element.querySelector('#selected-count');
+      const estimatedSizeEl = this.element.querySelector('#estimated-size');
+      const downloadBtn = this.element.querySelector('#download-zip-btn');
+      const selectAllBtn = this.element.querySelector('#select-all-btn');
+
+      // Never rebuild selectedTracks from DOM to preserve all selections
+      // selectedTracks is the single source of truth
+      if (selectedCountEl) {
+        selectedCountEl.textContent = this.selectedTracks.size.toString();
+      }
+
+      // Calculate actual size from music data
+      const actualSize = this.allTracks
+        .filter(track => this.selectedTracks.has(track.id))
+        .reduce((total, track) => total + (track.size || 0), 0);
+
+      if (estimatedSizeEl) {
+        estimatedSizeEl.textContent = `${actualSize.toFixed(1)} MB`;
+      }
+
+      // Update download button state
+      if (downloadBtn) {
+        downloadBtn.disabled = this.selectedTracks.size === 0;
+      }
+
+      // Update select all button text and state
+      if (selectAllBtn) {
+        const allCheckboxes = this.element.querySelectorAll('.track-checkbox');
+        const hasVisibleTracks = allCheckboxes.length > 0;
+        
+        if (this.searchQuery) {
+          // When searching, disable button if no results
+          selectAllBtn.disabled = !hasVisibleTracks;
+          if (hasVisibleTracks) {
+            const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+            selectAllBtn.textContent = allChecked ? 'Deselect Results' : 'Select Results';
+          } else {
+            selectAllBtn.textContent = 'Select Results';
+          }
+        } else {
+          // When not searching
+          selectAllBtn.disabled = false;
+          selectAllBtn.textContent = this.isAllSelected ? 'Deselect All' : 'Select All';
+        }
+      }
+    }
+
+    async createAndDownloadZip() {
+      if (this.selectedTracks.size === 0) return;
+
+      const progressContainer = this.element.querySelector('#zip-progress');
+      const progressBar = this.element.querySelector('#zip-progress-bar');
+      const progressText = this.element.querySelector('#zip-progress-text');
+      const downloadBtn = this.element.querySelector('#download-zip-btn');
+
+      // Use the global download manager service
+      if (window.downloadManager) {
+        try {
+          // Show progress
+          progressContainer?.classList.remove('hidden');
+          downloadBtn.disabled = true;
+          downloadBtn.innerHTML = '<i class="icon-cloud-download icon-sm mr-sm-responsive"></i>Creating ZIP...';
+
+          // Set up progress listeners
+          const handleProgress = (event) => {
+            const { percentage } = event.detail;
+            if (progressBar) progressBar.style.width = `${percentage}%`;
+            if (progressText) progressText.textContent = `${Math.round(percentage)}%`;
+          };
+
+          const handleCompleted = () => {
+            // Hide progress
+            progressContainer?.classList.add('hidden');
+            downloadBtn.disabled = false;
+            downloadBtn.innerHTML = '<i class="icon-cloud-download icon-sm mr-sm-responsive"></i>Download ZIP';
+
+            if (progressBar) progressBar.style.width = '0%';
+            if (progressText) progressText.textContent = '0%';
+
+            // Clean up listeners
+            window.downloadManager.removeEventListener('download-progress', handleProgress);
+            window.downloadManager.removeEventListener('download-completed', handleCompleted);
+            window.downloadManager.removeEventListener('download-error', handleError);
+          };
+
+          const handleError = (event) => {
+            console.error('Download failed:', event.detail.error);
+            alert('Failed to create ZIP file. Please try again.');
+            handleCompleted(); // Reset UI
+          };
+
+          // Add listeners
+          window.downloadManager.addEventListener('download-progress', handleProgress);
+          window.downloadManager.addEventListener('download-completed', handleCompleted);
+          window.downloadManager.addEventListener('download-error', handleError);
+
+          // Start download
+          const trackIds = Array.from(this.selectedTracks);
+          const filename = `alex_immer_selected_tracks_${new Date().toISOString().split('T')[0]}.zip`;
+
+          await window.downloadManager.downloadCustomSelection(trackIds, filename, true);
+
+        } catch (error) {
+          console.error('Failed to create ZIP via service:', error);
+          alert('Failed to create ZIP file. Please try again.');
+
+          // Reset UI
+          progressContainer?.classList.add('hidden');
+          downloadBtn.disabled = false;
+          downloadBtn.innerHTML = '<i class="icon-cloud-download icon-sm mr-sm-responsive"></i>Download ZIP';
+
+          if (progressBar) progressBar.style.width = '0%';
+          if (progressText) progressText.textContent = '0%';
+        }
+      } else {
+        console.error('Download manager not available');
+        alert('Download service not available. Please refresh the page and try again.');
+      }
+    }
+
+  }
+
+  // Initialize ZIP builder
+  document.addEventListener('DOMContentLoaded', () => {
+    const zipBuilders = document.querySelectorAll('.zip-builder');
+    zipBuilders.forEach(builder => {
+      new ZipBuilder(builder);
+    });
+  });
+</script>

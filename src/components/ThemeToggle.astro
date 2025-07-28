@@ -1,0 +1,178 @@
+---
+---
+
+<div class="theme-toggle">
+  <button 
+    id="theme-toggle"
+    class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors duration-200"
+    aria-label="Toggle theme"
+  >
+    <!-- Icon will be set immediately by script -->
+    <i id="toggleIcon" class="icon-lg"></i>
+  </button>
+</div>
+
+<script is:inline>
+  // Immediate theme detection and icon setting - prevents any flash
+  (function() {
+    // Get current theme state
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+    
+    // Apply theme immediately to prevent flash
+    const html = document.documentElement;
+    if (isDark) {
+      html.classList.add('dark');
+      html.setAttribute('data-theme', 'dark');
+    } else {
+      html.classList.remove('dark');
+      html.setAttribute('data-theme', 'light');
+    }
+    
+    // Store the theme state globally
+    window.__theme = isDark ? 'dark' : 'light';
+    window.__themeInitialized = true;
+    
+    // Set icon immediately when DOM is ready
+    function setInitialIcon() {
+      const icon = document.getElementById('toggleIcon');
+      if (icon) {
+        // Set correct icon based on current theme
+        icon.className = isDark ? "icon-sun icon-lg" : "icon-moon icon-lg";
+        // Mark as initialized to prevent further changes
+        icon.setAttribute('data-initialized', 'true');
+      } else {
+        // If icon not ready, try again shortly
+        setTimeout(setInitialIcon, 10);
+      }
+    }
+    
+    // Set icon as soon as possible
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setInitialIcon);
+    } else {
+      setInitialIcon();
+    }
+  })();
+</script>
+
+<script>
+  let currentTheme = window.__theme || 'dark';
+  
+  function setTheme(theme: string) {
+    currentTheme = theme;
+    const isDark = theme === 'dark';
+    
+    const html = document.documentElement;
+    if (isDark) {
+      html.classList.add('dark');
+      html.setAttribute('data-theme', 'dark');
+    } else {
+      html.classList.remove('dark');
+      html.setAttribute('data-theme', 'light');
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('theme', theme);
+    
+    // Update global state
+    window.__theme = theme;
+    
+    // Update icon immediately
+    updateThemeIcon(isDark);
+  }
+  
+  function toggleTheme() {
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+  }
+  
+  function updateThemeIcon(isDark: boolean) {
+    const icon = document.getElementById('toggleIcon');
+    if (icon) {
+      // Only update if not already set correctly
+      const expectedClass = isDark ? "icon-sun icon-lg" : "icon-moon icon-lg";
+      if (icon.className !== expectedClass) {
+        icon.className = expectedClass;
+      }
+    }
+  }
+
+  // Initialize theme toggle
+  function initThemeToggle() {
+    const themeToggleButton = document.getElementById('theme-toggle');
+    
+    if (themeToggleButton) {
+      // Remove any existing listeners to prevent duplicates
+      const newButton = themeToggleButton.cloneNode(true);
+      themeToggleButton.parentNode?.replaceChild(newButton, themeToggleButton);
+      
+      // Add click event listener
+      newButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleTheme();
+      });
+    }
+    
+    // Ensure icon is set correctly (but don't override if already initialized)
+    const icon = document.getElementById('toggleIcon');
+    if (icon && !icon.getAttribute('data-initialized')) {
+      updateThemeIcon(currentTheme === 'dark');
+      icon.setAttribute('data-initialized', 'true');
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initThemeToggle);
+  } else {
+    initThemeToggle();
+  }
+
+  // Handle Astro page navigation
+  document.addEventListener('astro:page-load', () => {
+    // Restore theme state after navigation
+    currentTheme = window.__theme || localStorage.getItem('theme') || 'dark';
+    
+    // Ensure theme is applied correctly
+    const isDark = currentTheme === 'dark';
+    const html = document.documentElement;
+    if (isDark) {
+      html.classList.add('dark');
+      html.setAttribute('data-theme', 'dark');
+    } else {
+      html.classList.remove('dark');
+      html.setAttribute('data-theme', 'light');
+    }
+    
+    // Update icon immediately for new page
+    const icon = document.getElementById('toggleIcon');
+    if (icon) {
+      icon.className = isDark ? "icon-sun icon-lg" : "icon-moon icon-lg";
+      icon.setAttribute('data-initialized', 'true');
+    }
+    
+    // Initialize toggle functionality
+    initThemeToggle();
+  });
+
+  // Handle before navigation to preserve state
+  document.addEventListener('astro:before-preparation', () => {
+    // Ensure current theme is stored
+    if (currentTheme) {
+      localStorage.setItem('theme', currentTheme);
+      window.__theme = currentTheme;
+    }
+  });
+
+  // Listen for system theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    // Only auto-switch if user hasn't manually set a preference
+    if (!localStorage.getItem('theme')) {
+      const newTheme = e.matches ? 'dark' : 'light';
+      setTheme(newTheme);
+    }
+  });
+</script>

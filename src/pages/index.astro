@@ -1,0 +1,150 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AlbumGrid from '../components/AlbumGrid.astro';
+import musicData from '../data/music.json';
+import { SITE_TITLE } from '@/consts';
+
+// Sort albums by release date in descending order (newest first)
+const sortedAlbums = [...musicData.albums].sort((a, b) => {
+  const dateA = new Date(a.releaseDate);
+  const dateB = new Date(b.releaseDate);
+  return dateB.getTime() - dateA.getTime(); // Descending order (newest first)
+});
+---
+
+<Layout
+  title="Alex.Immer"
+  description=`A music player featuring 8-bit, chip tune compositions by ${SITE_TITLE}`
+  musicData={musicData}
+>
+  <!-- Hero Section -->
+  <section class="relative py-3xl-responsive px-lg-responsive">
+    <div class="container mx-auto text-center">
+      <div class="mb-3xl-responsive">
+        <h1 class="text-hero-responsive font-retro-display text-palette-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-palette-300 dark:via-palette-400 dark:to-palette-500 mb-2xl-responsive break-words hyphens-auto retro-hero-glow">
+          Alex.Immer
+        </h1>
+        <p class="text-subtitle-responsive text-palette-900 dark:text-gray-300 mb-3xl-responsive max-w-4xl mx-auto font-proto break-words px-sm-responsive leading-relaxed hyphens-auto">
+          Chip tune music player featuring nostalgic 8-bit melodies. Reminiscent of the Atari, C64, Crack-tro scene eras.
+        </p>
+
+        <!-- Stats -->
+        <div class="flex items-center justify-center gap-3xl-responsive text-sm-responsive text-palette-900 dark:text-gray-400 mb-3xl-responsive flex-wrap">
+          <div class="text-center">
+            <div class="text-3xl-responsive font-bold text-palette-800 dark:text-palette-300 font-retro">{musicData.albums.length}</div>
+            <div class="font-proto">Albums</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl-responsive font-bold text-palette-300 dark:text-palette-400 font-retro">
+              {musicData.albums.reduce((total, album) => total + album.tracks.length, 0)}
+            </div>
+            <div class="font-proto">Tracks</div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl-responsive font-bold text-palette-500 dark:text-palette-500 font-retro">MP3</div>
+            <div class="font-proto">Format</div>
+          </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex items-center justify-center gap-lg-responsive flex-wrap">
+          <a
+            href="#albums"
+            class="flex items-center justify-center gap-sm-responsive nav-link px-2xl-responsive py-lg-responsive bg-palette-800 hover:bg-palette-300 text-white hover:text-palette-900 dark:bg-palette-300 dark:hover:bg-palette-400 dark:text-palette-900 font-proto text-sm-responsive rounded-lg transition-all duration-200 transform hover:scale-105"
+          >
+            <i class="icon-music icon-md"></i>
+            Explore Music
+          </a>
+          <a
+            href="/about"
+            class="flex items-center justify-center gap-sm-responsive px-2xl-responsive py-lg-responsive border border-palette-800 text-palette-800 hover:bg-palette-800 hover:text-white dark:border-palette-300 dark:text-palette-300 dark:hover:bg-palette-300 dark:hover:text-palette-900 font-proto text-sm-responsive rounded-lg transition-all duration-200"
+          >
+            <i class="icon-info-circle icon-md"></i>
+            About
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-4xl-responsive px-lg-responsive">
+    <div class="container mx-auto">
+      <h2 class="text-4xl-responsive font-retro text-center mb-4xl-responsive text-palette-900 dark:text-white retro-text-subtle-glow">Features</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3xl-responsive">
+        <div class="text-center p-2xl-responsive">
+          <i class="icon-mp3 text-palette-800 dark:text-palette-300 icon-xl mb-lg-responsive"></i>
+          <h3 class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive">High Quality MP3</h3>
+          <p class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive">Crystal clear audio quality with optimized MP3 compression</p>
+        </div>
+
+        <div class="text-center p-2xl-responsive">
+          <i class="icon-phone text-palette-500 dark:text-palette-500 icon-xl mb-lg-responsive"></i>
+          <h3 class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive">Mobile-First Design</h3>
+          <p class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive">Responsive design optimized for mobile devices with touch controls</p>
+        </div>
+
+        <div class="text-center p-2xl-responsive">
+          <i class="icon-cloud-download text-palette-300 dark:text-palette-400 icon-xl mb-lg-responsive"></i>
+          <h3 class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive">Custom Downloads</h3>
+          <p class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive">Create custom ZIP packages with your favorite tracks</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Albums Section -->
+  <section class="py-4xl-responsive px-lg-responsive">
+    <div class="container mx-auto">
+      <div class="text-center mb-4xl-responsive">
+        <!-- FIXED: Albums header with proper scroll target and enhanced mobile offset -->
+        <h2 id="albums" class="text-5xl-responsive font-retro-display text-palette-900 dark:text-white mb-lg-responsive retro-text-subtle-glow">Albums</h2>
+        <p class="text-palette-900 dark:text-gray-400 max-w-2xl mx-auto font-proto text-base-responsive break-words px-sm-responsive leading-relaxed">
+          Explore my collection of retro-inspired chip tune compositions,
+          from nostalgic remixes of 8-bit melodies to modern electronic experimental synthwave.
+        </p>
+      </div>
+
+      <AlbumGrid albums={sortedAlbums} />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom animations for hero section */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(clamp(-5px, -1vw, -10px)); }
+  }
+
+  .hero-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Enhanced responsive text handling */
+  .hyphens-auto {
+    hyphens: auto;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* FIXED: Enhanced scroll offset for both desktop and mobile */
+  #albums {
+    /* Larger offset for mobile to account for mobile menu and header */
+    scroll-margin-top: clamp(160px, 15vw, 140px);
+  }
+
+  /* Additional mobile-specific adjustments */
+  @media (max-width: 768px) {
+    #albums {
+      /* Even larger offset for mobile to ensure proper positioning */
+      scroll-margin-top: clamp(120px, 20vw, 160px);
+    }
+  }
+</style>

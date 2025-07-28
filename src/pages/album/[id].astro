@@ -1,0 +1,311 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TrackList from '../../components/TrackList.astro';
+import ZipBuilder from '../../components/ZipBuilder.astro';
+import musicData from '../../data/music.json';
+
+export async function getStaticPaths() {
+  return musicData.albums.map((album) => ({
+    params: { id: album.id },
+    props: { album },
+  }));
+}
+
+const { album } = Astro.props;
+---
+
+<!-- Add JSZip via CDN for album download -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+<Layout
+  title={album.title}
+  description={album.description}
+  image={album.coverArt}
+  type="music.album"
+  artist="Alex Immer"
+  musicData={musicData}
+>
+  <!-- Album Header -->
+  <section class="py-2xl-responsive px-lg-responsive">
+    <div class="container mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-3xl-responsive items-start">
+        <!-- Album Cover -->
+        <div class="lg:col-span-1">
+          <div class="aspect-square relative overflow-hidden rounded-2xl retro-crt">
+            <img
+              src={album.coverArt}
+              alt={`${album.title} album cover`}
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-black/20"></div>
+
+            <!-- Animated background shimmer effect -->
+            <div class="absolute inset-0 opacity-30">
+              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Album Info -->
+        <div class="lg:col-span-2">
+          <div class="mb-2xl-responsive">
+            <h1 class="text-6xl-responsive font-retro-display text-palette-900 dark:text-white mb-lg-responsive break-words hyphens-auto retro-text-subtle-glow">
+              {album.title}
+            </h1>
+            <p class="text-xl-responsive text-palette-900 dark:text-gray-300 mb-2xl-responsive font-proto break-words hyphens-auto leading-relaxed">
+              {album.description}
+            </p>
+
+            <!-- Genre Tags -->
+            <div class="flex flex-wrap gap-sm-responsive mb-2xl-responsive">
+              {album.genre.map((genre) => (
+                <span class="px-md-responsive py-sm-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 rounded-full font-proto text-sm-responsive">
+                  <i class="icon-tags mr-xs-responsive"></i>
+                  {genre}
+                </span>
+              ))}
+            </div>
+
+            <!-- Album Meta - REMOVED containers/borders, kept content size -->
+            <div class="grid grid-cols-3 gap-lg-responsive text-center mb-3xl-responsive">
+              <div class="p-lg-responsive">
+                <div class="text-3xl-responsive font-retro text-palette-800 dark:text-palette-300">{album.tracks.length}</div>
+                <div class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto">Tracks</div>
+              </div>
+              <div class="p-lg-responsive">
+                <div class="text-3xl-responsive font-retro text-palette-500 dark:text-palette-500">
+                  {new Date(album.releaseDate).getFullYear()}
+                </div>
+                <div class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto">Released</div>
+              </div>
+              <div class="p-lg-responsive">
+                <div class="text-3xl-responsive font-retro text-palette-600 dark:text-palette-600">
+                  {album.tracks.reduce((total, track) => {
+                    const [minutes, seconds] = track.duration.split(':').map(Number);
+                    return total + minutes + (seconds / 60);
+                  }, 0).toFixed(0)}m
+                </div>
+                <div class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto">Duration</div>
+              </div>
+            </div>
+
+            <!-- Album Actions -->
+            <div class="flex flex-wrap gap-lg-responsive">
+              <button
+                id="play-album-btn"
+                class="flex items-center justify-center gap-sm-responsive px-2xl-responsive py-lg-responsive bg-palette-800 hover:bg-palette-300 text-white hover:text-palette-900 dark:bg-palette-300 dark:hover:bg-palette-400 dark:text-palette-900 font-retro text-sm-responsive rounded-lg transition-all duration-200 transform hover:scale-105"
+              >
+                <i class="icon-play-fill icon-md"></i>
+                <span>Play Album</span>
+              </button>
+
+              <button
+                id="download-album-btn"
+                class="flex items-center justify-center gap-sm-responsive px-2xl-responsive py-lg-responsive border border-palette-800 text-palette-800 hover:bg-palette-800 hover:text-white dark:border-palette-300 dark:text-palette-300 dark:hover:bg-palette-300 dark:hover:text-palette-900 font-retro text-sm-responsive rounded-lg transition-all duration-200"
+              >
+                <i class="icon-cloud-download icon-md"></i>
+                <span>Download Album</span>
+              </button>
+
+              <button
+                id="shuffle-album-btn"
+                class="flex items-center justify-center gap-sm-responsive px-2xl-responsive py-lg-responsive bg-light-100/50 hover:bg-light-200 text-palette-900 dark:bg-palette-900/50 dark:hover:bg-palette-900 dark:text-white font-retro text-sm-responsive rounded-lg transition-all duration-200"
+              >
+                <i class="icon-shuffle icon-md"></i>
+                <span>Shuffle</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Track List -->
+  <section class="py-3xl-responsive px-lg-responsive">
+    <div class="container mx-auto">
+      <h2 class="text-3xl-responsive font-retro text-palette-900 dark:text-white mb-2xl-responsive retro-text-subtle-glow">Chunes</h2>
+      <TrackList tracks={album.tracks} albumId={album.id} albumTitle={album.title} />
+    </div>
+  </section>
+
+  <!-- Custom Download Section -->
+  <section class="py-3xl-responsive px-lg-responsive">
+    <div class="container mx-auto">
+      <ZipBuilder musicData={musicData} />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Enhanced responsive text handling */
+  .hyphens-auto {
+    hyphens: auto;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+</style>
+
+<script is:inline define:vars={{ album }}>
+  // Album Player Class - Refactored to use centralized music player service
+  class AlbumPlayer {
+    constructor() {
+      this.albumId = album.id;
+      this.init();
+    }
+
+    init() {
+      this.setupEventListeners();
+      this.bindMusicPlayerEvents();
+
+      // Initialize shuffle state from service
+      if (window.musicPlayer) {
+        const state = window.musicPlayer.getState();
+        this.updateShuffleButton(state.isShuffled);
+      }
+    }
+
+    setupEventListeners() {
+      // Play album button
+      const playAlbumBtn = document.getElementById('play-album-btn');
+      playAlbumBtn?.addEventListener('click', () => this.playAlbum());
+
+      // Download album button
+      const downloadAlbumBtn = document.getElementById('download-album-btn');
+      downloadAlbumBtn?.addEventListener('click', () => this.downloadAlbum());
+
+      // Shuffle button
+      const shuffleBtn = document.getElementById('shuffle-album-btn');
+      shuffleBtn?.addEventListener('click', () => {
+        if (window.musicPlayer) {
+          window.musicPlayer.toggleShuffle();
+        }
+      });
+    }
+
+    bindMusicPlayerEvents() {
+      // Listen to music player service events
+      if (window.musicPlayer) {
+        window.musicPlayer.onTrackStarted((event) => {
+          const { track, album: playingAlbum } = event.detail;
+          if (playingAlbum.id === this.albumId) {
+            this.scrollToAndHighlightTrack(track.id);
+          }
+        });
+
+        window.musicPlayer.onTrackChanged((event) => {
+          const { track, album: playingAlbum } = event.detail;
+          if (playingAlbum.id === this.albumId) {
+            this.scrollToAndHighlightTrack(track.id);
+          }
+        });
+
+        window.musicPlayer.onShuffleChanged((event) => {
+          this.updateShuffleButton(event.detail.isShuffled);
+          console.log(`🔀 Album Player: Shuffle ${event.detail.isShuffled ? 'enabled' : 'disabled'} for album ${this.albumId}`);
+        });
+      }
+    }
+
+    // Play Album method - starts playing from first track
+    playAlbum() {
+      console.log(`🎵 Play Album clicked for "${album.title}"`);
+
+      if (album.tracks.length === 0) {
+        console.error('No tracks found in album');
+        return;
+      }
+
+      // Start playing the first track with album playback options
+      const firstTrack = album.tracks[0];
+      if (window.musicPlayer) {
+        window.musicPlayer.play(firstTrack.id, this.albumId, {
+          forceStart: true,
+          albumPlayback: true
+        }).catch(error => {
+          console.error('Failed to start album playback:', error);
+        });
+      } else {
+        console.error('Music player not available');
+      }
+    }
+
+    updateShuffleButton(isShuffled) {
+      const shuffleBtn = document.getElementById('shuffle-album-btn');
+
+      if (shuffleBtn) {
+        if (isShuffled) {
+          // Shuffle ON styling
+          shuffleBtn.classList.remove('bg-light-100/50', 'hover:bg-light-200', 'dark:bg-palette-900/50', 'dark:hover:bg-palette-900');
+          shuffleBtn.classList.add('bg-palette-800', 'hover:bg-palette-300', 'dark:bg-palette-300', 'dark:hover:bg-palette-400');
+          shuffleBtn.classList.add('text-white', 'dark:text-palette-900');
+          shuffleBtn.classList.remove('text-palette-900', 'dark:text-white');
+        } else {
+          // Shuffle OFF styling
+          shuffleBtn.classList.add('bg-light-100/50', 'hover:bg-light-200', 'dark:bg-palette-900/50', 'dark:hover:bg-palette-900');
+          shuffleBtn.classList.remove('bg-palette-800', 'hover:bg-palette-300', 'dark:bg-palette-300', 'dark:hover:bg-palette-400');
+          shuffleBtn.classList.remove('text-white', 'dark:text-palette-900');
+          shuffleBtn.classList.add('text-palette-900', 'dark:text-white');
+        }
+      }
+    }
+
+    scrollToAndHighlightTrack(trackId) {
+      // Find the track element by ID
+      const trackElement = document.querySelector(`[data-track-id="${trackId}"]`);
+
+      if (trackElement) {
+        // Smooth scroll to the track
+        trackElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+
+        // Add highlight effect
+        trackElement.classList.add('highlight-track');
+        setTimeout(() => {
+          trackElement.classList.remove('highlight-track');
+        }, 3000);
+
+        // Find track info for logging
+        const track = album.tracks.find(t => t.id === trackId);
+        console.log(`📍 Scrolled to and highlighted track: ${track?.title || trackId}`);
+      } else {
+        console.warn(`Track element not found for ID: ${trackId}`);
+      }
+    }
+
+    async downloadAlbum() {
+      // Use the global download manager service
+      if (window.downloadManager) {
+        try {
+          window.downloadManager.downloadAlbum(album.id);
+        } catch (error) {
+          console.error('Failed to download album via service:', error);
+          alert('Failed to download album. Please try again.');
+        }
+      } else {
+        console.error('Download manager not available');
+        alert('Download service not available. Please refresh the page and try again.');
+      }
+    }
+  }
+
+  // Initialize album player with wait for musicPlayer
+  const initAlbumPlayer = () => {
+    if (window.musicPlayer) {
+      new AlbumPlayer();
+    } else {
+      // Wait for musicPlayer to be available
+      setTimeout(initAlbumPlayer, 100);
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', initAlbumPlayer);
+
+  // Also initialize on page navigation (for SPAs)
+  document.addEventListener('astro:page-load', initAlbumPlayer);
+</script>

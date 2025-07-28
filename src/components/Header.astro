@@ -1,0 +1,206 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import GlobalSearch from './GlobalSearch.astro';
+
+interface Props {
+  musicData?: any;
+}
+
+const { musicData } = Astro.props;
+---
+
+<header class="sticky top-0 z-50 bg-[#e8e5f0]/80 dark:bg-palette-700/80 bg-topography-light dark:bg-topography-dark backdrop-blur-md border-b border-palette-800/30 dark:border-palette-300/30">
+  <div class="container mx-auto py-md-responsive">
+    <div class="flex items-center justify-between gap-md-responsive">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-sm-responsive group flex-shrink-0">
+        <div class="w-[clamp(2rem,4vw,2.5rem)] h-[clamp(2rem,4vw,2.5rem)] rounded-lg overflow-hidden flex items-center justify-center">
+          <img
+            src="/icon.png"
+            alt="Alex.Immer logo"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <span class="text-xl-responsive font-retro font-bold text-palette-900 dark:text-white group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors hidden sm:block">
+          Alex.Immer
+        </span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-xl-responsive">
+        <a href="/#albums" class="nav-link text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive">
+          Albums
+        </a>
+        <a href="/about" class="text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive">
+          About
+        </a>
+      </nav>
+
+      <!-- Shared Search & Theme Toggle -->
+      <div class="flex items-center gap-sm-responsive">
+        <!-- Search - responsive width -->
+        <div class="w-[clamp(12rem,25vw,16rem)]">
+          <GlobalSearch musicData={musicData} />
+        </div>
+
+        <!-- Theme Toggle -->
+        <ThemeToggle />
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-toggle"
+          class="p-sm-responsive text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-white transition-colors md:hidden"
+          aria-label="Toggle menu"
+        >
+          <i id="hamburger-icon" class="icon-menu-button icon-md"></i>
+          <i id="close-icon" class="icon-x-lg icon-md" style="display: none;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu (hidden by default) -->
+    <div id="mobile-menu" class="md:hidden hidden mt-lg-responsive pb-lg-responsive border-t border-palette-800/30 dark:border-palette-300/30">
+      <!-- Mobile Navigation -->
+      <nav class="flex flex-col space-responsive">
+        <a href="/#albums" class="nav-link mobile-nav-link text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive py-sm-responsive px-sm-responsive rounded hover:bg-light-100 dark:hover:bg-palette-900/50">
+          Albums
+        </a>
+        <a href="/about" class="text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive py-sm-responsive px-sm-responsive rounded hover:bg-light-100 dark:hover:bg-palette-900/50">
+          About
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  function initMobileMenu() {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon') as HTMLElement;
+    const closeIcon = document.getElementById('close-icon') as HTMLElement;
+
+    if (!mobileMenuToggle || !mobileMenu || !hamburgerIcon || !closeIcon) {
+      console.error('Mobile menu elements not found');
+      return;
+    }
+
+    function toggleMobileMenu(e: Event) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const isHidden = mobileMenu.classList.contains('hidden');
+
+      if (isHidden) {
+        // Show menu
+        mobileMenu.classList.remove('hidden');
+        hamburgerIcon.style.display = 'none';
+        closeIcon.style.display = 'inline-block';
+      } else {
+        // Hide menu
+        mobileMenu.classList.add('hidden');
+        hamburgerIcon.style.display = 'inline-block';
+        closeIcon.style.display = 'none';
+      }
+    }
+
+    function closeMobileMenu() {
+      mobileMenu.classList.add('hidden');
+      hamburgerIcon.style.display = 'inline-block';
+      closeIcon.style.display = 'none';
+    }
+
+    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      const target = e.target as Node;
+      if (!mobileMenuToggle.contains(target) && !mobileMenu.contains(target)) {
+        closeMobileMenu();
+      }
+    });
+
+    // Close mobile menu when window is resized to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) {
+        closeMobileMenu();
+      }
+    });
+
+    // Close mobile menu when navigating
+    const mobileNavLinks = mobileMenu.querySelectorAll('a');
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        // Small delay to allow navigation to start
+        setTimeout(closeMobileMenu, 100);
+      });
+    });
+  }
+
+  function initSmoothScrolling() {
+    // Handle smooth scrolling for anchor links (both desktop and mobile)
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+
+        // Check if it's an anchor link to the same page
+        if (href && href.startsWith('/#')) {
+          const targetId = href.substring(2); // Remove '/#'
+          const targetElement = document.getElementById(targetId);
+
+          if (targetElement) {
+            e.preventDefault();
+
+            // If we're not on the homepage, navigate there first
+            if (window.location.pathname !== '/') {
+              window.location.href = href;
+              return;
+            }
+
+            // FIXED: Enhanced scroll behavior for mobile
+            // Close mobile menu first if it's open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+              mobileMenu.classList.add('hidden');
+              const hamburgerIcon = document.getElementById('hamburger-icon') as HTMLElement;
+              const closeIcon = document.getElementById('close-icon') as HTMLElement;
+              if (hamburgerIcon) hamburgerIcon.style.display = 'inline-block';
+              if (closeIcon) closeIcon.style.display = 'none';
+            }
+
+            // Small delay to ensure mobile menu is closed before scrolling
+            setTimeout(() => {
+              // Smooth scroll to the target element with proper offset
+              targetElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start' // Ensures we scroll to the top of the element
+              });
+
+              // Update URL without triggering navigation
+              history.pushState(null, '', href);
+            }, 150); // Slightly longer delay for mobile menu animation
+          }
+        }
+      });
+    });
+  }
+
+  // Initialize on DOM load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initSmoothScrolling();
+    });
+  } else {
+    initMobileMenu();
+    initSmoothScrolling();
+  }
+
+  // Also initialize on page navigation (for SPAs)
+  document.addEventListener('astro:page-load', () => {
+    initMobileMenu();
+    initSmoothScrolling();
+  });
+</script>

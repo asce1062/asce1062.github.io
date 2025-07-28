@@ -1,0 +1,77 @@
+---
+import type { Album } from '../types/music';
+
+interface Props {
+  albums: Album[];
+}
+
+const { albums } = Astro.props;
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2xl-responsive">
+  {albums.map((album) => (
+    <a
+      href={`/album/${album.id}`}
+      class="group block bg-transparent rounded-xl overflow-hidden border border-palette-800/20 dark:border-palette-300/20 hover:border-palette-300/40 dark:hover:border-palette-300/40 transition-all duration-300 hover:scale-105"
+    >
+      <!-- Album Cover -->
+      <div class="aspect-square relative overflow-hidden">
+        <img
+          src={album.coverArt}
+          alt={`${album.title} album cover`}
+          class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+          loading="lazy"
+        />
+
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300"></div>
+
+        <!-- Track Count Badge -->
+        <div class="absolute top-lg-responsive right-lg-responsive bg-black/60 rounded-full px-md-responsive py-sm-responsive">
+          <span class="text-white font-proto text-xs-responsive">
+            {album.tracks.length} tracks
+          </span>
+        </div>
+
+        <!-- Animated background shimmer effect -->
+        <div class="absolute inset-0 opacity-30">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+        </div>
+      </div>
+
+      <!-- Album Info -->
+      <div class="p-2xl-responsive">
+        <h3 class="text-xl-responsive font-retro text-palette-900 dark:text-white mb-sm-responsive group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors">
+          {album.title}
+        </h3>
+        <p class="text-palette-900 dark:text-gray-400 text-sm-responsive mb-lg-responsive line-clamp-2 font-proto">
+          {album.description}
+        </p>
+
+        <!-- Genre Tags -->
+        <div class="flex flex-wrap gap-sm-responsive mb-lg-responsive">
+          {album.genre.slice(0, 3).map((genre) => (
+            <span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto">
+              <i class="icon-tags mr-xs-responsive"></i>
+              {genre}
+            </span>
+          ))}
+        </div>
+
+        <!-- Release Date -->
+        <div class="text-palette-900 dark:text-gray-500 text-xs-responsive font-proto">
+          Released {new Date(album.releaseDate).toLocaleDateString()}
+        </div>
+      </div>
+    </a>
+  ))}
+</div>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

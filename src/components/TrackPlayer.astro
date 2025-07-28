@@ -1,0 +1,413 @@
+---
+interface Props {
+  trackId: string;
+  albumId: string;
+}
+
+const { trackId, albumId } = Astro.props;
+---
+
+<div
+  class="track-player bg-light-100/50 dark:bg-palette-900/50 backdrop-blur-sm rounded-xl p-2xl-responsive border border-palette-800/30 dark:border-palette-300/30 retro-crt"
+  data-track-id={trackId}
+  data-album-id={albumId}
+>
+  <!-- Track Info -->
+  <div class="flex items-center justify-between mb-lg-responsive gap-lg-responsive">
+    <div class="flex items-center gap-lg-responsive min-w-0 flex-1">
+      <i class="icon-mp3 text-palette-500 dark:text-palette-500 icon-lg track-format flex-shrink-0"></i>
+      <div class="min-w-0 flex-1">
+        <h4 class="text-palette-900 dark:text-white font-bold text-lg-responsive track-title truncate font-retro">Loading...</h4>
+        <p class="text-palette-900 dark:text-gray-400 text-sm-responsive track-duration font-proto">0:00</p>
+      </div>
+    </div>
+
+    <!-- Download Button -->
+    <button class="download-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors flex-shrink-0">
+      <i class="icon-cloud-download icon-lg"></i>
+    </button>
+  </div>
+
+  <!-- Controls -->
+  <div class="flex items-center gap-lg-responsive mb-lg-responsive flex-wrap">
+    <div class="flex items-center gap-md-responsive">
+      <button class="prev-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors">
+        <i class="icon-skip-backward icon-lg"></i>
+      </button>
+
+      <button class="play-pause-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors transform hover:scale-110">
+        <i class="icon-play-fill icon-xl text-palette-800 dark:text-palette-300 play-icon"></i>
+        <i class="icon-pause icon-xl text-palette-800 dark:text-palette-300 pause-icon" style="display: none;"></i>
+      </button>
+
+      <button class="next-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors">
+        <i class="icon-skip-forward icon-lg"></i>
+      </button>
+    </div>
+
+    <!-- Loop Button Only -->
+    <div class="flex gap-sm-responsive ml-auto">
+      <button class="loop-btn text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors" title="Loop Track">
+        <i class="icon-repeat icon-lg loop-icon"></i>
+        <i class="icon-repeat-1 icon-lg loop-one-icon" style="display: none;"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="mb-lg-responsive">
+    <div class="flex items-center justify-between text-xs-responsive text-palette-900 dark:text-gray-400 mb-sm-responsive font-proto">
+      <span class="current-time">0:00</span>
+      <span class="total-time">0:00</span>
+    </div>
+    <div class="progress-container bg-light-200 dark:bg-palette-900 rounded-full h-[clamp(6px,1vw,8px)] cursor-pointer">
+      <div class="progress-bar bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <!-- Volume Control with Percentage -->
+  <div class="flex items-center gap-md-responsive mb-lg-responsive">
+    <i class="icon-volume-up icon-lg text-palette-800 dark:text-palette-500"></i>
+    <div class="flex-1">
+      <input
+        type="range"
+        class="volume-slider w-full bg-light-200 dark:bg-palette-900 rounded-lg appearance-none cursor-pointer"
+        min="0"
+        max="100"
+        value="70"
+      />
+    </div>
+    <span class="text-sm-responsive text-palette-900 dark:text-gray-400 font-proto w-[3rem] text-right volume-display">70%</span>
+  </div>
+
+  <!-- Local Audio Element (for UI sync only) -->
+  <audio class="audio-element" preload="metadata" style="display: none;"></audio>
+</div>
+
+<script>
+  import { musicPlayer } from '../utils/musicPlayer';
+  import type { PlaybackState } from '../utils/musicPlayer';
+  import musicData from '../data/music.json';
+
+  class TrackPlayer {
+    private element: HTMLElement;
+    private audio: HTMLAudioElement;
+    private trackData: any = null;
+    private albumData: any = null;
+    private trackId: string;
+    private albumId: string;
+    private isGloballyActive = false;
+
+    constructor(element: HTMLElement) {
+      this.element = element;
+      this.audio = element.querySelector('.audio-element') as HTMLAudioElement;
+      this.trackId = element.dataset.trackId || '';
+      this.albumId = element.dataset.albumId || '';
+      this.init();
+    }
+
+    private async init() {
+      this.loadTrackData();
+      this.setupEventListeners();
+      this.bindMusicPlayerEvents();
+      
+      // Initialize with current state
+      const state = musicPlayer.getState();
+      this.updateFromState(state);
+    }
+
+    private loadTrackData() {
+      try {
+        this.albumData = musicData.albums.find((a: any) => a.id === this.albumId);
+        if (this.albumData) {
+          this.trackData = this.albumData.tracks.find((t: any) => t.id === this.trackId);
+          if (this.trackData) {
+            this.updateTrackInfo();
+            this.loadAudio();
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load track data:', error);
+      }
+    }
+
+    private setupEventListeners() {
+      // Play/Pause button
+      const playPauseBtn = this.element.querySelector('.play-pause-btn');
+      playPauseBtn?.addEventListener('click', () => this.togglePlayPause());
+
+      // Previous/Next buttons
+      const prevBtn = this.element.querySelector('.prev-btn');
+      const nextBtn = this.element.querySelector('.next-btn');
+      prevBtn?.addEventListener('click', () => musicPlayer.previousTrack());
+      nextBtn?.addEventListener('click', () => musicPlayer.nextTrack());
+
+      // Loop button
+      const loopBtn = this.element.querySelector('.loop-btn');
+      loopBtn?.addEventListener('click', () => musicPlayer.toggleLoop());
+
+      // Progress bar
+      const progressContainer = this.element.querySelector('.progress-container');
+      progressContainer?.addEventListener('click', (e) => this.handleProgressClick(e));
+
+      // Volume slider
+      const volumeSlider = this.element.querySelector('.volume-slider') as HTMLInputElement;
+      volumeSlider?.addEventListener('input', (e) => this.handleVolumeChange(e));
+
+      // Download button
+      const downloadBtn = this.element.querySelector('.download-btn');
+      downloadBtn?.addEventListener('click', () => this.downloadTrack());
+    }
+
+    private bindMusicPlayerEvents() {
+      // Listen to music player service events
+      musicPlayer.onTrackStarted((event) => {
+        const { track } = event.detail;
+        this.isGloballyActive = track.id === this.trackId;
+        this.updatePlayButton();
+      });
+
+      musicPlayer.onStateChanged((event) => {
+        this.updateFromState(event.detail.state);
+      });
+
+      musicPlayer.onProgressUpdated((event) => {
+        if (this.isGloballyActive) {
+          const { currentTime, duration, percentage } = event.detail;
+          this.updateProgress(currentTime, duration, percentage);
+        }
+      });
+
+      musicPlayer.onVolumeChanged((event) => {
+        this.updateVolumeDisplay(Math.round(event.detail.volume * 100));
+      });
+
+      musicPlayer.onLoopChanged((event) => {
+        if (this.isGloballyActive) {
+          this.updateLoopButton(event.detail.isLooping);
+        }
+      });
+
+      musicPlayer.onTrackChanged((event) => {
+        const { track } = event.detail;
+        this.isGloballyActive = track.id === this.trackId;
+        this.updatePlayButton();
+        
+        if (this.isGloballyActive) {
+          // Scroll to this track and highlight it
+          this.element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+          
+          this.element.classList.add('highlight-track');
+          setTimeout(() => {
+            this.element.classList.remove('highlight-track');
+          }, 3000);
+        }
+      });
+
+      musicPlayer.onShuffleChanged((event) => {
+        // Update any shuffle-related UI if needed
+        console.log(`Track Player: Shuffle ${event.detail.isShuffled ? 'enabled' : 'disabled'} for ${this.trackData?.title}`);
+      });
+    }
+
+    private updateFromState(state: PlaybackState) {
+      const isCurrentTrack = state.currentTrack?.id === this.trackId;
+      this.isGloballyActive = isCurrentTrack;
+      
+      if (isCurrentTrack) {
+        this.updatePlayButton(state.isPlaying);
+        this.updateLoopButton(state.isLooping);
+        this.updateVolumeSlider(state.volume);
+      } else {
+        this.updatePlayButton(false);
+      }
+    }
+
+    private updateTrackInfo() {
+      if (!this.trackData) return;
+
+      const titleEl = this.element.querySelector('.track-title');
+      const durationEl = this.element.querySelector('.track-duration');
+      const formatEl = this.element.querySelector('.track-format');
+
+      if (titleEl) titleEl.textContent = this.trackData.title;
+      if (durationEl) durationEl.textContent = this.trackData.duration;
+      if (formatEl) {
+        formatEl.className = `icon-${this.trackData.format?.toLowerCase() || 'mp3'} text-palette-500 dark:text-palette-500 icon-lg track-format flex-shrink-0`;
+      }
+    }
+
+    private loadAudio() {
+      if (!this.trackData) return;
+      this.audio.src = this.trackData.file;
+    }
+
+    private updateProgress(currentTime: number, duration: number, percentage: number) {
+      // Update progress bar
+      const progressBar = this.element.querySelector('.progress-bar') as HTMLElement;
+      if (progressBar) {
+        progressBar.style.width = `${percentage}%`;
+      }
+
+      // Update time displays
+      const currentTimeEl = this.element.querySelector('.current-time');
+      const totalTimeEl = this.element.querySelector('.total-time');
+
+      if (currentTimeEl) {
+        currentTimeEl.textContent = this.formatTime(currentTime);
+      }
+      if (totalTimeEl) {
+        totalTimeEl.textContent = this.formatTime(duration);
+      }
+    }
+
+    private updatePlayButton(isPlaying: boolean = false) {
+      const playIcon = this.element.querySelector('.play-icon') as HTMLElement;
+      const pauseIcon = this.element.querySelector('.pause-icon') as HTMLElement;
+
+      if (this.isGloballyActive && isPlaying) {
+        if (playIcon) playIcon.style.display = 'none';
+        if (pauseIcon) pauseIcon.style.display = 'inline-block';
+      } else {
+        if (playIcon) playIcon.style.display = 'inline-block';
+        if (pauseIcon) pauseIcon.style.display = 'none';
+      }
+    }
+
+    private updateLoopButton(isLooping: boolean) {
+      const loopIcon = this.element.querySelector('.loop-icon') as HTMLElement;
+      const loopOneIcon = this.element.querySelector('.loop-one-icon') as HTMLElement;
+      const loopBtn = this.element.querySelector('.loop-btn');
+
+      if (isLooping) {
+        if (loopIcon) loopIcon.style.display = 'none';
+        if (loopOneIcon) loopOneIcon.style.display = 'inline-block';
+
+        if (loopBtn) {
+          loopBtn.classList.remove('text-palette-800', 'dark:text-palette-300');
+          loopBtn.classList.add('text-palette-300', 'dark:text-palette-400');
+          loopBtn.setAttribute('title', 'Loop Track (Active)');
+        }
+      } else {
+        if (loopIcon) loopIcon.style.display = 'inline-block';
+        if (loopOneIcon) loopOneIcon.style.display = 'none';
+
+        if (loopBtn) {
+          loopBtn.classList.add('text-palette-800', 'dark:text-palette-300');
+          loopBtn.classList.remove('text-palette-300', 'dark:text-palette-400');
+          loopBtn.setAttribute('title', 'Loop Track');
+        }
+      }
+    }
+
+    private updateVolumeSlider(volume: number) {
+      const volumeSlider = this.element.querySelector('.volume-slider') as HTMLInputElement;
+      if (volumeSlider) {
+        volumeSlider.value = (volume * 100).toString();
+        this.updateVolumeDisplay(Math.round(volume * 100));
+      }
+    }
+
+    private updateVolumeDisplay(volumePercent: number) {
+      const volumeDisplay = this.element.querySelector('.volume-display');
+      if (volumeDisplay) {
+        volumeDisplay.textContent = `${volumePercent}%`;
+      }
+    }
+
+    private togglePlayPause() {
+      const state = musicPlayer.getState();
+      
+      if (this.isGloballyActive) {
+        // This track is currently active
+        if (state.isPlaying) {
+          musicPlayer.pause();
+        } else {
+          // Use play() with forceStart to ensure proper loading, but preserve position
+          console.log('Track Player: Resuming current track:', this.trackData?.title);
+          musicPlayer.play(this.trackId, this.albumId, { 
+            forceStart: true, 
+            preservePosition: true 
+          }).catch(error => {
+            console.error('Failed to resume playback:', error);
+          });
+        }
+      } else {
+        // Start playing this track
+        console.log('Track Player: Starting new track:', this.trackData?.title);
+        musicPlayer.play(this.trackId, this.albumId);
+      }
+    }
+
+    private handleProgressClick(event: Event) {
+      if (!this.isGloballyActive) return;
+
+      const progressContainer = event.currentTarget as HTMLElement;
+      const rect = progressContainer.getBoundingClientRect();
+      const x = (event as MouseEvent).clientX - rect.left;
+      const percentage = x / rect.width;
+      const state = musicPlayer.getState();
+
+      if (state.duration && !isNaN(state.duration)) {
+        const seekTime = percentage * state.duration;
+        musicPlayer.seek(seekTime);
+      }
+    }
+
+    private handleVolumeChange(event: Event) {
+      const volumeSlider = event.target as HTMLInputElement;
+      const volumePercent = parseInt(volumeSlider.value);
+      const volume = volumePercent / 100;
+
+      musicPlayer.setVolume(volume);
+    }
+
+    private downloadTrack() {
+      if (!this.trackData || !this.albumData) return;
+
+      // Use the global download manager service
+      if (window.downloadManager) {
+        window.downloadManager.downloadTrack(this.trackData.id, this.albumData.id);
+      } else {
+        // Fallback to direct download
+        const link = document.createElement('a');
+        link.href = this.trackData.file;
+        link.download = `${this.trackData.title}.${this.trackData.format}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+    }
+
+    private formatTime(seconds: number): string {
+      if (isNaN(seconds)) return '0:00';
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.floor(seconds % 60);
+      return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+
+    // Cleanup method
+    public destroy() {
+      // No intervals to clean up in the refactored version
+    }
+  }
+
+  // Initialize track players
+  document.addEventListener('DOMContentLoaded', () => {
+    const trackPlayers = document.querySelectorAll('.track-player');
+    trackPlayers.forEach(player => {
+      new TrackPlayer(player as HTMLElement);
+    });
+  });
+
+  // Also initialize on page navigation (for SPAs)
+  document.addEventListener('astro:page-load', () => {
+    const trackPlayers = document.querySelectorAll('.track-player');
+    trackPlayers.forEach(player => {
+      new TrackPlayer(player as HTMLElement);
+    });
+  });
+</script>

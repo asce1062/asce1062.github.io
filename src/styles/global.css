@@ -1,0 +1,470 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+      font-family: "0xProto";
+      src: url("/fonts/0xProto/0xProtoNerdFont-Regular.ttf") format("truetype");
+  }
+  @font-face {
+      font-family: "uni0553";
+      src: local("uni0553");
+      src: url("/fonts/uni0553/uni0553.eot");
+      src: url("/fonts/uni0553/uni0553d41d.eot?#iefix") format("embedded-opentype"), url("/fonts/uni0553/uni0553.woff") format("woff"), url("/fonts/uni0553/uni0553.ttf") format("truetype"), url("/fonts/uni0553/uni0553.svg#uni_05_53regular") format("svg");
+  }
+  /* CSS Variables for consistent theming */
+  :root {
+    --tangrey: #8e878c;
+    --neutralgrey: #9f94a0;
+    --lightgrey: #bbb8bb;
+    --pink: #dcb8b0;
+    --peach: #e5cab7;
+    --blue: #9bb0cd;
+    --lightblue: #cad5db;
+    --dark: #120f19;
+    --bold: #947b82;
+    /* Set default font family immediately */
+    font-family: "0xProto", "uni0553", "Courier New", monospace;
+  }
+
+  /* Prevent theme flash by setting default dark theme */
+  html {
+    background-color: #120f19;
+    color: white;
+    /* Ensure font is set immediately */
+    font-family: "0xProto", "uni0553", "Courier New", monospace;
+    font-size: clamp(14px, 1rem + 0.5vw, 16px);
+  }
+
+  html.dark {
+    background-color: #120f19;
+    color: white;
+    color-scheme: dark;
+  }
+
+  html:not(.dark) {
+    background-color: #e8e5f0;
+    color: #947b82;
+    color-scheme: light;
+  }
+
+  ::selection {
+    background: var(--blue);
+    color: var(--dark);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    /* Default to dark theme to prevent flash */
+    background-color: #120f19;
+    color: white;
+    /* Ensure consistent font family */
+    font-family: "0xProto", "Courier New", monospace;
+    /* Smooth theme transitions */
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  h1 {
+    font-size: 2.125em;
+    font-family: "0xProto", "Courier New", monospace;
+  }
+
+  h2 {
+    font-size: 1.4em;
+    margin-bottom: 0.83em;
+    font-family: "0xProto", "Courier New", monospace;
+  }
+
+  p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-family: "0xProto", "Courier New", monospace;
+  }
+
+  b {
+    color: var(--bold);
+    font-weight: 700;
+  }
+
+  header {
+    position: relative;
+  }
+
+  footer {
+    text-align: center;
+  }
+
+  pre {
+    color: white;
+    font-family: "0xProto", "Courier New", monospace;
+  }
+
+  /* Icon font classes - ensure they use icomoon */
+  [class^="icon-"], [class*=" icon-"] {
+    font-family: 'icomoon' !important;
+    text-decoration: none;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: inherit;
+    display: inline-block;
+  }
+
+  .icon {
+    text-decoration: none;
+    font-family: 'icomoon' !important;
+  }
+
+  /* Ensure all text elements use the correct font */
+  * {
+    font-family: inherit;
+  }
+
+  /* Override any potential font inheritance issues */
+  input, textarea, select, button {
+    font-family: "0xProto", "Courier New", monospace;
+  }
+
+  @media screen and (width < 640px) {
+    p, ul {
+      font-size: 14px;
+    }
+  }
+}
+
+/* Responsive container */
+.container {
+  padding-left: clamp(1rem, 2vw, 2rem);
+  padding-right: clamp(1rem, 2vw, 2rem);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: clamp(6px, 0.5vw, 8px);
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-light-100 dark:bg-palette-700;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-palette-800 dark:bg-palette-500 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-palette-300 dark:bg-palette-400;
+}
+
+/* Responsive range slider */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  height: clamp(6px, 1vw, 8px);
+}
+
+input[type="range"]::-webkit-slider-track {
+  background: #c3b8c1;
+  height: clamp(6px, 1vw, 8px);
+  border-radius: clamp(3px, 0.5vw, 4px);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #947b82;
+  height: clamp(12px, 2vw, 16px);
+  width: clamp(12px, 2vw, 16px);
+  border-radius: 50%;
+  border: clamp(1px, 0.25vw, 2px) solid #fff;
+  box-shadow: 0 0 clamp(5px, 1vw, 10px) rgba(148, 123, 130, 0.5);
+}
+
+input[type="range"]::-moz-range-track {
+  background: #c3b8c1;
+  height: clamp(6px, 1vw, 8px);
+  border-radius: clamp(3px, 0.5vw, 4px);
+  border: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background: #947b82;
+  height: clamp(12px, 2vw, 16px);
+  width: clamp(12px, 2vw, 16px);
+  border-radius: 50%;
+  border: clamp(1px, 0.25vw, 2px) solid #fff;
+  box-shadow: 0 0 clamp(5px, 1vw, 10px) rgba(148, 123, 130, 0.5);
+  cursor: pointer;
+}
+
+/* Dark mode range slider */
+html.dark input[type="range"]::-webkit-slider-track {
+  background: #201d29;
+}
+
+html.dark input[type="range"]::-moz-range-track {
+  background: #201d29;
+}
+
+/* Smooth theme transitions only for specific elements */
+body, header, footer, main {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Custom retro font utilities with responsive sizing and proper fallbacks */
+.font-retro {
+  font-family: 'uni0553', 'Courier New', monospace !important;
+  letter-spacing: clamp(0.025em, 0.05em, 0.075em);
+}
+
+.font-proto {
+  font-family: '0xProto', 'Courier New', monospace !important;
+  letter-spacing: clamp(0.025em, 0.05em, 0.075em);
+}
+
+.font-retro-display {
+  font-family: 'uni0553', 'Courier New', monospace !important;
+  letter-spacing: clamp(0.05em, 0.1em, 0.15em);
+  text-transform: uppercase;
+}
+
+/* Reduced glow effect for better readability */
+.retro-text-subtle-glow {
+  text-shadow:
+    0 0 clamp(1px, 0.2vw, 2px) currentColor,
+    0 0 clamp(2px, 0.4vw, 3px) currentColor;
+}
+
+/* Enhanced glow effect for hero title in dark mode */
+.retro-hero-glow {
+  text-shadow:
+    0 0 clamp(1px, 0.2vw, 2px) currentColor,
+    0 0 clamp(2px, 0.4vw, 3px) currentColor;
+}
+
+html.dark .retro-hero-glow {
+  text-shadow:
+    0 0 clamp(3px, 0.5vw, 5px) rgba(220, 184, 176, 0.2),
+    0 0 clamp(6px, 1vw, 10px) rgba(220, 184, 176, 0.2),
+    0 0 clamp(9px, 1.5vw, 15px) rgba(220, 184, 176, 0.2),
+    0 0 clamp(12px, 2vw, 20px) rgba(220, 184, 176, 0.2),
+    0 0 clamp(15px, 2.5vw, 25px) rgba(155, 176, 205, 0.2),
+    0 0 clamp(18px, 3vw, 30px) rgba(155, 176, 205, 0.2);
+}
+
+/* Original stronger glow effect (kept for special cases) */
+.retro-text-glow {
+  text-shadow:
+    0 0 clamp(3px, 0.5vw, 5px) currentColor,
+    0 0 clamp(6px, 1vw, 10px) currentColor,
+    0 0 clamp(9px, 1.5vw, 15px) currentColor,
+    0 0 clamp(12px, 2vw, 20px) currentColor;
+}
+
+/* Responsive button and interactive elements */
+button, .btn {
+  padding: clamp(0.5rem, 1vw, 0.75rem) clamp(1rem, 2vw, 1.5rem);
+  border-radius: clamp(4px, 0.5vw, 8px);
+  font-size: clamp(0.75rem, 1vw, 0.875rem);
+  font-family: "0xProto", "Courier New", monospace;
+}
+
+/* Responsive cards and containers */
+.card, .track-player, .album-card {
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border-radius: clamp(8px, 1vw, 12px);
+  border-width: clamp(1px, 0.1vw, 2px);
+}
+
+/* CRT effect */
+.retro-crt {
+  border-radius: clamp(4px, 1vw, 8px);
+  box-shadow:
+    inset 0 0 0 clamp(1px, 0.25vw, 2px) rgba(148, 123, 130, 0.3),
+    0 0 clamp(10px, 2vw, 20px) rgba(148, 123, 130, 0.2);
+}
+
+/* Custom responsive font sizes */
+.text-xs-responsive {
+  font-size: clamp(0.625rem, 0.5rem + 0.5vw, 0.75rem);
+}
+
+.text-sm-responsive {
+  font-size: clamp(0.75rem, 0.625rem + 0.5vw, 0.875rem);
+}
+
+.text-base-responsive {
+  font-size: clamp(0.875rem, 0.75rem + 0.5vw, 1rem);
+}
+
+.text-lg-responsive {
+  font-size: clamp(1rem, 0.875rem + 0.5vw, 1.125rem);
+}
+
+.text-xl-responsive {
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
+}
+
+.text-2xl-responsive {
+  font-size: clamp(1.25rem, 1.125rem + 0.5vw, 1.5rem);
+}
+
+.text-3xl-responsive {
+  font-size: clamp(1.5rem, 1.25rem + 1vw, 1.875rem);
+}
+
+.text-4xl-responsive {
+  font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.25rem);
+}
+
+.text-5xl-responsive {
+  font-size: clamp(2.25rem, 1.875rem + 2vw, 3rem);
+}
+
+.text-6xl-responsive {
+  font-size: clamp(3rem, 2.25rem + 3vw, 3.75rem);
+}
+
+.text-7xl-responsive {
+  font-size: clamp(3.75rem, 3rem + 3vw, 4.5rem);
+}
+
+.text-8xl-responsive {
+  font-size: clamp(4.5rem, 3.75rem + 4vw, 6rem);
+}
+
+.text-hero-responsive {
+  font-size: clamp(2.5rem, 2rem + 2vw, 4rem);
+}
+
+.text-subtitle-responsive {
+  font-size: clamp(0.875rem, 0.75rem + 0.75vw, 1.25rem);
+}
+
+/* Responsive spacing utilities */
+.xs-responsive {
+  margin: clamp(0.25rem, 0.125rem + 0.5vw, 0.5rem);
+  padding: clamp(0.25rem, 0.125rem + 0.5vw, 0.5rem);
+}
+
+.sm-responsive {
+  margin: clamp(0.5rem, 0.25rem + 1vw, 0.75rem);
+  padding: clamp(0.5rem, 0.25rem + 1vw, 0.75rem);
+}
+
+.md-responsive {
+  margin: clamp(0.75rem, 0.5rem + 1vw, 1rem);
+  padding: clamp(0.75rem, 0.5rem + 1vw, 1rem);
+}
+
+.lg-responsive {
+  margin: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+  padding: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+}
+
+.xl-responsive {
+  margin: clamp(1.5rem, 1rem + 2vw, 2rem);
+  padding: clamp(1.5rem, 1rem + 2vw, 2rem);
+}
+
+/* Track highlight animation with maintained rounded corners */
+.highlight-track {
+  animation: highlight 3s ease-in-out;
+  /* Ensure rounded corners are maintained during animation */
+  border-radius: clamp(8px, 1vw, 12px);
+  overflow: hidden;
+}
+
+@keyframes highlight {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+  50% {
+    /* Subtle zoom effect */
+    transform: scale(1.005);
+    /* Enhanced glow effect with maintained border radius */
+    box-shadow:
+      0 0 clamp(10px, 1.5vw, 15px) rgba(148, 123, 130, 0.4),
+      0 0 clamp(20px, 3vw, 30px) rgba(148, 123, 130, 0.2),
+      inset 0 0 0 clamp(1px, 0.25vw, 2px) rgba(148, 123, 130, 0.3);
+  }
+}
+
+/* Ensure track items maintain their rounded shape */
+.track-item {
+  scroll-margin-top: clamp(80px, 10vw, 100px);
+  /* Maintain border radius consistency */
+  border-radius: clamp(8px, 1vw, 12px);
+  /* Ensure smooth transitions */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Enhanced track player styling to maintain rounded corners */
+.track-player {
+  /* Ensure consistent border radius */
+  border-radius: clamp(8px, 1vw, 12px) !important;
+  /* Prevent border radius from being overridden during animations */
+  overflow: hidden;
+}
+
+/* Icon size utilities */
+.icon-xs {
+  font-size: clamp(0.75rem, 1.5vw, 1rem);
+}
+
+.icon-sm {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+.icon-md {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+}
+
+.icon-lg {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.icon-xl {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+}
+
+/* Enhanced responsive text handling */
+.hyphens-auto {
+  hyphens: auto;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Improved text wrapping for long words */
+.break-words {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Prevent text overflow in containers */
+.text-container {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* Responsive line height adjustments */
+.leading-tight-responsive {
+  line-height: clamp(1.1, 1.2, 1.25);
+}
+
+.leading-normal-responsive {
+  line-height: clamp(1.4, 1.5, 1.6);
+}
+
+.leading-relaxed-responsive {
+  line-height: clamp(1.6, 1.75, 1.8);
+}

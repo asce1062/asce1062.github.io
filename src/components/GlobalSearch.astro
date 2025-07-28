@@ -1,0 +1,469 @@
+---
+interface Props {
+  musicData?: any;
+}
+
+const { musicData } = Astro.props;
+---
+
+<div class="relative w-full max-w-full">
+  <div class="relative">
+    <input
+      type="text"
+      id="global-search"
+      placeholder="Search tracks..."
+      class="w-full px-lg-responsive py-sm-responsive pl-[clamp(3rem,6vw,3.5rem)] bg-light-200 dark:bg-palette-900 border border-palette-800/30 dark:border-palette-300/30 rounded-lg text-palette-900 dark:text-white placeholder-palette-900/50 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-palette-300 dark:focus:ring-palette-300 focus:border-transparent text-sm-responsive font-proto"
+    />
+    <i class="icon-search-heart absolute left-lg-responsive top-1/2 transform -translate-y-1/2 icon-md text-palette-900/50 dark:text-gray-400"></i>
+
+    <!-- Clear button -->
+    <button id="search-clear" class="absolute right-md-responsive top-1/2 transform -translate-y-1/2 text-palette-900/50 dark:text-gray-400 hover:text-palette-900 dark:hover:text-white transition-colors hidden" aria-label="Clear search">
+      <i class="icon-x icon-md"></i>
+    </button>
+  </div>
+
+  <div id="search-results" class="absolute top-full left-0 right-0 mt-sm-responsive w-full bg-light-100 dark:bg-palette-900 border border-palette-800/30 dark:border-palette-300/30 rounded-lg shadow-xl z-50 hidden max-h-96 overflow-y-auto">
+    <!-- Search results will be populated here -->
+  </div>
+
+  <!-- Search suggestions (shown when input is empty but focused) -->
+  <div id="search-suggestions" class="absolute top-full left-0 right-0 mt-sm-responsive w-full bg-light-100 dark:bg-palette-900 border border-palette-800/30 dark:border-palette-300/30 rounded-lg shadow-xl z-50 hidden">
+    <div class="p-lg-responsive">
+      <div class="text-palette-900 dark:text-gray-400 text-sm-responsive mb-md-responsive font-proto">Popular searches:</div>
+      <div class="flex flex-wrap gap-sm-responsive">
+        <button class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto" data-query="electronic">
+          Electronic
+        </button>
+        <button class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto" data-query="synthwave">
+          Synthwave
+        </button>
+        <button class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto" data-query="chiptune">
+          Chiptune
+        </button>
+        <button class="suggestion-tag px-md-responsive py-sm-responsive bg-light-200 hover:bg-palette-300 dark:bg-palette-800 dark:hover:bg-palette-300 text-palette-900 hover:text-white dark:text-gray-300 dark:hover:text-palette-900 text-xs-responsive rounded-full transition-colors font-proto" data-query="remix">
+          Remix
+        </button>
+      </div>
+      <div class="text-palette-900/70 dark:text-gray-400 text-xs-responsive mt-md-responsive font-proto flex items-center gap-xs-responsive">
+        <kbd class="px-xs-responsive py-xs-responsive bg-light-200 dark:bg-palette-800 rounded text-xs-responsive font-proto border border-palette-800/20 dark:border-palette-300/20">/</kbd>
+        <span>to focus search</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import musicData from '../data/music.json';
+
+  class GlobalSearch {
+    private searchInput: HTMLInputElement | null;
+    private searchResults: HTMLElement | null;
+    private searchSuggestions: HTMLElement | null;
+    private clearButton: HTMLElement | null;
+    private searchTimeout: TimeoutId | null = null;
+
+    constructor() {
+      this.searchInput = document.getElementById('global-search') as HTMLInputElement;
+      this.searchResults = document.getElementById('search-results');
+      this.searchSuggestions = document.getElementById('search-suggestions');
+      this.clearButton = document.getElementById('search-clear');
+
+      this.init();
+    }
+
+    private init() {
+      if (!this.searchInput) return;
+
+      this.setupEventListeners();
+    }
+
+    private setupEventListeners() {
+      if (!this.searchInput) return;
+
+      // Input event for live search
+      this.searchInput.addEventListener('input', (e) => {
+        const query = (e.target as HTMLInputElement).value.trim();
+
+        // Show/hide clear button
+        if (this.clearButton) {
+          this.clearButton.classList.toggle('hidden', query.length === 0);
+        }
+
+        if (this.searchTimeout) {
+          clearTimeout(this.searchTimeout);
+        }
+        this.searchTimeout = setTimeout(() => {
+          if (query.length === 0) {
+            this.hideResults();
+            return;
+          }
+
+          if (query.length >= 1) {
+            const results = this.searchTracks(query);
+            this.displayResults(results, query);
+          }
+        }, 150);
+      });
+
+      // Focus event to show suggestions
+      this.searchInput.addEventListener('focus', () => {
+        const query = this.searchInput?.value.trim() || '';
+        if (query.length === 0) {
+          this.showSuggestions();
+        } else if (query.length >= 1) {
+          const results = this.searchTracks(query);
+          this.displayResults(results, query);
+        }
+      });
+
+      // Blur event to hide suggestions (with delay for clicks)
+      this.searchInput.addEventListener('blur', () => {
+        setTimeout(() => {
+          this.hideSuggestions();
+        }, 200);
+      });
+
+      // Clear button functionality
+      if (this.clearButton) {
+        this.clearButton.addEventListener('click', () => {
+          if (this.searchInput) {
+            this.searchInput.value = '';
+            this.clearButton?.classList.add('hidden');
+            this.hideResults();
+            this.searchInput.focus();
+          }
+        });
+      }
+
+      // Suggestion tags
+      const suggestionTags = document.querySelectorAll('.suggestion-tag');
+      suggestionTags.forEach(tag => {
+        tag.addEventListener('click', () => {
+          const query = (tag as HTMLElement).dataset.query || '';
+          if (this.searchInput) {
+            this.searchInput.value = query;
+            if (this.clearButton) this.clearButton.classList.remove('hidden');
+            this.hideSuggestions();
+
+            const results = this.searchTracks(query);
+            this.displayResults(results, query);
+          }
+        });
+      });
+
+      // Hide results when clicking outside
+      document.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (!this.searchInput?.contains(target) &&
+            !this.searchResults?.contains(target) &&
+            !this.searchSuggestions?.contains(target)) {
+          this.hideResults();
+          this.hideSuggestions();
+        }
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
+          e.preventDefault();
+          this.searchInput?.focus();
+        }
+        if (e.key === 'Escape') {
+          this.hideResults();
+          this.hideSuggestions();
+          this.searchInput?.blur();
+        }
+      });
+    }
+
+    private searchTracks(query: string) {
+      const results: any[] = [];
+      const queryLower = query.toLowerCase();
+
+      musicData.albums.forEach(album => {
+        // Search album
+        const albumMatch = album.title.toLowerCase().includes(queryLower) ||
+                          album.description.toLowerCase().includes(queryLower) ||
+                          album.genre.some((g: string) => g.toLowerCase().includes(queryLower));
+
+        if (albumMatch) {
+          results.push({
+            type: 'album',
+            relevance: this.calculateRelevance(queryLower, album.title, album.description),
+            ...album
+          });
+        }
+
+        // Search tracks
+        album.tracks.forEach(track => {
+          const trackMatch = track.title.toLowerCase().includes(queryLower) ||
+                           track.description.toLowerCase().includes(queryLower) ||
+                           track.format.toLowerCase().includes(queryLower) ||
+                           track.genre.some((g: string) => g.toLowerCase().includes(queryLower));
+
+          if (trackMatch) {
+            results.push({
+              type: 'track',
+              album: album.title,
+              albumId: album.id,
+              relevance: this.calculateRelevance(queryLower, track.title, track.description),
+              ...track
+            });
+          }
+        });
+      });
+
+      // Sort by relevance (higher is better)
+      return results.sort((a, b) => b.relevance - a.relevance).slice(0, 8);
+    }
+
+    private calculateRelevance(query: string, title: string, description: string): number {
+      let score = 0;
+      const titleLower = title.toLowerCase();
+      const descLower = description.toLowerCase();
+
+      // Exact title match gets highest score
+      if (titleLower === query) score += 100;
+      // Title starts with query
+      else if (titleLower.startsWith(query)) score += 50;
+      // Title contains query
+      else if (titleLower.includes(query)) score += 25;
+
+      // Description matches
+      if (descLower.includes(query)) score += 10;
+
+      // Bonus for shorter titles (more specific matches)
+      score += Math.max(0, 20 - title.length);
+
+      return score;
+    }
+
+    private displayResults(results: any[], query: string) {
+      if (!this.searchResults) return;
+
+      if (results.length === 0) {
+        this.searchResults.innerHTML = `
+          <div class="p-lg-responsive text-palette-900 dark:text-gray-400 text-center">
+            <div class="mb-sm-responsive text-sm-responsive font-proto">No results found for "${this.escapeHtml(query)}"</div>
+            <div class="text-xs-responsive text-palette-900/50 dark:text-gray-500 font-proto">Try searching for track names, albums, or genres</div>
+          </div>
+        `;
+      } else {
+        const resultsByType = {
+          albums: results.filter(r => r.type === 'album'),
+          tracks: results.filter(r => r.type === 'track')
+        };
+
+        let html = '';
+
+        // Show albums first if any
+        if (resultsByType.albums.length > 0) {
+          html += '<div class="p-sm-responsive text-xs-responsive text-palette-900/50 dark:text-gray-500 bg-light-200 dark:bg-palette-800/50 font-proto">Albums</div>';
+          html += resultsByType.albums.map(result => `
+            <a href="/album/${result.id}" class="block p-md-responsive hover:bg-light-200 dark:hover:bg-palette-800 border-b border-palette-800/30 dark:border-palette-300/30 transition-colors">
+              <div class="flex items-center gap-md-responsive">
+                <div class="min-w-0 flex-1">
+                  <div class="text-palette-900 dark:text-white font-medium truncate text-sm-responsive font-proto">${this.highlightMatch(this.escapeHtml(result.title), query)}</div>
+                  <div class="text-palette-900 dark:text-gray-400 text-xs-responsive font-proto">Album • ${result.tracks ? result.tracks.length : 0} tracks</div>
+                </div>
+              </div>
+            </a>
+          `).join('');
+        }
+
+        // Show tracks
+        if (resultsByType.tracks.length > 0) {
+          if (resultsByType.albums.length > 0) {
+            html += '<div class="p-sm-responsive text-xs-responsive text-palette-900/50 dark:text-gray-500 bg-light-200 dark:bg-palette-800/50 border-t border-palette-800/30 dark:border-palette-300/30 font-proto">Tracks</div>';
+          }
+          html += resultsByType.tracks.map(result => `
+            <a href="#" class="search-track-link block p-md-responsive hover:bg-light-200 dark:hover:bg-palette-800 border-b border-palette-800/30 dark:border-palette-300/30 last:border-b-0 transition-colors"
+               data-track-id="${result.id}"
+               data-album-id="${result.albumId}"
+               data-track-title="${this.escapeHtml(result.title)}"
+               data-album-title="${this.escapeHtml(result.album)}">
+              <div class="flex items-center gap-md-responsive">
+                <div class="min-w-0 flex-1">
+                  <div class="text-palette-900 dark:text-white font-medium truncate text-sm-responsive font-proto">${this.highlightMatch(this.escapeHtml(result.title), query)}</div>
+                  <div class="text-palette-900 dark:text-gray-400 text-xs-responsive truncate font-proto">${this.escapeHtml(result.album)} • ${this.escapeHtml(result.duration)} • ${this.escapeHtml(result.format.toUpperCase())}</div>
+                </div>
+              </div>
+            </a>
+          `).join('');
+        }
+
+        this.searchResults.innerHTML = html;
+
+        // Add click handlers for track links
+        const trackLinks = this.searchResults.querySelectorAll('.search-track-link');
+        trackLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const trackId = (link as HTMLElement).dataset.trackId;
+            const albumId = (link as HTMLElement).dataset.albumId;
+
+            if (trackId && albumId) {
+              this.navigateToTrack(trackId, albumId);
+            }
+          });
+        });
+      }
+
+      this.searchResults.classList.remove('hidden');
+      this.hideSuggestions();
+    }
+
+    private navigateToTrack(trackId: string, albumId: string) {
+      // Clear search and hide results
+      this.clearSearch();
+
+      const currentPath = window.location.pathname;
+      const targetPath = `/album/${albumId}`;
+
+      // Check if we're already on the target album page
+      if (currentPath === targetPath) {
+        // Same page - scroll to track
+        this.scrollToTrack(trackId);
+      } else {
+        // Different page - navigate with hash
+        window.location.href = `${targetPath}#track-${trackId}`;
+      }
+    }
+
+    private scrollToTrack(trackId: string) {
+      const trackElement = document.getElementById(`track-${trackId}`);
+
+      if (trackElement) {
+        // Smooth scroll to the track
+        trackElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+
+        // Add highlight effect
+        trackElement.classList.add('highlight-track');
+        setTimeout(() => {
+          trackElement.classList.remove('highlight-track');
+        }, 3000);
+
+        // Update URL hash without triggering navigation
+        history.pushState(null, '', `#track-${trackId}`);
+      }
+    }
+
+    private showSuggestions() {
+      if (this.searchSuggestions) {
+        this.searchSuggestions.classList.remove('hidden');
+      }
+      if (this.searchResults) {
+        this.searchResults.classList.add('hidden');
+      }
+    }
+
+    private hideSuggestions() {
+      if (this.searchSuggestions) {
+        this.searchSuggestions.classList.add('hidden');
+      }
+    }
+
+    private hideResults() {
+      if (this.searchResults) {
+        this.searchResults.classList.add('hidden');
+      }
+    }
+
+    private clearSearch() {
+      if (this.searchInput) {
+        this.searchInput.value = '';
+      }
+      if (this.clearButton) {
+        this.clearButton.classList.add('hidden');
+      }
+      this.hideResults();
+      this.hideSuggestions();
+    }
+
+    private highlightMatch(text: string, query: string): string {
+      if (!query) return text;
+
+      const regex = new RegExp(`(${this.escapeRegex(query)})`, 'gi');
+      return text.replace(regex, '<mark class="bg-palette-300/30 text-palette-800 dark:bg-palette-300/30 dark:text-palette-300">$1</mark>');
+    }
+
+    private escapeRegex(string: string): string {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    private escapeHtml(text: string): string {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  }
+
+  // Global instance
+  let globalSearchInstance: GlobalSearch | null = null;
+
+  // Initialize search functionality
+  function initializeGlobalSearch() {
+    // Clean up existing instance
+    if (globalSearchInstance) {
+      // Add cleanup if needed
+    }
+
+    globalSearchInstance = new GlobalSearch();
+  }
+
+  // Initialize on DOM load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeGlobalSearch);
+  } else {
+    initializeGlobalSearch();
+  }
+
+  // Also initialize on page navigation (for SPAs)
+  document.addEventListener('astro:page-load', initializeGlobalSearch);
+</script>
+
+<style>
+  mark {
+    background-color: rgba(220, 184, 176, 0.3);
+    color: #947b82;
+    padding: 0;
+    border-radius: 2px;
+  }
+
+  html.dark mark {
+    background-color: rgba(220, 184, 176, 0.3);
+    color: #dcb8b0;
+  }
+
+  .search-results {
+    backdrop-filter: blur(8px);
+  }
+
+  .search-suggestions {
+    backdrop-filter: blur(8px);
+  }
+
+  /* Enhanced kbd styling */
+  kbd {
+    font-family: '0xProto', 'JetBrains Mono', monospace;
+    font-size: inherit;
+    font-weight: 500;
+    box-shadow:
+      0 1px 0 rgba(148, 123, 130, 0.2),
+      0 0 0 1px rgba(148, 123, 130, 0.1);
+  }
+
+  html.dark kbd {
+    box-shadow:
+      0 1px 0 rgba(220, 184, 176, 0.2),
+      0 0 0 1px rgba(220, 184, 176, 0.1);
+  }
+
+  /* Ensure placeholder uses 0xProto font */
+  #global-search::placeholder {
+    font-family: '0xProto', 'JetBrains Mono', monospace;
+  }
+</style>

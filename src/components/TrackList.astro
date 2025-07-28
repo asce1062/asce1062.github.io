@@ -1,0 +1,133 @@
+---
+import type { Track } from '../types/music';
+import TrackPlayer from './TrackPlayer.astro';
+
+interface Props {
+  tracks: Track[];
+  albumId: string;
+  albumTitle: string;
+}
+
+const { tracks, albumId, albumTitle } = Astro.props;
+---
+
+<div class="track-list space-responsive">
+  {tracks.map((track, index) => (
+    <div class="track-item" data-track-index={index} id={`track-${track.id}`}>
+      <!-- Track Header -->
+      <div class="p-lg-responsive bg-light-100/30 dark:bg-palette-900/30 rounded-t-xl rounded-b-lg border-b border-palette-800/30 dark:border-palette-300/30">
+        <!-- Desktop Layout -->
+        <div class="hidden md:flex items-center justify-between gap-lg-responsive">
+          <div class="flex items-center gap-lg-responsive">
+            <span class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive w-[clamp(2rem,4vw,2.5rem)]">
+              {(index + 1).toString().padStart(2, '0')}
+            </span>
+            <div>
+              <h3 class="text-palette-900 dark:text-white font-bold text-lg-responsive font-retro">{track.title}</h3>
+              <p class="text-palette-900 dark:text-gray-400 text-sm-responsive font-proto">{track.description}</p>
+            </div>
+          </div>
+          
+          <!-- Track Meta -->
+          <div class="flex items-center gap-lg-responsive text-sm-responsive text-palette-900 dark:text-gray-400">
+            <span class="font-proto">{track.format.toUpperCase()}</span>
+            <span class="font-proto">{track.duration}</span>
+            <div class="flex gap-xs-responsive">
+              {track.genre.slice(0, 2).map((genre) => (
+                <span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto">
+                  {genre}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Layout -->
+        <div class="md:hidden space-responsive">
+          <!-- Track Number and Title -->
+          <div class="flex items-start gap-md-responsive">
+            <span class="text-palette-900 dark:text-gray-400 font-proto text-sm-responsive w-[clamp(2rem,8vw,2.5rem)] mt-xs-responsive">
+              {(index + 1).toString().padStart(2, '0')}
+            </span>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-palette-900 dark:text-white font-bold text-lg-responsive leading-tight font-retro">{track.title}</h3>
+              <p class="text-palette-900 dark:text-gray-400 text-sm-responsive mt-xs-responsive leading-relaxed font-proto">{track.description}</p>
+            </div>
+          </div>
+
+          <!-- Track Meta List -->
+          <div class="ml-[clamp(3rem,10vw,3.5rem)] space-responsive">
+            <!-- Duration -->
+            <div class="flex items-center gap-sm-responsive text-sm-responsive">
+              <span class="text-palette-900 dark:text-gray-500 font-proto">Duration:</span>
+              <span class="text-palette-900 dark:text-white font-proto">{track.duration}</span>
+            </div>
+
+            <!-- Format -->
+            <div class="flex items-center gap-sm-responsive text-sm-responsive">
+              <span class="text-palette-900 dark:text-gray-500 font-proto">Format:</span>
+              <span class="text-palette-300 dark:text-palette-300 font-proto font-medium">{track.format.toUpperCase()}</span>
+            </div>
+
+            <!-- Genres -->
+            <div class="flex items-start gap-sm-responsive">
+              <span class="text-palette-900 dark:text-gray-500 font-proto text-sm-responsive mt-xs-responsive">Genres:</span>
+              <div class="flex flex-wrap gap-xs-responsive">
+                {track.genre.map((genre) => (
+                  <span class="px-sm-responsive py-xs-responsive bg-palette-300/20 text-palette-800 dark:text-palette-300 text-xs-responsive rounded-full font-proto">
+                    {genre}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Track Player -->
+      <TrackPlayer trackId={track.id} albumId={albumId} />
+    </div>
+  ))}
+</div>
+
+<script>
+  // Handle hash-based navigation to tracks
+  function handleTrackNavigation() {
+    const hash = window.location.hash;
+    if (hash.startsWith('#track-')) {
+      const trackId = hash.substring(7); // Remove '#track-' prefix
+      const trackElement = document.getElementById(`track-${trackId}`);
+      
+      if (trackElement) {
+        // Wait a bit for the page to fully load
+        setTimeout(() => {
+          trackElement.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+          
+          // Add a highlight effect
+          trackElement.classList.add('highlight-track');
+          setTimeout(() => {
+            trackElement.classList.remove('highlight-track');
+          }, 3000);
+        }, 500);
+      }
+    }
+  }
+
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', handleTrackNavigation);
+  
+  // Handle hash changes (for navigation within the same page)
+  window.addEventListener('hashchange', handleTrackNavigation);
+  
+  // Also handle Astro page loads
+  document.addEventListener('astro:page-load', handleTrackNavigation);
+</script>
+
+<style>
+  .track-item {
+    scroll-margin-top: clamp(80px, 10vw, 100px);
+  }
+</style>

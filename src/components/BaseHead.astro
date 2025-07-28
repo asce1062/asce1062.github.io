@@ -1,0 +1,278 @@
+---
+import '../styles/global.css';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_AUTHOR } from '../consts';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'music.album' | 'music.song';
+  album?: string;
+  artist?: string;
+  duration?: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const {
+  title,
+  description,
+  image = '/art/default-cover.png',
+  type = 'website',
+  album,
+  artist = SITE_AUTHOR,
+  duration
+} = Astro.props;
+
+const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`;
+const fullDescription = description || SITE_DESCRIPTION;
+const imageUrl = new URL(image, Astro.url);
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={fullDescription} />
+<meta name="author" content={SITE_AUTHOR} />
+<meta name="keywords" content="retro music, chiptune, 8-bit, electronic music, synthwave, MP3, music player, Alex.Immer, Alex Ngugi, asce1062" />
+
+<!-- Favicon and Icons -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- Apple Touch Icons -->
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png" />
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png" />
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png" />
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png" />
+
+<!-- Apple Mobile Web App -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content={SITE_TITLE} />
+
+<!-- Mobile Optimizations -->
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="application-name" content={SITE_TITLE} />
+<meta name="theme-color" content="#947b82" />
+<meta name="msapplication-TileColor" content="#947b82" />
+<meta name="msapplication-navbutton-color" content="#947b82" />
+
+<!-- Font Face Definitions - Inline for immediate availability -->
+<style>
+  /* 0xProto Font - Primary font with fallbacks */
+  @font-face {
+    font-family: "0xProto";
+    src: url('/fonts/0xProto/0xProtoNerdFont-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block; /* Block rendering until font loads */
+  }
+
+  /* uni0553 Font - Secondary font with fallbacks */
+  @font-face {
+    font-family: "uni0553";
+    src: url('/fonts/uni0553/uni0553.woff') format('woff'),
+         url('/fonts/uni0553/uni0553.ttf') format('truetype'),
+         url('/fonts/uni0553/uni0553.svg#uni0553') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block; /* Block rendering until font loads */
+  }
+
+  /* IcoMoon Font - Icon font */
+  @font-face {
+    font-family: 'icomoon';
+    src: url('/fonts/icomoon.woff2') format('woff2'),
+         url('/fonts/icomoon.woff') format('woff'),
+         url('/fonts/icomoon.ttf') format('truetype'),
+         url('/fonts/icomoon.svg#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+  }
+
+  /* Prevent font flash by setting default fonts immediately */
+  html {
+    font-family: "0xProto", "uni0553", "Courier New", monospace;
+  }
+
+  body {
+    font-family: "0xProto", "uni0553", "Courier New", monospace;
+  }
+
+  /* Icon font classes */
+  [class^="icon-"], [class*=" icon-"] {
+    font-family: 'icomoon' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ensure consistent font rendering */
+  .font-proto {
+    font-family: "0xProto", "Courier New", monospace !important;
+  }
+
+  .font-retro {
+    font-family: "uni0553", "Courier New", monospace !important;
+  }
+
+  .font-retro-display {
+    font-family: "uni0553", "Courier New", monospace !important;
+  }
+</style>
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={fullDescription} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:image:alt" content={`${fullTitle} - ${fullDescription}`} />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:locale" content="en_US" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={fullDescription} />
+<meta property="twitter:image" content={imageUrl} />
+<meta property="twitter:image:alt" content={`${fullTitle} - ${fullDescription}`} />
+<meta property="twitter:creator" content="@asce1062" />
+<meta property="twitter:site" content="@asce1062" />
+
+<!-- Music Schema.org -->
+{type === 'music.album' && (
+  <script type="application/ld+json" is:inline>
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MusicAlbum",
+      "name": title,
+      "description": fullDescription,
+      "image": imageUrl,
+      "url": canonicalURL,
+      "datePublished": album ? new Date().toISOString() : undefined,
+      "byArtist": {
+        "@type": "Person",
+        "name": artist,
+        "url": "https://asce1062.github.io"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": SITE_AUTHOR,
+        "url": "https://asce1062.github.io"
+      },
+      "genre": ["Electronic", "Chiptune", "Retro"],
+      "inLanguage": "en-US"
+    })}
+  </script>
+)}
+
+{type === 'music.song' && (
+  <script type="application/ld+json" is:inline>
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "MusicRecording",
+      "name": title,
+      "description": fullDescription,
+      "image": imageUrl,
+      "url": canonicalURL,
+      "duration": duration,
+      "inAlbum": album ? {
+        "@type": "MusicAlbum",
+        "name": album
+      } : undefined,
+      "byArtist": {
+        "@type": "Person",
+        "name": artist,
+        "url": "https://asce1062.github.io"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": SITE_AUTHOR,
+        "url": "https://asce1062.github.io"
+      },
+      "genre": ["Electronic", "Chiptune", "Retro"],
+      "inLanguage": "en-US"
+    })}
+  </script>
+)}
+
+{type === 'website' && (
+  <script type="application/ld+json" is:inline>
+    {JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": SITE_TITLE,
+      "description": SITE_DESCRIPTION,
+      "url": "https://asce1062.github.io",
+      "image": imageUrl,
+      "author": {
+        "@type": "Person",
+        "name": SITE_AUTHOR,
+        "url": "https://asce1062.github.io"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": SITE_AUTHOR,
+        "url": "https://asce1062.github.io"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `https://asce1062.github.io/?q={search_term_string}`
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "mainEntity": {
+        "@type": "MusicGroup",
+        "name": SITE_AUTHOR,
+        "genre": ["Electronic", "Chiptune", "Retro", "Synthwave"],
+        "url": "https://asce1062.github.io"
+      },
+      "inLanguage": "en-US"
+    })}
+  </script>
+)}
+
+<!-- Performance and Security -->
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<!-- Google Fonts (Fallback only) -->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+<!-- Robots and Crawling -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<meta name="googlebot" content="index, follow" />
+
+<!-- Language and Region -->
+<meta name="language" content="English" />
+<meta name="geo.region" content="US" />
+<meta name="geo.placename" content="United States" />
+
+<!-- Additional SEO Meta Tags -->
+<meta name="rating" content="General" />
+<meta name="distribution" content="Global" />
+<meta name="revisit-after" content="7 days" />
+<meta name="format-detection" content="telephone=no" />
