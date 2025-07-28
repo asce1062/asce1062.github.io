@@ -560,7 +560,7 @@ tnkratos@gmail.com
     init() {
       this.setupEventListeners();
       this.bindMusicPlayerEvents();
-      
+
       // Initialize shuffle state from service
       if (window.musicPlayer) {
         const state = window.musicPlayer.getState();
@@ -705,7 +705,7 @@ tnkratos@gmail.com
   };
 
   document.addEventListener('DOMContentLoaded', initAlbumPlayer);
-  
+
   // Also initialize on page navigation (for SPAs)
   document.addEventListener('astro:page-load', initAlbumPlayer);
 })();</script>
