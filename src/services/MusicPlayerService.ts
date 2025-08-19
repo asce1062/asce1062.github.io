@@ -85,14 +85,12 @@ export class MusicPlayerService extends EventTarget {
   private audioContext: AudioContext | null = null;
   private gainNode: GainNode | null = null;
   private source: MediaElementAudioSourceNode | null = null;
-  private hasUserInteracted = false;
   private progressUpdateInterval: number | null = null;
   private stateCheckInterval: number | null = null;
   private lastSavedTime = 0;
   private isTabActive = true;
-  private pendingPlayback: { trackId: string; albumId: string; options?: PlaybackOptions } | null =
-    null;
   private activePlayRequest: AbortController | null = null;
+  private hasPendingRestoration = false;
 
   private state: PlaybackState = {
     currentTrack: null,
@@ -112,6 +110,7 @@ export class MusicPlayerService extends EventTarget {
   private constructor() {
     super();
     this.createGlobalAudioElement();
+    this.createAudioContextIfNeeded();
     this.setupAudioEventListeners();
     this.setupVisibilityHandling();
     this.setupUserInteractionDetection();
@@ -168,7 +167,6 @@ export class MusicPlayerService extends EventTarget {
 
     this.audioElement.addEventListener('play', () => {
       this.state.isPlaying = true;
-      this.hasUserInteracted = true;
       this.createAudioContextIfNeeded();
       this.emitStateChanged();
       this.saveState();
@@ -202,7 +200,7 @@ export class MusicPlayerService extends EventTarget {
   private setupVisibilityHandling(): void {
     document.addEventListener('visibilitychange', () => {
       this.isTabActive = !document.hidden;
-      if (this.isTabActive && this.hasUserInteracted) {
+      if (this.isTabActive) {
         this.checkAndRestorePlayback();
       } else {
         this.saveState();
@@ -211,9 +209,7 @@ export class MusicPlayerService extends EventTarget {
 
     window.addEventListener('focus', () => {
       this.isTabActive = true;
-      if (this.hasUserInteracted) {
-        this.checkAndRestorePlayback();
-      }
+      this.checkAndRestorePlayback();
     });
 
     window.addEventListener('blur', () => {
@@ -223,7 +219,7 @@ export class MusicPlayerService extends EventTarget {
 
     window.addEventListener('beforeunload', () => this.saveState());
     window.addEventListener('pageshow', (e) => {
-      if (e.persisted && this.hasUserInteracted) {
+      if (e.persisted) {
         this.checkAndRestorePlayback();
       }
     });
@@ -231,56 +227,24 @@ export class MusicPlayerService extends EventTarget {
   }
 
   private setupUserInteractionDetection(): void {
+    // Handle first user interaction to resume AudioContext and pending restoration
     const handleFirstInteraction = () => {
-      if (this.hasUserInteracted) return;
-
-      this.hasUserInteracted = true;
-      console.log('🎵 User interaction detected - audio enabled');
-
       this.createAudioContextIfNeeded();
 
-      if (this.pendingPlayback) {
-        console.log('🎵 Starting pending playback');
-        this.play(
-          this.pendingPlayback.trackId,
-          this.pendingPlayback.albumId,
-          this.pendingPlayback.options
-        );
-        this.pendingPlayback = null;
-      }
-
-      // Remove listeners after first interaction
-      document.removeEventListener('click', handleFirstInteraction);
-      document.removeEventListener('keydown', handleFirstKeydown);
-      document.removeEventListener('touchstart', handleFirstInteraction);
-    };
-
-    const handleFirstKeydown = (e: KeyboardEvent) => {
-      if (!['Tab', 'Shift', 'Control', 'Alt', 'Meta'].includes(e.key)) {
-        handleFirstInteraction();
+      // If we have a pending restoration, resume playback
+      if (this.hasPendingRestoration && this.state.currentTrack && this.state.currentAlbum) {
+        console.log('🎵 Resuming restored playback after user interaction');
+        this.hasPendingRestoration = false;
+        this.resume();
       }
     };
 
-    const setupInteractionListeners = () => {
-      document.addEventListener('click', handleFirstInteraction, { once: true });
-      document.addEventListener('keydown', handleFirstKeydown, { once: true });
-      document.addEventListener('touchstart', handleFirstInteraction, { once: true });
-    };
-
-    // Setup initial listeners
-    setupInteractionListeners();
-
-    // Re-setup listeners on page navigation for pending playback
-    document.addEventListener('astro:page-load', () => {
-      if (this.pendingPlayback) {
-        console.log('🎵 Re-setting up interaction listeners for pending playback after navigation');
-        setupInteractionListeners();
-      }
-    });
+    document.addEventListener('click', handleFirstInteraction, { once: true });
+    document.addEventListener('keydown', handleFirstInteraction, { once: true });
+    document.addEventListener('touchstart', handleFirstInteraction, { once: true });
   }
 
   private async createAudioContextIfNeeded(): Promise<boolean> {
-    if (!this.hasUserInteracted) return false;
 
     if (!this.audioContext) {
       try {
@@ -337,7 +301,7 @@ export class MusicPlayerService extends EventTarget {
 
   private startStateChecker(): void {
     this.stateCheckInterval = window.setInterval(() => {
-      if (this.state.isPlaying && this.audioElement.paused && this.hasUserInteracted) {
+      if (this.state.isPlaying && this.audioElement.paused) {
         console.log('Detected unexpected pause, attempting to resume...');
         this.audioElement.play().catch((error) => {
           console.warn('Failed to auto-resume:', error);
@@ -375,7 +339,7 @@ export class MusicPlayerService extends EventTarget {
 
   private handleAudioStall(): void {
     console.warn('Audio stalled, attempting to resume...');
-    if (this.state.isPlaying && this.hasUserInteracted) {
+    if (this.state.isPlaying) {
       setTimeout(() => {
         this.audioElement.play().catch((error) => {
           console.error('Failed to resume after stall:', error);
@@ -385,7 +349,7 @@ export class MusicPlayerService extends EventTarget {
   }
 
   private handleCanPlayThrough(): void {
-    if (this.state.isPlaying && this.audioElement.paused && this.hasUserInteracted) {
+    if (this.state.isPlaying && this.audioElement.paused) {
       this.audioElement.play().catch((error) => {
         console.error('Failed to resume after canplaythrough:', error);
       });
@@ -393,8 +357,6 @@ export class MusicPlayerService extends EventTarget {
   }
 
   private checkAndRestorePlayback(): void {
-    if (!this.hasUserInteracted) return;
-
     setTimeout(() => {
       try {
         const savedState = StateManager.restore();
@@ -476,19 +438,16 @@ export class MusicPlayerService extends EventTarget {
     if (savedState) {
       this.state = { ...this.state, ...savedState };
 
-      // Don't auto-start playback, just restore UI state
-      if (savedState.isPlaying) {
-        this.state.isPlaying = false; // Wait for user interaction
-        this.pendingPlayback = savedState.currentTrack
-          ? {
-              trackId: savedState.currentTrack.id,
-              albumId: savedState.currentAlbum?.id || '',
-              options: { 
-                forceStart: true, 
-                preservePosition: true 
-              },
-            }
-          : null;
+      // If there was a playing track, restore the state but don't auto-play on page load
+      // This respects browser autoplay policies
+      if (savedState.isPlaying && savedState.currentTrack && savedState.currentAlbum) {
+        console.log('🎵 Restored state for:', savedState.currentTrack.title);
+        // Set up the audio element but don't play yet
+        this.audioElement.src = savedState.currentTrack.file;
+        this.audioElement.currentTime = savedState.currentTime || 0;
+        // Set state to paused until user interaction
+        this.state.isPlaying = false;
+        this.hasPendingRestoration = true;
       }
 
       this.emitStateChanged();
@@ -512,7 +471,7 @@ export class MusicPlayerService extends EventTarget {
       if (signal.aborted) {
         return;
       }
-      
+
       await this.audioElement.play();
     } catch (error) {
       // Handle AbortError specifically
@@ -521,7 +480,7 @@ export class MusicPlayerService extends EventTarget {
         console.log('🎵 Play request was interrupted by another action');
         return;
       }
-      
+
       // Re-throw other errors
       throw error;
     }
@@ -537,7 +496,7 @@ export class MusicPlayerService extends EventTarget {
     if (this.activePlayRequest) {
       this.activePlayRequest.abort();
     }
-    
+
     // Create new abort controller for this request
     this.activePlayRequest = new AbortController();
     const signal = this.activePlayRequest.signal;
@@ -570,12 +529,6 @@ export class MusicPlayerService extends EventTarget {
     // Load track state (loop, etc.)
     this.loadTrackState(trackId);
 
-    if (!this.hasUserInteracted) {
-      this.pendingPlayback = { trackId, albumId, options };
-      console.log('🔇 Playback pending user interaction');
-      this.emitStateChanged();
-      return;
-    }
 
     try {
       // Check if request was aborted before starting audio operations
@@ -603,16 +556,16 @@ export class MusicPlayerService extends EventTarget {
         }
 
         this.audioElement.src = track.file;
-        
+
         // Preserve position if requested and this is the same track
         const shouldPreservePosition = options.preservePosition && isSameTrack && this.state.currentTime > 0;
         const targetTime = shouldPreservePosition ? this.state.currentTime : 0;
-        
+
         this.audioElement.currentTime = targetTime;
         this.state.currentTime = targetTime;
 
         await this.createAudioContextIfNeeded();
-        
+
         if (!signal.aborted) {
           await this.safePlay(signal);
         }
@@ -626,7 +579,7 @@ export class MusicPlayerService extends EventTarget {
       this.emitEvent('track-started', { track, album, options });
       this.emitStateChanged();
       this.saveState();
-      
+
       // Clear the active request on successful completion
       this.activePlayRequest = null;
     } catch (error) {
@@ -652,27 +605,23 @@ export class MusicPlayerService extends EventTarget {
   }
 
   public async resume(): Promise<void> {
-    if (!this.hasUserInteracted) {
-      return;
-    }
-
     // Cancel any ongoing play request
     if (this.activePlayRequest) {
       this.activePlayRequest.abort();
     }
-    
+
     // Create new abort controller for this request
     this.activePlayRequest = new AbortController();
     const signal = this.activePlayRequest.signal;
 
     try {
       // Check if we need to load/reload the track
-      const needsReload = this.state.currentTrack && this.state.currentAlbum && 
+      const needsReload = this.state.currentTrack && this.state.currentAlbum &&
         (!this.audioElement.src || this.audioElement.src !== this.state.currentTrack.file);
-      
+
       if (needsReload) {
         console.log('🎵 Reloading track for resume:', this.state.currentTrack.title);
-        
+
         if (!signal.aborted) {
           this.audioElement.src = this.state.currentTrack.file;
           this.audioElement.currentTime = this.state.currentTime || 0;
@@ -684,7 +633,7 @@ export class MusicPlayerService extends EventTarget {
       if (this.state.currentTrack && this.audioElement.paused && !signal.aborted) {
         console.log('🎵 Starting playback from resume');
         await this.safePlay(signal);
-        
+
         if (!signal.aborted) {
           // Update state to reflect that we're now playing
           this.state.isPlaying = true;
@@ -693,7 +642,7 @@ export class MusicPlayerService extends EventTarget {
           this.saveState();
         }
       }
-      
+
       this.activePlayRequest = null;
     } catch (error) {
       if (!signal.aborted) {
@@ -741,7 +690,7 @@ export class MusicPlayerService extends EventTarget {
       this.initializeShuffleOrder();
       const newCurrentOrder = this.getCurrentOrder();
       currentPositionInOrder = newCurrentOrder.indexOf(this.state.currentTrackIndex);
-      
+
       // If still not found, default to first track
       if (currentPositionInOrder === -1) {
         console.error('🎵 Track index still not found after reinitialization, defaulting to first track');
@@ -809,7 +758,7 @@ export class MusicPlayerService extends EventTarget {
       this.initializeShuffleOrder();
       const newCurrentOrder = this.getCurrentOrder();
       currentPositionInOrder = newCurrentOrder.indexOf(this.state.currentTrackIndex);
-      
+
       // If still not found, default to last track
       if (currentPositionInOrder === -1) {
         console.error('🎵 Track index still not found after reinitialization, defaulting to last track');
@@ -856,7 +805,6 @@ export class MusicPlayerService extends EventTarget {
   }
 
   public setVolume(volume: number): void {
-    this.hasUserInteracted = true;
     this.state.volume = Math.max(0, Math.min(1, volume));
     this.audioElement.volume = this.state.volume;
 
@@ -869,7 +817,6 @@ export class MusicPlayerService extends EventTarget {
   }
 
   public toggleLoop(): void {
-    this.hasUserInteracted = true;
     this.state.isLooping = !this.state.isLooping;
     this.saveTrackState();
 

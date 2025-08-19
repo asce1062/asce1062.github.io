@@ -4,6 +4,9 @@ import tailwind from '@astrojs/tailwind';
 
 export default defineConfig({
   site: 'https://asce1062.github.io',
+  build: {
+    assets: 'astro'
+  },
   integrations: [sitemap(), tailwind()],
   vite: {
     optimizeDeps: {

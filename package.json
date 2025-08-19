@@ -5,8 +5,7 @@
   "homepage": "https://asce1062.github.io/asce1062.github.io",
   "scripts": {
     "updatemusic": "node scripts/updateMusicJson.js",
-    "predeploy-win": "echo.> ./dist/.nojekyll && move ./dist/_astro ./dist/astro && node scripts/pre-deploy.js",
-    "predeploy": "astro check && astro build && mv ./dist/_astro ./dist/astro && node scripts/pre-deploy.js",
+    "predeploy": "astro check && astro build",
     "deploy": "gh-pages -d dist --branch aleximmer --nojekyll --dotfiles",
     "dev": "astro dev",
     "build": "astro build",
@@ -16,10 +15,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/mdx": "^4.3.0",
-    "@astrojs/sitemap": "^3.4.1",
+    "@astrojs/mdx": "^4.3.4",
+    "@astrojs/sitemap": "^3.5.0",
     "@astrojs/tailwind": "^6.0.2",
-    "astro": "^5.10.1",
+    "astro": "^5.13.2",
     "gh-pages": "^6.3.0",
     "jszip": "^3.10.1",
     "music-metadata": "^11.6.0",
