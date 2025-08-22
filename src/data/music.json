@@ -1645,6 +1645,70 @@
           "size": 6.92
         },
         {
+          "id": "commando-bgm1",
+          "title": "Commando. (BGM1)",
+          "format": "mp3",
+          "duration": "1:46",
+          "description": "Chip Music",
+          "genre": [
+            "8-Bit",
+            "Chiptune",
+            "Electronic",
+            "Experimental",
+            "Synthwave"
+          ],
+          "file": "/audio/Half of iT/08.Commando. (BGM1).mp3",
+          "size": 4.31
+        },
+        {
+          "id": "timtris-looped",
+          "title": "Timtris. (Looped)",
+          "format": "mp3",
+          "duration": "1:49",
+          "description": "Chip Music",
+          "genre": [
+            "8-Bit",
+            "Chiptune",
+            "Electronic",
+            "Experimental",
+            "Synthwave"
+          ],
+          "file": "/audio/Half of iT/09.Timtris. (Looped).mp3",
+          "size": 4.43
+        },
+        {
+          "id": "duotris",
+          "title": "Duotris",
+          "format": "mp3",
+          "duration": "2:02",
+          "description": "Chip Music",
+          "genre": [
+            "8-Bit",
+            "Chiptune",
+            "Electronic",
+            "Experimental",
+            "Synthwave"
+          ],
+          "file": "/audio/Half of iT/10.Duotris.mp3",
+          "size": 4.92
+        },
+        {
+          "id": "pinz",
+          "title": "Pinz",
+          "format": "mp3",
+          "duration": "2:05",
+          "description": "Chip Music",
+          "genre": [
+            "8-Bit",
+            "Chiptune",
+            "Electronic",
+            "Experimental",
+            "Synthwave"
+          ],
+          "file": "/audio/Half of iT/11.Pinz.mp3",
+          "size": 5.04
+        },
+        {
           "id": "rising-sun-persona-interlude",
           "title": "Rising Sun. (persona interlude)",
           "format": "mp3",

@@ -138,39 +138,129 @@ function buildReleaseDate({ year, date }) {
 }
 
 async function updateMusicJson() {
-  console.log('🔄 Rebuilding music.json...');
+  console.log('🔄 Updating music.json...');
 
   const newTracksByAlbum = await crawlAudio();
 
+  // Load existing music.json if it exists
+  let existingMusicData = { albums: [] };
   if (fs.existsSync(JSON_PATH)) {
-    fs.unlinkSync(JSON_PATH);
-    console.log('🗑️  Deleted existing music.json');
+    try {
+      const existingContent = fs.readFileSync(JSON_PATH, 'utf8');
+      existingMusicData = JSON.parse(existingContent);
+      console.log(`📂 Loaded existing music.json with ${existingMusicData.albums.length} album(s)`);
+    } catch (error) {
+      console.warn('⚠️  Could not parse existing music.json, starting fresh');
+      existingMusicData = { albums: [] };
+    }
   }
 
-  const musicData = {
-    albums: Object.entries(newTracksByAlbum).map(([albumId, tracks]) => {
+  // Create lookup maps for existing albums and tracks
+  const existingAlbums = new Map();
+  const existingTracks = new Map();
+
+  for (const album of existingMusicData.albums) {
+    existingAlbums.set(album.id, album);
+    for (const track of album.tracks) {
+      existingTracks.set(track.id, track);
+    }
+  }
+
+  const updatedAlbums = [];
+  let newAlbumsCount = 0;
+  let newTracksCount = 0;
+
+  // Process albums from filesystem
+  for (const [albumId, newTracks] of Object.entries(newTracksByAlbum)) {
+    const existingAlbum = existingAlbums.get(albumId);
+
+    if (existingAlbum) {
+      // Album exists, merge tracks
+      console.log(`🔄 Processing existing album: ${existingAlbum.title}`);
+
+      const newTracksToAdd = [];
+      
+      // Collect only new tracks
+      for (const newTrack of newTracks) {
+        const { releaseMeta, ...trackWithoutMeta } = newTrack;
+
+        if (!existingTracks.has(trackWithoutMeta.id)) {
+          newTracksToAdd.push(trackWithoutMeta);
+          newTracksCount++;
+          console.log(`  ➕ Added new track: ${trackWithoutMeta.title}`);
+        }
+      }
+
+      // Separate existing tracks into main and extras
+      const existingMainTracks = existingAlbum.tracks.filter(track => !track.file.includes('/extras/') && !track.file.includes('/Extras/'));
+      const existingExtrasTracks = existingAlbum.tracks.filter(track => track.file.includes('/extras/') || track.file.includes('/Extras/'));
+
+      // Separate new tracks into main and extras
+      const newMainTracks = newTracksToAdd.filter(track => !track.file.includes('/extras/') && !track.file.includes('/Extras/'));
+      const newExtrasTracks = newTracksToAdd.filter(track => track.file.includes('/extras/') || track.file.includes('/Extras/'));
+
+      // Merge: existing main + new main + existing extras + new extras
+      const mergedTracks = [
+        ...existingMainTracks,
+        ...newMainTracks,
+        ...existingExtrasTracks,
+        ...newExtrasTracks
+      ];
+
+      updatedAlbums.push({
+        ...existingAlbum,
+        tracks: mergedTracks
+      });
+
+    } else {
+      // New album
       const prettyTitle = albumId.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
 
-      // Use release metadata from first track
-      const { releaseMeta, ...firstTrack } = tracks[0];
-      tracks[0] = firstTrack; // clean up releaseMeta before writing
+      // Clean up tracks and separate main from extras
+      const cleanedTracks = newTracks.map(({ releaseMeta, ...rest }) => rest);
+      const mainTracks = cleanedTracks.filter(track => !track.file.includes('/extras/') && !track.file.includes('/Extras/'));
+      const extrasTracks = cleanedTracks.filter(track => track.file.includes('/extras/') || track.file.includes('/Extras/'));
+      
+      // Order tracks: main tracks first, then extras
+      const orderedTracks = [...mainTracks, ...extrasTracks];
 
-      const releaseDate = buildReleaseDate(releaseMeta);
+      // Use release metadata from first track (should be from main tracks if available)
+      const firstTrack = newTracks[0];
+      const releaseDate = buildReleaseDate(firstTrack.releaseMeta);
 
-      return {
+      const newAlbum = {
         id: albumId,
         title: prettyTitle,
         description: DEFAULT_DESCRIPTION,
         genre: DEFAULT_GENRE,
         coverArt: `/art/${albumId}/cover.png`,
         releaseDate,
-        tracks: tracks.map(({ releaseMeta, ...rest }) => rest), // remove temp releaseMeta from all
+        tracks: orderedTracks,
       };
-    }),
-  };
+
+      updatedAlbums.push(newAlbum);
+      newAlbumsCount++;
+      newTracksCount += newAlbum.tracks.length;
+      console.log(`➕ Added new album: ${prettyTitle} with ${newAlbum.tracks.length} tracks`);
+    }
+  }
+
+  // Add any existing albums that weren't found in filesystem (preserves manually added albums)
+  for (const existingAlbum of existingMusicData.albums) {
+    if (!newTracksByAlbum.hasOwnProperty(existingAlbum.id)) {
+      updatedAlbums.push(existingAlbum);
+      console.log(`🔒 Preserved existing album not found in filesystem: ${existingAlbum.title}`);
+    }
+  }
+
+  const musicData = { albums: updatedAlbums };
 
   fs.writeFileSync(JSON_PATH, JSON.stringify(musicData, null, 2));
-  console.log(`✅ music.json created with ${musicData.albums.length} album(s).`);
+
+  console.log(`✅ music.json updated:`);
+  console.log(`📁 Total albums: ${musicData.albums.length}`);
+  console.log(`➕ New albums: ${newAlbumsCount}`);
+  console.log(`🎵 New tracks: ${newTracksCount}`);
 }
 
 updateMusicJson().catch((err) => console.error('❌ Error:', err));
