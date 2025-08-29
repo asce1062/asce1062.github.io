@@ -60,19 +60,94 @@
       },
       "inLanguage": "en-US"
     })}
-  </script><!-- Performance and Security --><link rel="dns-prefetch" href="//fonts.googleapis.com"><link rel="dns-prefetch" href="//fonts.gstatic.com"><!-- Google Fonts (Fallback only) --><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet"><!-- Robots and Crawling --><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow"><!-- Language and Region --><meta name="language" content="English"><meta name="geo.region" content="US"><meta name="geo.placename" content="United States"><!-- Additional SEO Meta Tags --><meta name="rating" content="General"><meta name="distribution" content="Global"><meta name="revisit-after" content="7 days"><meta name="format-detection" content="telephone=no"><link href="/css/style.css" rel="stylesheet"><!-- Prevent flash of unstyled content --><style>
+  </script><!-- Performance and Security --><link rel="dns-prefetch" href="//fonts.googleapis.com"><link rel="dns-prefetch" href="//fonts.gstatic.com"><!-- Google Fonts (Fallback only) --><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet"><!-- Robots and Crawling --><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow"><!-- Language and Region --><meta name="language" content="English"><meta name="geo.region" content="US"><meta name="geo.placename" content="United States"><!-- Additional SEO Meta Tags --><meta name="rating" content="General"><meta name="distribution" content="Global"><meta name="revisit-after" content="7 days"><meta name="format-detection" content="telephone=no"><link href="/css/style.css" rel="stylesheet"><!-- Prevent flash of unstyled content - TV browser compatible --><style>
       body {
-        visibility: hidden;
+        /* Use opacity transition instead of visibility for TV browsers */
         opacity: 0;
+        transition: opacity 0.3s ease;
       }
-    </style><link rel="stylesheet" href="/astro/about.DEdRjHlV.css">
+      
+      /* TV browser fallback for purple tint issue - All TV resolutions */
+      /* HD TV (720p) */
+      @media screen and (min-width: 1280px) and (min-height: 720px) and (max-width: 1919px) {
+        html.dark {
+          background-color: #1a1a1a !important;
+        }
+        .dark\:bg-palette-700 {
+          background-color: #1a1a1a !important;
+        }
+      }
+      
+      /* FHD TV (1080p) */
+      @media screen and (min-width: 1920px) and (min-height: 1080px) and (max-width: 3839px) {
+        html.dark {
+          background-color: #1a1a1a !important;
+        }
+        .dark\:bg-palette-700 {
+          background-color: #1a1a1a !important;
+        }
+      }
+      
+      /* UHD/4K TV (2160p) */
+      @media screen and (min-width: 3840px) and (min-height: 2160px) and (max-width: 7679px) {
+        html.dark {
+          background-color: #1a1a1a !important;
+        }
+        .dark\:bg-palette-700 {
+          background-color: #1a1a1a !important;
+        }
+      }
+      
+      /* 8K TV (4320p) */
+      @media screen and (min-width: 7680px) and (min-height: 4320px) {
+        html.dark {
+          background-color: #1a1a1a !important;
+        }
+        .dark\:bg-palette-700 {
+          background-color: #1a1a1a !important;
+        }
+      }
+    </style><link rel="stylesheet" href="/astro/about.zmHTrSFk.css">
 <style>.hyphens-auto[data-astro-cid-kh7btl4r]{-webkit-hyphens:auto;hyphens:auto;word-break:break-word;overflow-wrap:break-word}@media (max-width: 480px){.ascii-art[data-astro-cid-kh7btl4r]{font-size:clamp(.25rem,2.5vw,.4rem);letter-spacing:clamp(-.1em,-.05em,-.02em);padding:clamp(.25rem,1vw,.5rem)}}@media (min-width: 481px) and (max-width: 768px){.ascii-art[data-astro-cid-kh7btl4r]{font-size:clamp(.4rem,1.8vw,.6rem);letter-spacing:clamp(-.05em,-.03em,-.01em)}}@media (min-width: 769px) and (max-width: 1024px){.ascii-art[data-astro-cid-kh7btl4r]{font-size:clamp(.6rem,1.5vw,.7rem);letter-spacing:clamp(-.03em,-.02em,0)}}@media (min-width: 1025px){.ascii-art[data-astro-cid-kh7btl4r]{font-size:clamp(.7rem,1.2vw,.75rem);letter-spacing:0}}@media (max-width: 320px){.ascii-art[data-astro-cid-kh7btl4r]{font-size:.2rem;letter-spacing:-.1em;transform:scale(.9);transform-origin:center}}html.dark .ascii-art[data-astro-cid-kh7btl4r]{text-shadow:0 0 clamp(1px,.2vw,2px) rgba(220,184,176,.6),0 0 clamp(2px,.4vw,4px) rgba(220,184,176,.4),0 0 clamp(4px,.8vw,8px) rgba(155,176,205,.3)}
-</style></head> <!-- Apply theme-aware background immediately --> <body class="z-10 m-0 h-full min-h-screen overflow-y-scroll font-proto text-palette-900 dark:text-white"> <!-- Show body after theme is applied --> <script>
-      // Show body immediately after theme is set
-      document.body.style.visibility = 'visible';
-      document.body.style.opacity = '1';
-      document.body.style.transition = 'opacity 0.2s ease';
-    </script> <div class="fixed inset-0 z-0 pointer-events-none bg-[#e8e5f0] dark:bg-palette-700 bg-topography-light dark:bg-topography-dark" aria-hidden="true"></div> <!-- Header --> <header class="sticky top-0 z-50 bg-[#e8e5f0]/80 dark:bg-palette-700/80 bg-topography-light dark:bg-topography-dark backdrop-blur-md border-b border-palette-800/30 dark:border-palette-300/30"> <div class="container mx-auto py-md-responsive"> <div class="flex items-center justify-between gap-md-responsive"> <!-- Logo --> <a href="/" class="flex items-center gap-sm-responsive group flex-shrink-0"> <div class="w-[clamp(2rem,4vw,2.5rem)] h-[clamp(2rem,4vw,2.5rem)] rounded-lg overflow-hidden flex items-center justify-center"> <img src="/icon.png" alt="Alex.Immer logo" class="w-full h-full object-cover"> </div> <span class="text-xl-responsive font-retro font-bold text-palette-900 dark:text-white group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors hidden sm:block">
+</style></head> <!-- Apply theme-aware background immediately --> <body class="z-10 m-0 h-full min-h-screen overflow-y-scroll font-proto text-palette-900 dark:text-white"> <!-- Show body after theme is applied - TV browser compatible --> <script>
+      // Show body with improved TV browser compatibility
+      try {
+        document.body.style.opacity = '1';
+        
+        // TV browser specific fixes for all resolutions
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        
+        // Detect TV resolutions: HD (720p), FHD (1080p), UHD/4K (2160p), 8K (4320p)
+        const isTVResolution = 
+          (width >= 1280 && height >= 720) || // HD and above
+          (width >= 1920 && height >= 1080) || // FHD and above
+          (width >= 3840 && height >= 2160) || // UHD/4K and above
+          (width >= 7680 && height >= 4320);   // 8K
+        
+        if (isTVResolution) {
+          // Force neutral dark background for TV displays
+          document.documentElement.style.backgroundColor = '#1a1a1a';
+          document.body.style.backgroundColor = '#1a1a1a';
+          
+          // Add TV-specific class for additional styling
+          document.documentElement.classList.add('tv-display');
+          
+          // Enhanced font sizing for TV viewing distances
+          if (width >= 3840) { // 4K and 8K
+            document.documentElement.style.fontSize = '20px';
+          } else if (width >= 1920) { // 1080p
+            document.documentElement.style.fontSize = '18px';
+          } else { // 720p
+            document.documentElement.style.fontSize = '16px';
+          }
+        }
+      } catch (e) {
+        // Fallback for limited TV browsers
+        document.body.style.opacity = '1';
+        document.body.style.backgroundColor = '#1a1a1a';
+      }
+    </script> <div class="fixed inset-0 z-0 pointer-events-none bg-[#e8e5f0] dark:bg-palette-700 bg-topography-light dark:bg-topography-dark tv-bg-fix" aria-hidden="true" data-astro-cid-n4l5xtyf></div>  <!-- Header --> <header class="sticky top-0 z-50 bg-[#e8e5f0]/80 dark:bg-palette-700/80 bg-topography-light dark:bg-topography-dark backdrop-blur-md border-b border-palette-800/30 dark:border-palette-300/30"> <div class="container mx-auto py-md-responsive"> <div class="flex items-center justify-between gap-md-responsive"> <!-- Logo --> <a href="/" class="flex items-center gap-sm-responsive group flex-shrink-0"> <div class="w-[clamp(2rem,4vw,2.5rem)] h-[clamp(2rem,4vw,2.5rem)] rounded-lg overflow-hidden flex items-center justify-center"> <img src="/icon.png" alt="Alex.Immer logo" class="w-full h-full object-cover"> </div> <span class="text-xl-responsive font-retro font-bold text-palette-900 dark:text-white group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors hidden sm:block">
 Alex.Immer
 </span> </a> <!-- Desktop Navigation --> <nav class="hidden md:flex items-center gap-xl-responsive"> <a href="/#albums" class="nav-link text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive">
 Albums
