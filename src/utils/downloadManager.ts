@@ -6,4 +6,4 @@ if (typeof window !== 'undefined') {
 }
 
 export { downloadManager };
-export type { DownloadOptions, DownloadProgress } from '../services/DownloadService';
+export type { DownloadOptions, DownloadProgress } from '../types/types';

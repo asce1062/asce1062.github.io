@@ -1,45 +1,7 @@
 import musicData from '../data/music.json';
-import type { Track, Album } from '../types/music';
+import type { Track, Album, PlaybackState, PlaybackOptions, MusicPlayerEventMap } from '../types/types';
+import { mediaSessionManager } from './MediaSessionService';
 
-export interface PlaybackState {
-  currentTrack: Track | null;
-  currentAlbum: Album | null;
-  currentTrackIndex: number;
-  isPlaying: boolean;
-  isLooping: boolean;
-  volume: number;
-  currentTime: number;
-  duration: number;
-  isShuffled: boolean;
-  shuffledOrder: number[];
-  originalOrder: number[];
-  isVisible: boolean;
-}
-
-export interface PlaybackOptions {
-  forceStart?: boolean;
-  restart?: boolean;
-  albumPlayback?: boolean;
-  shuffleState?: boolean;
-  trackIndex?: number;
-  actualTrackIndex?: number;
-  navigationPlayback?: boolean;
-  preservePosition?: boolean;
-}
-
-export interface MusicPlayerEventMap {
-  'track-started': CustomEvent<{ track: Track; album: Album; options?: PlaybackOptions }>;
-  'track-paused': CustomEvent<{ track: Track }>;
-  'track-resumed': CustomEvent<{ track: Track }>;
-  'track-ended': CustomEvent<{ track: Track }>;
-  'track-changed': CustomEvent<{ track: Track; album: Album; isAutoplay: boolean }>;
-  'state-changed': CustomEvent<{ state: PlaybackState }>;
-  'volume-changed': CustomEvent<{ volume: number }>;
-  'loop-changed': CustomEvent<{ isLooping: boolean; trackTitle: string }>;
-  'shuffle-changed': CustomEvent<{ isShuffled: boolean; order: number[] }>;
-  'progress-updated': CustomEvent<{ currentTime: number; duration: number; percentage: number }>;
-  'playback-error': CustomEvent<{ error: string; track?: Track }>;
-}
 
 class StateManager {
   private static readonly STORAGE_KEY = 'musicPlayerState';
@@ -114,6 +76,7 @@ export class MusicPlayerService extends EventTarget {
     this.setupAudioEventListeners();
     this.setupVisibilityHandling();
     this.setupUserInteractionDetection();
+    this.setupMediaSessionIntegration();
     this.startProgressUpdater();
     this.startStateChecker();
     this.restoreState();
@@ -163,6 +126,11 @@ export class MusicPlayerService extends EventTarget {
         duration: this.state.duration,
         percentage: this.state.duration ? (this.state.currentTime / this.state.duration) * 100 : 0,
       });
+      
+      // Update Media Session position state periodically (throttled internally for Chrome)
+      if (this.state.duration > 0) {
+        mediaSessionManager.updatePositionState(this.state.currentTime, this.state.duration);
+      }
     });
 
     this.audioElement.addEventListener('play', () => {
@@ -170,12 +138,18 @@ export class MusicPlayerService extends EventTarget {
       this.createAudioContextIfNeeded();
       this.emitStateChanged();
       this.saveState();
+      
+      // Update Media Session playback state
+      mediaSessionManager.updatePlaybackState(this.state);
     });
 
     this.audioElement.addEventListener('pause', () => {
       this.state.isPlaying = false;
       this.emitStateChanged();
       this.saveState();
+      
+      // Update Media Session playback state
+      mediaSessionManager.updatePlaybackState(this.state);
     });
 
     this.audioElement.addEventListener('ended', () => {
@@ -242,6 +216,98 @@ export class MusicPlayerService extends EventTarget {
     document.addEventListener('click', handleFirstInteraction, { once: true });
     document.addEventListener('keydown', handleFirstInteraction, { once: true });
     document.addEventListener('touchstart', handleFirstInteraction, { once: true });
+  }
+
+  private setupMediaSessionIntegration(): void {
+    // Listen to Media Session action events
+    mediaSessionManager.onActionTriggered((event) => {
+      const { action, details } = event.detail;
+      
+      switch (action) {
+        case 'play':
+          this.resume().catch(error => {
+            console.error('Failed to resume from Media Session:', error);
+          });
+          break;
+          
+        case 'pause':
+          this.pause();
+          break;
+          
+        case 'stop':
+          this.stop();
+          break;
+          
+        case 'nexttrack':
+          this.nextTrack();
+          break;
+          
+        case 'previoustrack':
+          this.previousTrack();
+          break;
+          
+        case 'seekbackward':
+          if (details?.seekOffset) {
+            const newTime = Math.max(this.audioElement.currentTime - details.seekOffset, 0);
+            this.seek(newTime);
+          }
+          break;
+          
+        case 'seekforward':
+          if (details?.seekOffset) {
+            const newTime = Math.min(
+              this.audioElement.currentTime + details.seekOffset, 
+              this.audioElement.duration || 0
+            );
+            this.seek(newTime);
+          }
+          break;
+          
+        case 'seekto':
+          if (details?.seekTime !== undefined) {
+            this.seek(details.seekTime);
+          }
+          break;
+          
+        default:
+          console.warn('🎵 Unhandled Media Session action:', action);
+      }
+    });
+
+    // Listen to Media Session queue track selection events
+    mediaSessionManager.onQueueTrackSelected((event) => {
+      const { queueIndex, track, shouldTogglePlayback } = event.detail;
+      
+      console.log(`🎵 Queue track selected: ${track.title} at index ${queueIndex}, shouldTogglePlayback: ${shouldTogglePlayback}`);
+      
+      if (shouldTogglePlayback && this.state.currentTrack?.id === track.id) {
+        // If it's the same track and we should toggle playback, toggle play/pause
+        if (this.state.isPlaying) {
+          this.pause();
+        } else {
+          this.resume().catch(error => {
+            console.error('Failed to resume from queue track selection:', error);
+          });
+        }
+      } else {
+        // Play the selected track
+        this.play(track.id, this.state.currentAlbum?.id || '', { forceStart: true })
+          .catch(error => {
+            console.error('Failed to play selected queue track:', error);
+          });
+      }
+    });
+
+    // Listen for shuffle and loop changes from the music player to sync with Media Session
+    this.onShuffleChanged((event) => {
+      mediaSessionManager.updateShuffleState(event.detail.isShuffled);
+    });
+
+    this.onLoopChanged((event) => {
+      mediaSessionManager.updateLoopState(event.detail.isLooping);
+    });
+
+    console.log('🎵 Media Session integration set up');
   }
 
   private async createAudioContextIfNeeded(): Promise<boolean> {
@@ -322,15 +388,22 @@ export class MusicPlayerService extends EventTarget {
     }
 
     if (this.state.isLooping && this.state.currentTrack) {
-      console.log(`🎵 Looping track: ${this.state.currentTrack.title}`);
+      console.log(`🎵 Looping track: ${this.state.currentTrack.title} (Media Session sync: ${mediaSessionManager.getIsLooping()})`);
       this.audioElement.currentTime = 0;
+      this.state.currentTime = 0;
+      
+      // Update Media Session position for loop
+      if (this.state.duration > 0) {
+        mediaSessionManager.updatePositionState(0, this.state.duration);
+      }
+      
       setTimeout(() => {
         this.audioElement.play().catch((error) => {
           console.error('Failed to loop track:', error);
         });
       }, 50);
     } else {
-      // Auto-advance to next track
+      // Auto-advance to next track (will respect shuffle state)
       setTimeout(() => {
         this.nextTrack();
       }, 100);
@@ -448,9 +521,17 @@ export class MusicPlayerService extends EventTarget {
         // Set state to paused until user interaction
         this.state.isPlaying = false;
         this.hasPendingRestoration = true;
+        
+        // Update Media Session with restored track info
+        mediaSessionManager.updateMetadata(savedState.currentTrack, savedState.currentAlbum, savedState.currentTrackIndex);
       }
 
       this.emitStateChanged();
+      
+      // Update Media Session playback state and sync shuffle/loop
+      mediaSessionManager.updatePlaybackState(this.state);
+      mediaSessionManager.updateShuffleState(this.state.isShuffled);
+      mediaSessionManager.updateLoopState(this.state.isLooping);
     }
   }
 
@@ -579,6 +660,10 @@ export class MusicPlayerService extends EventTarget {
       this.emitEvent('track-started', { track, album, options });
       this.emitStateChanged();
       this.saveState();
+      
+      // Update Media Session metadata and state
+      mediaSessionManager.updateMetadata(track, album, this.state.currentTrackIndex);
+      mediaSessionManager.updatePlaybackState(this.state);
 
       // Clear the active request on successful completion
       this.activePlayRequest = null;
@@ -640,6 +725,9 @@ export class MusicPlayerService extends EventTarget {
           this.emitEvent('track-resumed', { track: this.state.currentTrack });
           this.emitStateChanged();
           this.saveState();
+          
+          // Update Media Session state
+          mediaSessionManager.updatePlaybackState(this.state);
         }
       }
 
@@ -658,6 +746,9 @@ export class MusicPlayerService extends EventTarget {
     this.state.currentTime = 0;
     this.state.isPlaying = false;
     this.emitStateChanged();
+    
+    // Update Media Session state
+    mediaSessionManager.updatePlaybackState(this.state);
   }
 
   public nextTrack(): void {
@@ -850,6 +941,27 @@ export class MusicPlayerService extends EventTarget {
     return { ...this.state };
   }
 
+  public selectQueueTrack(queueIndex: number): void {
+    try {
+      console.log(`🎵 Selecting queue track at index: ${queueIndex}`);
+      
+      const success = mediaSessionManager.selectTrackFromQueue(queueIndex);
+      if (!success) {
+        console.error(`Failed to select track from queue at index: ${queueIndex}`);
+        this.emitEvent('playback-error', {
+          error: `Invalid queue index: ${queueIndex}`,
+          track: this.state.currentTrack || undefined,
+        });
+      }
+    } catch (error) {
+      console.error('Error selecting queue track:', error);
+      this.emitEvent('playback-error', {
+        error: `Failed to select queue track: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        track: this.state.currentTrack || undefined,
+      });
+    }
+  }
+
   private loadTrackState(trackId: string): void {
     try {
       const loopStates = JSON.parse(localStorage.getItem('trackLoopStates') || '{}');
@@ -952,6 +1064,9 @@ export class MusicPlayerService extends EventTarget {
     if (this.audioContext) {
       this.audioContext.close();
     }
+
+    // Clear Media Session
+    mediaSessionManager.clearMetadata();
 
     // Clear instance
     MusicPlayerService.instance = null;

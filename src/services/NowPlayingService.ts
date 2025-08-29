@@ -1,29 +1,6 @@
 import { musicPlayer } from '../utils/musicPlayer';
-import type { PlaybackState } from '../utils/musicPlayer';
-import type { Track, Album } from '../types/music';
+import type { Track, Album, PlaybackState, NowPlayingState, NowPlayingEventMap } from '../types/types';
 
-export interface NowPlayingState {
-  isVisible: boolean;
-  isExpanded: boolean;
-  currentTrack: Track | null;
-  currentAlbum: Album | null;
-  isPlaying: boolean;
-  volume: number;
-  isLooping: boolean;
-  currentTime: number;
-  duration: number;
-  percentage: number;
-}
-
-export interface NowPlayingEventMap {
-  'widget-show': CustomEvent<{ track: Track; album: Album }>;
-  'widget-hide': CustomEvent<{}>;
-  'widget-expand': CustomEvent<{}>;
-  'widget-collapse': CustomEvent<{}>;
-  'track-info-updated': CustomEvent<{ track: Track; album: Album }>;
-  'playback-state-updated': CustomEvent<NowPlayingState>;
-  'marquee-setup': CustomEvent<{ element: HTMLElement }>;
-}
 
 class NowPlayingManager extends EventTarget {
   private static instance: NowPlayingManager | null = null;

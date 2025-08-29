@@ -1,29 +1,6 @@
 import musicData from '../data/music.json';
-import type { Track, Album } from '../types/music';
+import type { Track, Album, DownloadOptions, DownloadProgress, DownloadEventMap } from '../types/types';
 
-export interface DownloadOptions {
-  maxConcurrent?: number;
-  retries?: number;
-  timeout?: number;
-  compression?: 'STORE' | 'DEFLATE';
-  compressionLevel?: number;
-}
-
-export interface DownloadProgress {
-  total: number;
-  completed: number;
-  successful: number;
-  failed: number;
-  percentage: number;
-  currentTrack?: string;
-}
-
-export interface DownloadEventMap {
-  'download-started': CustomEvent<{ type: 'album' | 'custom' | 'track'; trackCount: number }>;
-  'download-progress': CustomEvent<DownloadProgress>;
-  'download-completed': CustomEvent<{ successful: number; failed: number; total: number; downloadUrl?: string }>;
-  'download-error': CustomEvent<{ error: string; track?: Track }>;
-}
 
 class DownloadManager extends EventTarget {
   private static instance: DownloadManager | null = null;
@@ -32,7 +9,7 @@ class DownloadManager extends EventTarget {
     retries: 3,
     timeout: 10000,
     compression: 'DEFLATE',
-    compressionLevel: 6
+    compressionLevel: 6,
   };
 
   private constructor() {
@@ -57,7 +34,7 @@ class DownloadManager extends EventTarget {
   // Enhanced fetch function with retry logic
   private async fetchWithRetry(url: string, options: DownloadOptions): Promise<Blob> {
     const { retries = 3, timeout = 10000 } = options;
-    
+
     for (let attempt = 1; attempt <= retries; attempt++) {
       try {
         const controller = new AbortController();
@@ -67,7 +44,7 @@ class DownloadManager extends EventTarget {
 
         const response = await fetch(url, {
           signal: controller.signal,
-          cache: 'no-cache'
+          cache: 'no-cache',
         });
 
         clearTimeout(timer);
@@ -79,7 +56,6 @@ class DownloadManager extends EventTarget {
         const blob = await response.blob();
         console.log(`✅ Successfully fetched ${url} (${(blob.size / 1024 / 1024).toFixed(2)} MB)`);
         return blob;
-
       } catch (error) {
         console.warn(`⚠️ Attempt ${attempt} failed for ${url}:`, (error as Error).message);
 
@@ -91,10 +67,10 @@ class DownloadManager extends EventTarget {
         // Exponential backoff: 1s, 2s, 4s
         const delay = Math.pow(2, attempt - 1) * 1000;
         console.log(`⏳ Waiting ${delay}ms before retry...`);
-        await new Promise(resolve => setTimeout(resolve, delay));
+        await new Promise((resolve) => setTimeout(resolve, delay));
       }
     }
-    
+
     throw new Error('Fetch failed after all retries');
   }
 
@@ -104,7 +80,7 @@ class DownloadManager extends EventTarget {
       if (album.coverArt) {
         console.log(`🎨 Downloading album art for: ${album.title}`);
         const artBlob = await this.fetchWithRetry(album.coverArt, this.defaultOptions);
-        
+
         const artPath = folderPath ? `${folderPath}/AlbumArt.png` : 'AlbumArt.png';
         zip.file(artPath, artBlob);
         console.log(`✅ Added album art: ${artPath}`);
@@ -117,8 +93,8 @@ class DownloadManager extends EventTarget {
 
   // Process tracks with parallel fetching and throttling
   private async processTracksWithThrottling(
-    zip: any, 
-    tracks: (Track & { albumTitle?: string; albumId?: string })[], 
+    zip: any,
+    tracks: (Track & { albumTitle?: string; albumId?: string })[],
     options: DownloadOptions,
     organizeByAlbum: boolean = false,
     includeAlbumArt: boolean = false
@@ -129,20 +105,23 @@ class DownloadManager extends EventTarget {
     let successful = 0;
     let failed = 0;
 
-    console.log(`🚀 Starting parallel download of ${total} tracks (max ${maxConcurrent} concurrent)`);
+    console.log(
+      `🚀 Starting parallel download of ${total} tracks (max ${maxConcurrent} concurrent)`
+    );
 
     // If including album art, add it for each unique album
     if (includeAlbumArt) {
       const processedAlbums = new Set<string>();
-      
+
       for (const track of tracks) {
         if (track.albumId && !processedAlbums.has(track.albumId)) {
-          const album = musicData.albums.find(a => a.id === track.albumId);
+          const album = musicData.albums.find((a) => a.id === track.albumId);
           if (album) {
-            const folderPath = organizeByAlbum && track.albumTitle 
-              ? track.albumTitle.replace(/[^a-zA-Z0-9]/g, '_')
-              : '';
-            
+            const folderPath =
+              organizeByAlbum && track.albumTitle
+                ? track.albumTitle.replace(/[^a-zA-Z0-9]/g, '_')
+                : '';
+
             await this.addAlbumArtToZip(zip, album, folderPath);
             processedAlbums.add(track.albumId);
           }
@@ -155,7 +134,7 @@ class DownloadManager extends EventTarget {
 
     // Function to acquire semaphore slot
     const acquireSlot = (): Promise<number> => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         const checkSlot = () => {
           for (let i = 0; i < semaphore.length; i++) {
             if (semaphore[i] === null) {
@@ -187,7 +166,7 @@ class DownloadManager extends EventTarget {
           successful,
           failed,
           percentage: (completed / total) * 100,
-          currentTrack: track.title
+          currentTrack: track.title,
         });
 
         const blob = await this.fetchWithRetry(track.file, options);
@@ -200,14 +179,13 @@ class DownloadManager extends EventTarget {
         } else {
           zip.file(`${track.title}.${track.format}`, blob);
         }
-        
-        successful++;
 
+        successful++;
       } catch (error) {
         console.error(`❌ Failed to download ${track.title}:`, (error as Error).message);
         this.emitEvent('download-error', {
           error: `Failed to download ${track.title}`,
-          track
+          track,
         });
         failed++;
       } finally {
@@ -220,7 +198,7 @@ class DownloadManager extends EventTarget {
           completed,
           successful,
           failed,
-          percentage: (completed / total) * 100
+          percentage: (completed / total) * 100,
         });
       }
     });
@@ -240,22 +218,26 @@ class DownloadManager extends EventTarget {
   }
 
   // Download a single track
-  public async downloadTrack(trackId: string, albumId: string, options: Partial<DownloadOptions> = {}): Promise<void> {
+  public async downloadTrack(
+    trackId: string,
+    albumId: string,
+    options: Partial<DownloadOptions> = {}
+  ): Promise<void> {
     try {
       // Find the track and album
-      const album = musicData.albums.find(a => a.id === albumId);
+      const album = musicData.albums.find((a) => a.id === albumId);
       if (!album) {
         throw new Error(`Album not found: ${albumId}`);
       }
 
-      const track = album.tracks.find(t => t.id === trackId);
+      const track = album.tracks.find((t) => t.id === trackId);
       if (!track) {
         throw new Error(`Track not found: ${trackId} in album ${albumId}`);
       }
 
-      this.emitEvent('download-started', { 
-        type: 'track', 
-        trackCount: 1 
+      this.emitEvent('download-started', {
+        type: 'track',
+        trackCount: 1,
       });
 
       const mergedOptions = { ...this.defaultOptions, ...options };
@@ -275,29 +257,31 @@ class DownloadManager extends EventTarget {
         successful: 1,
         failed: 0,
         total: 1,
-        downloadUrl: url
+        downloadUrl: url,
       });
-
     } catch (error) {
       console.error('Failed to download track:', error);
       this.emitEvent('download-error', {
-        error: `Failed to download track: ${(error as Error).message}`
+        error: `Failed to download track: ${(error as Error).message}`,
       });
     }
   }
 
   // Download entire album
-  public async downloadAlbum(albumId: string, options: Partial<DownloadOptions> = {}): Promise<void> {
+  public async downloadAlbum(
+    albumId: string,
+    options: Partial<DownloadOptions> = {}
+  ): Promise<void> {
     try {
       // Find the album
-      const album = musicData.albums.find(a => a.id === albumId);
+      const album = musicData.albums.find((a) => a.id === albumId);
       if (!album) {
         throw new Error(`Album not found: ${albumId}`);
       }
 
-      this.emitEvent('download-started', { 
-        type: 'album', 
-        trackCount: album.tracks.length 
+      this.emitEvent('download-started', {
+        type: 'album',
+        trackCount: album.tracks.length,
       });
 
       const mergedOptions = { ...this.defaultOptions, ...options };
@@ -310,10 +294,10 @@ class DownloadManager extends EventTarget {
       const zip = new window.JSZip();
 
       // Add album title to tracks for processing
-      const tracksWithAlbum = album.tracks.map(track => ({
+      const tracksWithAlbum = album.tracks.map((track) => ({
         ...track,
         albumTitle: album.title,
-        albumId: album.id
+        albumId: album.id,
       }));
 
       // Add album art to the root of the ZIP
@@ -325,7 +309,7 @@ class DownloadManager extends EventTarget {
       const zipBlob = await zip.generateAsync({
         type: 'blob',
         compression: mergedOptions.compression,
-        compressionOptions: { level: mergedOptions.compressionLevel }
+        compressionOptions: { level: mergedOptions.compressionLevel },
       });
 
       // Create download link
@@ -342,20 +326,19 @@ class DownloadManager extends EventTarget {
         successful: album.tracks.length,
         failed: 0,
         total: album.tracks.length,
-        downloadUrl: url
+        downloadUrl: url,
       });
-
     } catch (error) {
       console.error('Failed to download album:', error);
       this.emitEvent('download-error', {
-        error: `Failed to download album: ${(error as Error).message}`
+        error: `Failed to download album: ${(error as Error).message}`,
       });
     }
   }
 
   // Download custom selection of tracks
   public async downloadCustomSelection(
-    trackIds: string[], 
+    trackIds: string[],
     filename?: string,
     organizeByAlbum: boolean = true,
     options: Partial<DownloadOptions> = {}
@@ -365,9 +348,9 @@ class DownloadManager extends EventTarget {
         throw new Error('No tracks selected for download');
       }
 
-      this.emitEvent('download-started', { 
-        type: 'custom', 
-        trackCount: trackIds.length 
+      this.emitEvent('download-started', {
+        type: 'custom',
+        trackCount: trackIds.length,
       });
 
       const mergedOptions = { ...this.defaultOptions, ...options };
@@ -379,14 +362,14 @@ class DownloadManager extends EventTarget {
 
       // Find all selected tracks
       const selectedTracks: (Track & { albumTitle: string; albumId: string })[] = [];
-      
-      musicData.albums.forEach(album => {
-        album.tracks.forEach(track => {
+
+      musicData.albums.forEach((album) => {
+        album.tracks.forEach((track) => {
           if (trackIds.includes(track.id)) {
             selectedTracks.push({
               ...track,
               albumTitle: album.title,
-              albumId: album.id
+              albumId: album.id,
             });
           }
         });
@@ -397,20 +380,27 @@ class DownloadManager extends EventTarget {
       }
 
       const zip = new window.JSZip();
-      await this.processTracksWithThrottling(zip, selectedTracks, mergedOptions, organizeByAlbum, true);
+      await this.processTracksWithThrottling(
+        zip,
+        selectedTracks,
+        mergedOptions,
+        organizeByAlbum,
+        true
+      );
 
       // Generate and download ZIP
       const zipBlob = await zip.generateAsync({
         type: 'blob',
         compression: mergedOptions.compression,
-        compressionOptions: { level: mergedOptions.compressionLevel }
+        compressionOptions: { level: mergedOptions.compressionLevel },
       });
 
       // Create download link
       const url = URL.createObjectURL(zipBlob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = filename || `alex_immer_selected_tracks_${new Date().toISOString().split('T')[0]}.zip`;
+      link.download =
+        filename || `alex_immer_selected_tracks_${new Date().toISOString().split('T')[0]}.zip`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -420,19 +410,22 @@ class DownloadManager extends EventTarget {
         successful: selectedTracks.length,
         failed: 0,
         total: selectedTracks.length,
-        downloadUrl: url
+        downloadUrl: url,
       });
-
     } catch (error) {
       console.error('Failed to download custom selection:', error);
       this.emitEvent('download-error', {
-        error: `Failed to download custom selection: ${(error as Error).message}`
+        error: `Failed to download custom selection: ${(error as Error).message}`,
       });
     }
   }
 
   // Event listener helper methods
-  public onDownloadStarted(callback: (event: CustomEvent<{ type: 'album' | 'custom' | 'track'; trackCount: number }>) => void): void {
+  public onDownloadStarted(
+    callback: (
+      event: CustomEvent<{ type: 'album' | 'custom' | 'track'; trackCount: number }>
+    ) => void
+  ): void {
     this.addEventListener('download-started', callback as EventListener);
   }
 
@@ -440,11 +433,22 @@ class DownloadManager extends EventTarget {
     this.addEventListener('download-progress', callback as EventListener);
   }
 
-  public onDownloadCompleted(callback: (event: CustomEvent<{ successful: number; failed: number; total: number; downloadUrl?: string }>) => void): void {
+  public onDownloadCompleted(
+    callback: (
+      event: CustomEvent<{
+        successful: number;
+        failed: number;
+        total: number;
+        downloadUrl?: string;
+      }>
+    ) => void
+  ): void {
     this.addEventListener('download-completed', callback as EventListener);
   }
 
-  public onDownloadError(callback: (event: CustomEvent<{ error: string; track?: Track }>) => void): void {
+  public onDownloadError(
+    callback: (event: CustomEvent<{ error: string; track?: Track }>) => void
+  ): void {
     this.addEventListener('download-error', callback as EventListener);
   }
 

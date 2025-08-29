@@ -1,5 +1,5 @@
 ---
-import type { Track } from '../types/music';
+import type { Track } from '../types/types';
 import TrackPlayer from './TrackPlayer.astro';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   albumTitle: string;
 }
 
-const { tracks, albumId, albumTitle } = Astro.props;
+const { tracks, albumId } = Astro.props;
 ---
 
 <div class="track-list space-responsive">

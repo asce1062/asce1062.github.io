@@ -17,10 +17,7 @@ const {
   title,
   description,
   image = '/art/default-cover.png',
-  type = 'website',
-  album,
-  artist = SITE_AUTHOR,
-  duration
+  type = 'website'
 } = Astro.props;
 
 const fullTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`;

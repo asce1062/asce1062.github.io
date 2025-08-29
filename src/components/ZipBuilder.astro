@@ -133,7 +133,6 @@ const { musicData } = Astro.props;
     }
 
     updateSearchUI() {
-      const searchInput = this.element.querySelector('#track-search');
       const clearButton = this.element.querySelector('#clear-search');
 
       if (this.searchQuery) {
@@ -190,11 +189,11 @@ const { musicData } = Astro.props;
           </div>
         </label>
       `).join('');
-      
+
       // After rendering, sync any changes from individual checkbox interactions
       this.syncDOMSelections();
     }
-    
+
     syncDOMSelections() {
       // Sync DOM checkboxes with selectedTracks Set (single source of truth)
       const checkboxes = this.element.querySelectorAll('.track-checkbox');
@@ -346,7 +345,7 @@ const { musicData } = Astro.props;
       if (selectAllBtn) {
         const allCheckboxes = this.element.querySelectorAll('.track-checkbox');
         const hasVisibleTracks = allCheckboxes.length > 0;
-        
+
         if (this.searchQuery) {
           // When searching, disable button if no results
           selectAllBtn.disabled = !hasVisibleTracks;
