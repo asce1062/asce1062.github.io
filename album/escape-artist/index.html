@@ -1,29 +1,32 @@
-<!DOCTYPE html><!-- Add JSZip via CDN for album download --><script type="module" src="/astro/_id_.astro_astro_type_script_index_0_lang.qm5uya5Z.js"></script> <html lang="en" class="dark"> <head><!-- Critical theme script - must run before any content renders --><script>
-      // Immediate theme detection and application - prevents flash
-      (function () {
-        try {
-          const savedTheme = localStorage.getItem('theme');
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+<!DOCTYPE html><!-- Add JSZip via CDN for album download --><script type="module" src="/astro/_id_.astro_astro_type_script_index_0_lang.qm5uya5Z.js"></script> <html lang="en" class="dark"> <head><!-- Critical theme script with jQuery - must run before any content renders --><script>
+      // Wait for jQuery to be available, then initialize theme
+      (function checkJQuery() {
+        if (typeof $ !== 'undefined') {
+          // jQuery is available, proceed with theme detection
+          try {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
 
-          const html = document.documentElement;
-          if (isDark) {
-            html.classList.add('dark');
-            html.setAttribute('data-theme', 'dark');
-          } else {
-            html.classList.remove('dark');
-            html.setAttribute('data-theme', 'light');
+            const $html = $('html');
+            if (isDark) {
+              $html.addClass('dark').attr('data-theme', 'dark');
+            } else {
+              $html.removeClass('dark').attr('data-theme', 'light');
+            }
+
+            // Store theme state globally - critical for icon consistency
+            window.__theme = isDark ? 'dark' : 'light';
+            window.__themeApplied = true;
+          } catch (e) {
+            // Fallback to dark theme if localStorage fails
+            $('html').addClass('dark').attr('data-theme', 'dark');
+            window.__theme = 'dark';
+            window.__themeApplied = true;
           }
-
-          // Store theme state globally - critical for icon consistency
-          window.__theme = isDark ? 'dark' : 'light';
-          window.__themeApplied = true;
-        } catch (e) {
-          // Fallback to dark theme if localStorage fails
-          document.documentElement.classList.add('dark');
-          document.documentElement.setAttribute('data-theme', 'dark');
-          window.__theme = 'dark';
-          window.__themeApplied = true;
+        } else {
+          // jQuery not loaded yet, try again in 10ms
+          setTimeout(checkJQuery, 10);
         }
       })();
     </script><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="generator" content="Astro v5.13.2"><!-- Canonical URL --><link rel="canonical" href="https://asce1062.github.io/album/escape-artist/"><!-- Primary Meta Tags --><title>Escape Artist | Alex.Immer</title><meta name="title" content="Escape Artist | Alex.Immer"><meta name="description" content="Chip Music"><meta name="author" content="Alex Mbugua Ngugi"><meta name="keywords" content="retro music, chiptune, 8-bit, electronic music, synthwave, MP3, music player, Alex.Immer, Alex Ngugi, asce1062"><!-- Favicon and Icons --><link rel="icon" type="image/x-icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap-index.xml"><!-- Apple Touch Icons --><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png"><link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png"><!-- Apple Mobile Web App --><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Alex.Immer"><!-- Mobile Optimizations --><meta name="mobile-web-app-capable" content="yes"><meta name="application-name" content="Alex.Immer"><meta name="theme-color" content="#947b82"><meta name="msapplication-TileColor" content="#947b82"><meta name="msapplication-navbutton-color" content="#947b82"><!-- Font Face Definitions - Inline for immediate availability --><!-- Open Graph / Facebook --><meta property="og:type" content="music.album"><meta property="og:url" content="https://asce1062.github.io/album/escape-artist/"><meta property="og:title" content="Escape Artist | Alex.Immer"><meta property="og:description" content="Chip Music"><meta property="og:image" content="https://asce1062.github.io/art/escape-artist/cover.png"><meta property="og:image:alt" content="Escape Artist | Alex.Immer - Chip Music"><meta property="og:site_name" content="Alex.Immer"><meta property="og:locale" content="en_US"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://asce1062.github.io/album/escape-artist/"><meta property="twitter:title" content="Escape Artist | Alex.Immer"><meta property="twitter:description" content="Chip Music"><meta property="twitter:image" content="https://asce1062.github.io/art/escape-artist/cover.png"><meta property="twitter:image:alt" content="Escape Artist | Alex.Immer - Chip Music"><meta property="twitter:creator" content="@asce1062"><meta property="twitter:site" content="@asce1062"><!-- Music Schema.org --><script type="application/ld+json">
@@ -48,94 +51,23 @@
       "genre": ["Electronic", "Chiptune", "Retro"],
       "inLanguage": "en-US"
     })}
-  </script><!-- Performance and Security --><link rel="dns-prefetch" href="//fonts.googleapis.com"><link rel="dns-prefetch" href="//fonts.gstatic.com"><!-- Google Fonts (Fallback only) --><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet"><!-- Robots and Crawling --><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow"><!-- Language and Region --><meta name="language" content="English"><meta name="geo.region" content="US"><meta name="geo.placename" content="United States"><!-- Additional SEO Meta Tags --><meta name="rating" content="General"><meta name="distribution" content="Global"><meta name="revisit-after" content="7 days"><meta name="format-detection" content="telephone=no"><link href="/css/style.css" rel="stylesheet"><!-- Prevent flash of unstyled content - TV browser compatible --><style>
+  </script><!-- Performance and Security --><link rel="dns-prefetch" href="//fonts.googleapis.com"><link rel="dns-prefetch" href="//fonts.gstatic.com"><!-- Google Fonts (Fallback only) --><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet"><!-- Robots and Crawling --><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="googlebot" content="index, follow"><!-- Language and Region --><meta name="language" content="English"><meta name="geo.region" content="US"><meta name="geo.placename" content="United States"><!-- Additional SEO Meta Tags --><meta name="rating" content="General"><meta name="distribution" content="Global"><meta name="revisit-after" content="7 days"><meta name="format-detection" content="telephone=no"><link href="/css/style.css" rel="stylesheet"><!-- jQuery for TV browser compatibility --><script src="/jquery-3.2.1.min.js"></script><!-- Prevent flash of unstyled content --><style>
       body {
-        /* Use opacity transition instead of visibility for TV browsers */
+        visibility: hidden;
         opacity: 0;
-        transition: opacity 0.3s ease;
       }
-      
-      /* TV browser fallback for purple tint issue - All TV resolutions */
-      /* HD TV (720p) */
-      @media screen and (min-width: 1280px) and (min-height: 720px) and (max-width: 1919px) {
-        html.dark {
-          background-color: #1a1a1a !important;
-        }
-        .dark\:bg-palette-700 {
-          background-color: #1a1a1a !important;
-        }
-      }
-      
-      /* FHD TV (1080p) */
-      @media screen and (min-width: 1920px) and (min-height: 1080px) and (max-width: 3839px) {
-        html.dark {
-          background-color: #1a1a1a !important;
-        }
-        .dark\:bg-palette-700 {
-          background-color: #1a1a1a !important;
-        }
-      }
-      
-      /* UHD/4K TV (2160p) */
-      @media screen and (min-width: 3840px) and (min-height: 2160px) and (max-width: 7679px) {
-        html.dark {
-          background-color: #1a1a1a !important;
-        }
-        .dark\:bg-palette-700 {
-          background-color: #1a1a1a !important;
-        }
-      }
-      
-      /* 8K TV (4320p) */
-      @media screen and (min-width: 7680px) and (min-height: 4320px) {
-        html.dark {
-          background-color: #1a1a1a !important;
-        }
-        .dark\:bg-palette-700 {
-          background-color: #1a1a1a !important;
-        }
-      }
-    </style><link rel="stylesheet" href="/astro/about.zmHTrSFk.css">
+    </style><link rel="stylesheet" href="/astro/about.DEdRjHlV.css">
 <style>.track-item[data-astro-cid-c6un4ezt]{scroll-margin-top:clamp(80px,10vw,100px)}.hyphens-auto[data-astro-cid-x7j5xkcx]{-webkit-hyphens:auto;hyphens:auto;word-break:break-word;overflow-wrap:break-word}
-</style></head> <!-- Apply theme-aware background immediately --> <body class="z-10 m-0 h-full min-h-screen overflow-y-scroll font-proto text-palette-900 dark:text-white"> <!-- Show body after theme is applied - TV browser compatible --> <script>
-      // Show body with improved TV browser compatibility
-      try {
-        document.body.style.opacity = '1';
-        
-        // TV browser specific fixes for all resolutions
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        
-        // Detect TV resolutions: HD (720p), FHD (1080p), UHD/4K (2160p), 8K (4320p)
-        const isTVResolution = 
-          (width >= 1280 && height >= 720) || // HD and above
-          (width >= 1920 && height >= 1080) || // FHD and above
-          (width >= 3840 && height >= 2160) || // UHD/4K and above
-          (width >= 7680 && height >= 4320);   // 8K
-        
-        if (isTVResolution) {
-          // Force neutral dark background for TV displays
-          document.documentElement.style.backgroundColor = '#1a1a1a';
-          document.body.style.backgroundColor = '#1a1a1a';
-          
-          // Add TV-specific class for additional styling
-          document.documentElement.classList.add('tv-display');
-          
-          // Enhanced font sizing for TV viewing distances
-          if (width >= 3840) { // 4K and 8K
-            document.documentElement.style.fontSize = '20px';
-          } else if (width >= 1920) { // 1080p
-            document.documentElement.style.fontSize = '18px';
-          } else { // 720p
-            document.documentElement.style.fontSize = '16px';
-          }
-        }
-      } catch (e) {
-        // Fallback for limited TV browsers
-        document.body.style.opacity = '1';
-        document.body.style.backgroundColor = '#1a1a1a';
-      }
-    </script> <div class="fixed inset-0 z-0 pointer-events-none bg-[#e8e5f0] dark:bg-palette-700 bg-topography-light dark:bg-topography-dark tv-bg-fix" aria-hidden="true" data-astro-cid-n4l5xtyf></div>  <!-- Header --> <header class="sticky top-0 z-50 bg-[#e8e5f0]/80 dark:bg-palette-700/80 bg-topography-light dark:bg-topography-dark backdrop-blur-md border-b border-palette-800/30 dark:border-palette-300/30"> <div class="container mx-auto py-md-responsive"> <div class="flex items-center justify-between gap-md-responsive"> <!-- Logo --> <a href="/" class="flex items-center gap-sm-responsive group flex-shrink-0"> <div class="w-[clamp(2rem,4vw,2.5rem)] h-[clamp(2rem,4vw,2.5rem)] rounded-lg overflow-hidden flex items-center justify-center"> <img src="/icon.png" alt="Alex.Immer logo" class="w-full h-full object-cover"> </div> <span class="text-xl-responsive font-retro font-bold text-palette-900 dark:text-white group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors hidden sm:block">
+</style></head> <!-- Apply theme-aware background immediately --> <body class="z-10 m-0 h-full min-h-screen overflow-y-scroll font-proto text-palette-900 dark:text-white"> <!-- Show body after theme is applied - jQuery version --> <script>
+      // Show body immediately after theme is set using jQuery
+      $(function() {
+        $('body').css({
+          'visibility': 'visible',
+          'opacity': '1',
+          'transition': 'opacity 0.2s ease'
+        });
+      });
+    </script> <div class="fixed inset-0 z-0 pointer-events-none bg-[#e8e5f0] dark:bg-palette-700 bg-topography-light dark:bg-topography-dark" aria-hidden="true"></div> <!-- Header --> <header class="sticky top-0 z-50 bg-[#e8e5f0]/80 dark:bg-palette-700/80 bg-topography-light dark:bg-topography-dark backdrop-blur-md border-b border-palette-800/30 dark:border-palette-300/30"> <div class="container mx-auto py-md-responsive"> <div class="flex items-center justify-between gap-md-responsive"> <!-- Logo --> <a href="/" class="flex items-center gap-sm-responsive group flex-shrink-0"> <div class="w-[clamp(2rem,4vw,2.5rem)] h-[clamp(2rem,4vw,2.5rem)] rounded-lg overflow-hidden flex items-center justify-center"> <img src="/icon.png" alt="Alex.Immer logo" class="w-full h-full object-cover"> </div> <span class="text-xl-responsive font-retro font-bold text-palette-900 dark:text-white group-hover:text-palette-300 dark:group-hover:text-palette-300 transition-colors hidden sm:block">
 Alex.Immer
 </span> </a> <!-- Desktop Navigation --> <nav class="hidden md:flex items-center gap-xl-responsive"> <a href="/#albums" class="nav-link text-palette-900 hover:text-palette-300 dark:text-gray-300 dark:hover:text-palette-300 transition-colors font-proto text-sm-responsive">
 Albums
@@ -622,7 +554,7 @@ Attribution Non-Commercial Creative Commons License</a>.
 For commercial uses, don't hesitate to contact me:
 <a href="mailto:tnkratos@gmail.com" class="text-palette-300 dark:text-palette-400 hover:text-palette-500 dark:hover:text-palette-500 transition-colors underline">
 tnkratos@gmail.com
-</a> </p> </div> </div> <!-- Links and Copyright --> <div class="flex items-center justify-center gap-2xl-responsive text-sm-responsive text-palette-900 dark:text-gray-400 flex-wrap font-proto"> <a href="https://github.com/asce1062" class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive" target="_blank" rel="noopener noreferrer"> <i class="icon-github"></i> <span>GitHub</span> </a> <a href="mailto:tnkratos@gmail.com" class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive"> <i class="icon-envelope-at"></i> <span>Contact</span> </a> <a href="https://alexmbugua.me" class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive underline" target="_blank" rel="noopener noreferrer"> <span>© 2025 Alex Mbugua Ngugi</span> </a> </div> </div> </div> </div> </footer> <!-- Footer Expand/Collapse Script --> <script type="module">function s(){const t=document.getElementById("footer-expand-btn"),n=document.getElementById("footer-expanded-content"),i=document.getElementById("footer-expand-text"),a=document.getElementById("footer-expand-icon");if(!t||!n||!i||!a){console.error("Footer toggle elements not found");return}let o=!1;function d(){o=!o,o?(n.classList.remove("hidden"),i.textContent="Hide Licensing Info",a.classList.add("rotate-180"),t.setAttribute("aria-label","Hide licensing information"),setTimeout(()=>{n.scrollIntoView({behavior:"smooth",block:"nearest"})},100)):(n.classList.add("hidden"),i.textContent="Show Licensing Info",a.classList.remove("rotate-180"),t.setAttribute("aria-label","Show licensing information"))}t.addEventListener("click",d),t.addEventListener("keydown",e=>{(e.key==="Enter"||e.key===" ")&&(e.preventDefault(),d())}),document.addEventListener("click",e=>{const c=e.target;o&&!t.contains(c)&&!n.contains(c)&&d()}),document.addEventListener("keydown",e=>{e.key==="Escape"&&o&&d()})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",s):s();document.addEventListener("astro:page-load",s);</script> <!-- Keyboard Shortcuts Handler --> <script type="module">document.addEventListener("astro:before-preparation",()=>{const e=window.__theme||localStorage.getItem("theme")||"dark";sessionStorage.setItem("currentTheme",e),localStorage.setItem("theme",e)});document.addEventListener("astro:page-load",()=>{const e=sessionStorage.getItem("currentTheme")||localStorage.getItem("theme")||"dark",a=e==="dark",t=document.documentElement;a?(t.classList.add("dark"),t.setAttribute("data-theme","dark")):(t.classList.remove("dark"),t.setAttribute("data-theme","light")),window.__theme=e,window.__themeApplied=!0});</script> <!-- Global Download Manager --> <script type="module" src="/astro/Layout.astro_astro_type_script_index_1_lang.cln13GhC.js"></script> <!-- Enhanced theme persistence across navigation --> <script type="module">document.addEventListener("keydown",e=>{const t=e.target;if(!(t&&["INPUT","TEXTAREA"].includes(t.tagName)))switch(e.key){case" ":e.preventDefault(),document.dispatchEvent(new CustomEvent("globalPlayPause"));break;case"ArrowLeft":e.preventDefault(),document.dispatchEvent(new CustomEvent("globalSeekBackward"));break;case"ArrowRight":e.preventDefault(),document.dispatchEvent(new CustomEvent("globalSeekForward"));break;case"ArrowUp":e.preventDefault(),document.dispatchEvent(new CustomEvent("globalVolumeUp"));break;case"ArrowDown":e.preventDefault(),document.dispatchEvent(new CustomEvent("globalVolumeDown"));break}});</script> </body> </html>  <script>(function(){const album = {"id":"escape-artist","title":"Escape Artist","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"coverArt":"/art/escape-artist/cover.png","releaseDate":"2016-04-25","tracks":[{"id":"intro","title":"Intro","format":"mp3","duration":"2:13","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/01.Intro.mp3","size":5.08},{"id":"anticipation-escape-artist","title":"Anticipation (Escape Artist)","format":"mp3","duration":"1:15","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/02.Anticipation.mp3","size":2.86},{"id":"cold-burns","title":"Cold Burns","format":"mp3","duration":"2:41","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/03.Cold Burns.mp3","size":6.18},{"id":"escape-artist","title":"Escape Artist","format":"mp3","duration":"6:30","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/04.Escape Artist.mp3","size":14.88},{"id":"its-alright","title":"It's Alright","format":"mp3","duration":"1:53","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/05.It's Alright.mp3","size":4.32},{"id":"keep-moving","title":"Keep Moving","format":"mp3","duration":"1:48","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/06.Keep Moving.mp3","size":4.12},{"id":"laser-beams","title":"Laser Beams","format":"mp3","duration":"1:51","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/07.Laser Beams.mp3","size":4.27},{"id":"one-for-you","title":"One For You","format":"mp3","duration":"0:59","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/08.One For You.mp3","size":2.27},{"id":"play-ground","title":"Play Ground","format":"mp3","duration":"1:50","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/09.Play Ground.mp3","size":4.2},{"id":"outro","title":"Outro","format":"mp3","duration":"1:09","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/10.Outro.mp3","size":2.63},{"id":"1-2-3-4","title":"1 2 3 4","format":"mp3","duration":"3:08","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/01.1 2 3 4.mp3","size":7.18},{"id":"dream","title":"Dream","format":"mp3","duration":"2:03","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/02.Dream.mp3","size":4.73},{"id":"love-on-speed","title":"Love (On Speed)","format":"mp3","duration":"1:44","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/03.Love (On Speed).mp3","size":3.99},{"id":"secrets","title":"Secrets","format":"mp3","duration":"1:18","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/04.Secrets.mp3","size":2.99},{"id":"if-you-care","title":"If You Care","format":"mp3","duration":"3:49","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/05.If You Care.mp3","size":8.76},{"id":"paranoia","title":"Paranoia","format":"mp3","duration":"0:46","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/06.Paranoia.mp3","size":1.77},{"id":"die-qual-der-wahl","title":"Die Qual der Wahl","format":"mp3","duration":"1:06","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/07.Die Qual der Wahl.mp3","size":2.55}]};
+</a> </p> </div> </div> <!-- Links and Copyright --> <div class="flex items-center justify-center gap-2xl-responsive text-sm-responsive text-palette-900 dark:text-gray-400 flex-wrap font-proto"> <a href="https://github.com/asce1062" class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive" target="_blank" rel="noopener noreferrer"> <i class="icon-github"></i> <span>GitHub</span> </a> <a href="mailto:tnkratos@gmail.com" class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive"> <i class="icon-envelope-at"></i> <span>Contact</span> </a> <a href="https://alexmbugua.me" class="hover:text-palette-300 dark:hover:text-palette-300 transition-colors flex items-center gap-xs-responsive underline" target="_blank" rel="noopener noreferrer"> <span>© 2025 Alex Mbugua Ngugi</span> </a> </div> </div> </div> </div> </footer> <!-- Footer Expand/Collapse Script --> <script type="module">function s(){const t=document.getElementById("footer-expand-btn"),n=document.getElementById("footer-expanded-content"),i=document.getElementById("footer-expand-text"),a=document.getElementById("footer-expand-icon");if(!t||!n||!i||!a){console.error("Footer toggle elements not found");return}let o=!1;function d(){o=!o,o?(n.classList.remove("hidden"),i.textContent="Hide Licensing Info",a.classList.add("rotate-180"),t.setAttribute("aria-label","Hide licensing information"),setTimeout(()=>{n.scrollIntoView({behavior:"smooth",block:"nearest"})},100)):(n.classList.add("hidden"),i.textContent="Show Licensing Info",a.classList.remove("rotate-180"),t.setAttribute("aria-label","Show licensing information"))}t.addEventListener("click",d),t.addEventListener("keydown",e=>{(e.key==="Enter"||e.key===" ")&&(e.preventDefault(),d())}),document.addEventListener("click",e=>{const c=e.target;o&&!t.contains(c)&&!n.contains(c)&&d()}),document.addEventListener("keydown",e=>{e.key==="Escape"&&o&&d()})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",s):s();document.addEventListener("astro:page-load",s);</script> <!-- Keyboard Shortcuts Handler - jQuery version --> <script type="module">$(function(){$(document).on("astro:before-preparation",function(){const e=window.__theme||localStorage.getItem("theme")||"dark";sessionStorage.setItem("currentTheme",e),localStorage.setItem("theme",e)}),$(document).on("astro:page-load",function(){const e=sessionStorage.getItem("currentTheme")||localStorage.getItem("theme")||"dark",a=e==="dark",t=$("html");a?t.addClass("dark").attr("data-theme","dark"):t.removeClass("dark").attr("data-theme","light"),window.__theme=e,window.__themeApplied=!0})});</script> <!-- Global Download Manager - jQuery version --> <script type="module" src="/astro/Layout.astro_astro_type_script_index_1_lang.CYRtEXEK.js"></script> <!-- Enhanced theme persistence across navigation - jQuery version --> <script type="module">$(function(){$(document).on("keydown",function(e){const r=e.target;if(!(r&&r.tagName&&["INPUT","TEXTAREA"].includes(r.tagName)))switch(e.key){case" ":e.preventDefault(),$(document).trigger("globalPlayPause");break;case"ArrowLeft":e.preventDefault(),$(document).trigger("globalSeekBackward");break;case"ArrowRight":e.preventDefault(),$(document).trigger("globalSeekForward");break;case"ArrowUp":e.preventDefault(),$(document).trigger("globalVolumeUp");break;case"ArrowDown":e.preventDefault(),$(document).trigger("globalVolumeDown");break}})});</script> </body> </html>  <script>(function(){const album = {"id":"escape-artist","title":"Escape Artist","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"coverArt":"/art/escape-artist/cover.png","releaseDate":"2016-04-25","tracks":[{"id":"intro","title":"Intro","format":"mp3","duration":"2:13","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/01.Intro.mp3","size":5.08},{"id":"anticipation-escape-artist","title":"Anticipation (Escape Artist)","format":"mp3","duration":"1:15","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/02.Anticipation.mp3","size":2.86},{"id":"cold-burns","title":"Cold Burns","format":"mp3","duration":"2:41","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/03.Cold Burns.mp3","size":6.18},{"id":"escape-artist","title":"Escape Artist","format":"mp3","duration":"6:30","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/04.Escape Artist.mp3","size":14.88},{"id":"its-alright","title":"It's Alright","format":"mp3","duration":"1:53","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/05.It's Alright.mp3","size":4.32},{"id":"keep-moving","title":"Keep Moving","format":"mp3","duration":"1:48","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/06.Keep Moving.mp3","size":4.12},{"id":"laser-beams","title":"Laser Beams","format":"mp3","duration":"1:51","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/07.Laser Beams.mp3","size":4.27},{"id":"one-for-you","title":"One For You","format":"mp3","duration":"0:59","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/08.One For You.mp3","size":2.27},{"id":"play-ground","title":"Play Ground","format":"mp3","duration":"1:50","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/09.Play Ground.mp3","size":4.2},{"id":"outro","title":"Outro","format":"mp3","duration":"1:09","description":"Chip Music","genre":["8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/10.Outro.mp3","size":2.63},{"id":"1-2-3-4","title":"1 2 3 4","format":"mp3","duration":"3:08","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/01.1 2 3 4.mp3","size":7.18},{"id":"dream","title":"Dream","format":"mp3","duration":"2:03","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/02.Dream.mp3","size":4.73},{"id":"love-on-speed","title":"Love (On Speed)","format":"mp3","duration":"1:44","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/03.Love (On Speed).mp3","size":3.99},{"id":"secrets","title":"Secrets","format":"mp3","duration":"1:18","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/04.Secrets.mp3","size":2.99},{"id":"if-you-care","title":"If You Care","format":"mp3","duration":"3:49","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/05.If You Care.mp3","size":8.76},{"id":"paranoia","title":"Paranoia","format":"mp3","duration":"0:46","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/06.Paranoia.mp3","size":1.77},{"id":"die-qual-der-wahl","title":"Die Qual der Wahl","format":"mp3","duration":"1:06","description":"Chip Music","genre":["Bonus","8-Bit","Chiptune","Electronic","Experimental","Synthwave"],"file":"/audio/Escape Artist/Extras/07.Die Qual der Wahl.mp3","size":2.55}]};
 
   // Album Player Class - Refactored to use centralized music player service
   class AlbumPlayer {
