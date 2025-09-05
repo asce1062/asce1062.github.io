@@ -19,6 +19,7 @@ function generateId(title) {
   return slugify(title, { lower: true, strict: true });
 }
 
+
 async function getTrackInfo(filePath) {
   const { size, birthtime } = fs.statSync(filePath);
   const relPath = filePath.split(/public[\\/]/i)[1].replace(/\\/g, '/');
@@ -34,7 +35,7 @@ async function getTrackInfo(filePath) {
     const metadata = await parseFile(filePath);
     const seconds = metadata.format.duration || 0;
     const min = Math.floor(seconds / 60);
-    const sec = Math.round(seconds % 60)
+    const sec = Math.floor(seconds % 60)
       .toString()
       .padStart(2, '0');
     duration = `${min}:${sec}`;
@@ -179,8 +180,8 @@ async function updateMusicJson() {
       console.log(`🔄 Processing existing album: ${existingAlbum.title}`);
 
       const newTracksToAdd = [];
-      
-      // Collect only new tracks
+
+      // Collect only new tracks and check for duration updates on existing tracks
       for (const newTrack of newTracks) {
         const { releaseMeta, ...trackWithoutMeta } = newTrack;
 
@@ -188,6 +189,13 @@ async function updateMusicJson() {
           newTracksToAdd.push(trackWithoutMeta);
           newTracksCount++;
           console.log(`  ➕ Added new track: ${trackWithoutMeta.title}`);
+        } else {
+          // Check if existing track duration needs updating
+          const existingTrack = existingTracks.get(trackWithoutMeta.id);
+          if (existingTrack.duration !== trackWithoutMeta.duration) {
+            console.log(`  🔄 Updated duration for ${trackWithoutMeta.title}: ${existingTrack.duration} → ${trackWithoutMeta.duration}`);
+            existingTrack.duration = trackWithoutMeta.duration;
+          }
         }
       }
 
@@ -220,7 +228,7 @@ async function updateMusicJson() {
       const cleanedTracks = newTracks.map(({ releaseMeta, ...rest }) => rest);
       const mainTracks = cleanedTracks.filter(track => !track.file.includes('/extras/') && !track.file.includes('/Extras/'));
       const extrasTracks = cleanedTracks.filter(track => track.file.includes('/extras/') || track.file.includes('/Extras/'));
-      
+
       // Order tracks: main tracks first, then extras
       const orderedTracks = [...mainTracks, ...extrasTracks];
 
