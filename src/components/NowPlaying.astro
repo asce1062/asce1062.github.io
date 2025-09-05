@@ -1,5 +1,5 @@
 ---
-
+import Expand from "./Expand.astro"
 ---
 
 <!-- Collapsed Now Playing Widget (always visible when track is playing) -->
@@ -33,12 +33,6 @@
         </p>
       </div>
     </div>
-    <button
-      id="expand-now-playing"
-      class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
-    >
-      <i class="icon-chevron-up icon-sm"></i>
-    </button>
   </div>
 
   <!-- Play/Pause button positioned absolutely -->
@@ -213,112 +207,221 @@
     </div>
 
     <!-- Content Section -->
-    <div class="p-lg-responsive">
-      <!-- Track Title -->
-      <div class="marquee-container mb-xs-responsive overflow-hidden">
-        <h4
-          class="text-lg-responsive font-retro text-palette-900 dark:text-white now-playing-title-expanded marquee-text"
-        >
-          No track playing
-        </h4>
-      </div>
-
-      <!-- Album Title -->
-      <div class="marquee-container mb-lg-responsive overflow-hidden">
-        <p
-          class="text-sm-responsive text-palette-900 dark:text-gray-400 now-playing-album-expanded marquee-text font-proto"
-        >
-          Select a track to begin
-        </p>
-      </div>
-
-      <!-- Controls Section (replacing description area) -->
-      <div class="space-y-lg-responsive">
-        <!-- Media Controls -->
-        <div class="flex items-center justify-center gap-lg-responsive">
-          <button
-            id="expanded-prev"
-            class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
+    <div class="p-lg-responsive relative overflow-hidden">
+      <!-- Content that can be pushed behind album art -->
+      <div id="main-content" class="transition-all duration-500 ease-in-out">
+        <!-- Track Title -->
+        <div class="marquee-container mb-xs-responsive overflow-hidden">
+          <h4
+            class="text-lg-responsive font-retro text-palette-900 dark:text-white now-playing-title-expanded marquee-text"
           >
-            <i class="icon-skip-backward icon-lg"></i>
-          </button>
-
-          <button
-            id="expanded-play-pause"
-            class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-all duration-200 transform hover:scale-110"
-          >
-            <i class="icon-play-fill icon-xl expanded-play-icon"></i>
-            <i class="icon-pause icon-xl expanded-pause-icon" style="display: none;"></i>
-          </button>
-
-          <button
-            id="expanded-next"
-            class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
-          >
-            <i class="icon-skip-forward icon-lg"></i>
-          </button>
+            No track playing
+          </h4>
         </div>
 
-        <!-- Volume Control with Repeat Button -->
-        <div class="flex items-center gap-sm-responsive">
-          <i class="icon-volume-up icon-sm text-palette-800 dark:text-palette-500"></i>
-          <input
-            type="range"
-            class="expanded-volume-slider flex-1 bg-light-200 dark:bg-palette-900 rounded-lg appearance-none cursor-pointer h-[4px]"
-            min="0"
-            max="100"
-            value="70"
-          />
-          <span
-            class="text-xs-responsive text-palette-900 dark:text-gray-400 font-proto w-[2rem] text-right expanded-volume-display"
-            >70%</span
+        <!-- Album Title -->
+        <div class="marquee-container mb-lg-responsive overflow-hidden">
+          <p
+            class="text-sm-responsive text-palette-900 dark:text-gray-400 now-playing-album-expanded marquee-text font-proto"
           >
-
-          <!-- Repeat Button moved here -->
-          <button
-            id="expanded-loop"
-            class="text-palette-800 dark:text-palette-800 hover:text-palette-800 dark:hover:text-palette-400 ml-sm-responsive"
-            title="Loop Track"
-          >
-            <i class="icon-repeat icon-md expanded-loop-icon"></i>
-            <i class="icon-repeat-1 icon-md expanded-loop-one-icon" style="display: none;"></i>
-          </button>
+            Select a track to begin
+          </p>
         </div>
 
-        <!-- Progress Section -->
-        <div>
-          <div
-            class="flex items-center justify-between text-xs-responsive text-palette-900 dark:text-gray-400 mb-xs-responsive font-proto"
-          >
-            <span class="expanded-current-time">0:00</span>
-            <span class="expanded-total-time">0:00</span>
-          </div>
-          <div
-            class="expanded-progress-container bg-light-200 dark:bg-palette-900 rounded-full h-[6px] cursor-pointer"
-          >
-            <div
-              class="expanded-progress-bar bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200"
-              style="width: 0%"
+        <!-- Controls Section (replacing description area) -->
+        <div class="space-y-lg-responsive">
+          <!-- Media Controls -->
+          <div class="flex items-center justify-center gap-lg-responsive">
+            <button
+              id="expanded-prev"
+              class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
             >
+              <i class="icon-skip-backward icon-lg"></i>
+            </button>
+
+            <button
+              id="expanded-play-pause"
+              class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-all duration-200 transform hover:scale-110"
+            >
+              <i class="icon-play-fill icon-xl expanded-play-icon"></i>
+              <i class="icon-pause icon-xl expanded-pause-icon" style="display: none;"></i>
+            </button>
+
+            <button
+              id="expanded-next"
+              class="text-palette-800 dark:text-palette-300 hover:text-palette-300 dark:hover:text-palette-400 transition-colors"
+            >
+              <i class="icon-skip-forward icon-lg"></i>
+            </button>
+          </div>
+
+          <!-- Volume Control with Repeat Button -->
+          <div class="flex items-center gap-sm-responsive">
+            <i class="icon-volume-up icon-sm text-palette-800 dark:text-palette-500"></i>
+            <input
+              type="range"
+              class="expanded-volume-slider flex-1 bg-light-200 dark:bg-palette-900 rounded-lg appearance-none cursor-pointer h-[4px]"
+              min="0"
+              max="100"
+              value="70"
+            />
+            <span
+              class="text-xs-responsive text-palette-900 dark:text-gray-400 font-proto w-[2rem] text-right expanded-volume-display"
+              >70%</span
+            >
+
+            <!-- Repeat Button moved here -->
+            <button
+              id="expanded-loop"
+              class="text-palette-800 dark:text-palette-800 hover:text-palette-800 dark:hover:text-palette-400 ml-sm-responsive"
+              title="Loop Track"
+            >
+              <i class="icon-repeat icon-md expanded-loop-icon"></i>
+              <i class="icon-repeat-1 icon-md expanded-loop-one-icon" style="display: none;"></i>
+            </button>
+          </div>
+
+          <!-- Progress Section -->
+          <div>
+            <div
+              class="flex items-center justify-between text-xs-responsive text-palette-900 dark:text-gray-400 mb-xs-responsive font-proto"
+            >
+              <span class="expanded-current-time">0:00</span>
+              <span class="expanded-total-time">0:00</span>
+            </div>
+            <div
+              class="expanded-progress-container bg-light-200 dark:bg-palette-900 rounded-full h-[6px] cursor-pointer"
+            >
+              <div
+                class="expanded-progress-bar bg-gradient-to-r from-palette-800 to-palette-300 dark:from-palette-300 dark:to-palette-500 h-full rounded-full transition-all duration-200"
+                style="width: 0%"
+              >
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Release Date -->
+        <div
+          class="text-palette-900 dark:text-gray-500 text-xs-responsive font-proto mt-lg-responsive now-playing-release-date"
+        >
+          <!-- Release date will be populated dynamically -->
+        </div>
       </div>
 
-      <!-- Release Date -->
-      <div
-        class="text-palette-900 dark:text-gray-500 text-xs-responsive font-proto mt-lg-responsive now-playing-release-date"
-      >
-        <!-- Release date will be populated dynamically -->
+      <!-- Playlist Section - stays at bottom -->
+      <div id="playlist-section" class="transition-all duration-500 ease-in-out">
+        <Expand title="Playlist">
+          <div slot="content" id="playlist-content">
+            <div id="queue-loading" class="text-center text-palette-500 dark:text-palette-400 py-4">
+              <i class="icon-music"></i> Loading queue...
+            </div>
+            <div id="queue-empty" class="text-center text-palette-500 dark:text-palette-400 py-4" style="display: none;">
+              <i class="icon-music"></i> No tracks in queue
+            </div>
+            <div id="queue-tracks" style="display: none;"></div>
+          </div>
+        </Expand>
       </div>
     </div>
   </div>
 </div>
 
+<style>
+  /* Scroll content behind album art approach */
+  #now-playing-card.playlist-expanded #main-content {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Position playlist to cover entire content area when expanded */
+  #now-playing-card.playlist-expanded #playlist-section {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    background: inherit;
+    border-radius: 0 0 0.5rem 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    max-height: calc(100% - 2rem);
+    overflow: hidden;
+    overflow-y: auto;
+  }
+
+  /* Force the Expand component to show content when playlist expanded */
+  #now-playing-card.playlist-expanded #playlist-section input[type="checkbox"] {
+    display: none;
+  }
+
+  #now-playing-card.playlist-expanded #playlist-section section {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #now-playing-card.playlist-expanded #playlist-section label {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #now-playing-card.playlist-expanded #playlist-section #expand-content {
+    max-height: none !important;
+    height: 100%;
+    overflow: visible !important;
+    display: flex !important;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  #now-playing-card.playlist-expanded #playlist-section h3 {
+    flex-shrink: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  #now-playing-card.playlist-expanded #playlist-section [slot="content"] {
+    display: block !important;
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 0;
+    padding: 0.5rem 0;
+  }
+
+  /* Dark mode border support */
+  .dark #now-playing-card.playlist-expanded #playlist-section {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .queue-track i {
+    margin-right: 0.5rem;
+  }
+
+  .queue-track.current i {
+    color: rgba(var(--palette-800-rgb), 1);
+    animation: pulse 2s ease-in-out infinite alternate;
+  }
+
+  .dark .queue-track.current i {
+    color: rgba(var(--palette-300-rgb), 1);
+  }
+
+  @keyframes pulse {
+    from { opacity: 1; }
+    to { opacity: 0.4; }
+  }
+
+</style>
+
 <script>
-  import { musicPlayer } from '../utils/musicPlayer';
+  import { musicPlayer, mediaSessionManager } from '../utils/musicPlayer';
   import { nowPlayingManager } from '../utils/nowPlayingManager';
   import type { PlaybackState } from '../utils/musicPlayer';
+  import { androidBridgeService } from '../services/AndroidBridgeService';
 
   class NowPlayingWidget {
     private collapsedElement: HTMLElement;
@@ -338,6 +441,7 @@
     private lastTimerDuration: number | null = null;
     private sleepTimerPaused = false;
     private sleepTimerPausedAt: number | null = null;
+    private playlistCheckbox: HTMLInputElement | null = null;
 
     constructor() {
       this.collapsedElement = document.getElementById('now-playing-collapsed') as HTMLElement;
@@ -358,24 +462,33 @@
       this.setupFooterOverlapPrevention();
       this.bindMusicPlayerEvents();
 
+      // AndroidBridge service auto-initializes - no manual initialization needed
+      console.log('🔔 AndroidBridge service available:', androidBridgeService.isConnected());
+
       // Initialize with current state
+      console.log('🎵 Initializing Now Playing widget...');
       const state = musicPlayer.getState();
+      console.log('- Has track:', !!state.currentTrack);
+      console.log('- Has album:', !!state.currentAlbum);
+      console.log('- Is playing:', state.isPlaying);
+      console.log('- Track title:', state.currentTrack?.title);
+      console.log('- Album title:', state.currentAlbum?.title);
+
       this.updateFromState(state);
+
+      // Restore queue state after navigation
+      this.restoreQueueState();
 
       // Restore sleep timer if it was running
       this.restoreSleepTimer();
     }
 
     private setupEventListeners() {
-      // Expand/Collapse controls
-      const expandBtn = document.getElementById('expand-now-playing');
+      // Setup queue event listeners
+      this.setupQueueEventListeners();
+
+      // Collapse control
       const collapseBtn = document.getElementById('collapse-now-playing');
-
-      expandBtn?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        this.expand();
-      });
-
       collapseBtn?.addEventListener('click', () => this.collapse());
 
       // Collapsed play/pause button
@@ -429,16 +542,28 @@
         nowPlayingManager.setVolume(volume);
       });
 
+      // Playlist toggle functionality
+      this.setupPlaylistToggle();
+
       // Keyboard shortcuts
       document.addEventListener('keydown', (e) => {
         if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
           return;
         }
 
+        // Check if playlist is expanded
+        const nowPlayingCard = document.getElementById('now-playing-card');
+        const isPlaylistExpanded = nowPlayingCard?.classList.contains('playlist-expanded');
+
         switch (e.key) {
           case ' ':
             e.preventDefault();
-            this.togglePlayPause();
+            // When playlist is expanded, spacebar should control playback, not minimize playlist
+            if (isPlaylistExpanded) {
+              this.toggleCurrentTrackPlayPause();
+            } else {
+              this.togglePlayPause();
+            }
             break;
           case 'ArrowLeft':
             e.preventDefault();
@@ -448,13 +573,35 @@
             e.preventDefault();
             nowPlayingManager.nextTrack();
             break;
+          case 'ArrowUp':
+            // Navigate to previous track in playlist when expanded
+            if (isPlaylistExpanded) {
+              e.preventDefault();
+              this.navigatePlaylistUp();
+            }
+            break;
+          case 'ArrowDown':
+            // Navigate to next track in playlist when expanded
+            if (isPlaylistExpanded) {
+              e.preventDefault();
+              this.navigatePlaylistDown();
+            }
+            break;
           case 'l':
           case 'L':
             e.preventDefault();
             nowPlayingManager.toggleLoop();
             break;
           case 'Escape':
-            if (this.isExpanded) {
+            if (isPlaylistExpanded) {
+              // Close playlist on first Esc key press
+              e.preventDefault();
+              this.togglePlaylistExpanded(false);
+              if (this.playlistCheckbox) {
+                this.playlistCheckbox.checked = false;
+              }
+            } else if (this.isExpanded) {
+              // Close entire widget on second Esc key press
               e.preventDefault();
               this.collapse();
             }
@@ -509,10 +656,17 @@
         const { track, album } = event.detail;
         this.updateTrackInfo(track, album);
         this.show();
+
+        // Ensure queue is rebuilt when playback starts (e.g., after navigation)
+        setTimeout(() => this.ensureQueueExists(), 50);
       });
 
       musicPlayer.onStateChanged((event) => {
         this.updateFromState(event.detail.state);
+
+        // Also ensure queue exists for any state change (including paused states)
+        // This handles cached/paused tracks that don't trigger onTrackStarted
+        setTimeout(() => this.ensureQueueExists(), 50);
       });
 
       musicPlayer.onProgressUpdated((event) => {
@@ -553,6 +707,464 @@
           this.resumeSleepTimer();
         }
       });
+    }
+
+    private setupPlaylistToggle() {
+      setTimeout(() => {
+        const playlistExpandTrigger = this.expandedElement?.querySelector('#playlist-section input[type="checkbox"]');
+
+        if (playlistExpandTrigger) {
+          // Store reference to checkbox for manual control
+          this.playlistCheckbox = playlistExpandTrigger as HTMLInputElement;
+
+          playlistExpandTrigger.addEventListener('change', (e) => {
+            const isExpanded = (e.target as HTMLInputElement).checked;
+            this.togglePlaylistExpanded(isExpanded);
+          });
+
+          // Prevent label clicks from content area (tracks handle their own prevention)
+          const playlistLabel = this.expandedElement?.querySelector('#playlist-section label');
+          playlistLabel?.addEventListener('click', (e) => {
+            const target = e.target as HTMLElement;
+            console.log('Label clicked:', target.tagName, target.className, target.textContent?.substring(0, 50));
+
+            // Check if click is within the content area (but not the title)
+            const contentArea = playlistLabel.querySelector('#playlist-content');
+            const titleArea = playlistLabel.querySelector('h3');
+            const isContentClick = contentArea?.contains(target) && !titleArea?.contains(target);
+
+            console.log('Is content click:', isContentClick);
+
+            if (isContentClick) {
+              // Only prevent if clicking in content area (empty spaces, etc.)
+              // Track clicks are already handled by their own listeners with stopPropagation
+              console.log('Preventing label click');
+              e.preventDefault();
+              e.stopPropagation();
+              return false;
+            }
+
+            // Allow clicks on title to toggle normally
+            console.log('Allowing label click to toggle');
+          });
+        }
+      }, 100);
+    }
+
+    private togglePlaylistExpanded(isExpanded: boolean) {
+      const nowPlayingCard = document.getElementById('now-playing-card');
+
+      if (isExpanded) {
+        nowPlayingCard?.classList.add('playlist-expanded');
+        // Refresh queue when playlist expands
+        this.refreshQueue();
+      } else {
+        nowPlayingCard?.classList.remove('playlist-expanded');
+      }
+    }
+
+    private async setupQueueEventListeners() {
+      try {
+        // Listen for queue updates from MediaSessionService - but only use for play/pause icon updates
+        // DON'T listen to MediaSession queue events as they use shuffle order
+        // Instead, only listen to music player state changes for play/pause icon updates
+        musicPlayer.onStateChanged((event) => {
+          const { state } = event.detail;
+
+          // Only update play/pause icons, don't re-render the entire queue
+          // The queue order is set by our simple queue rebuild method
+          this.updatePlayPauseIconsOnly(state.isPlaying);
+        });
+
+        // Listen for track changes to rebuild simple queue only when album changes
+        let lastAlbumId: string | null = null;
+        let lastTrackId: string | null = null;
+        musicPlayer.onTrackChanged((event) => {
+          const { track, album } = event.detail;
+
+          // Only rebuild queue if the album has actually changed AND playlist is expanded
+          if (album.id !== lastAlbumId) {
+            lastAlbumId = album.id;
+
+            // Check if playlist is expanded before rebuilding queue
+            const nowPlayingCard = document.getElementById('now-playing-card');
+            const playlistExpanded = nowPlayingCard?.classList.contains('playlist-expanded');
+            const playlistCheckbox = this.expandedElement?.querySelector('#playlist-section input[type="checkbox"]') as HTMLInputElement;
+            const isPlaylistToggled = playlistCheckbox?.checked;
+
+            if (playlistExpanded || isPlaylistToggled) {
+              console.log('Album changed and playlist is expanded, rebuilding simple album queue');
+              // Get current music player state and rebuild queue with simple album order
+              const musicState = musicPlayer.getState();
+              if (musicState.currentTrack && musicState.currentAlbum) {
+                this.buildQueueFromOriginalOrder(musicState);
+              }
+            } else {
+              console.log('Album changed but playlist is collapsed, skipping queue rebuild');
+            }
+          } else if (track.id !== lastTrackId) {
+            // Same album, but different track - update visual highlighting only if playlist is expanded
+            const nowPlayingCard = document.getElementById('now-playing-card');
+            const playlistExpanded = nowPlayingCard?.classList.contains('playlist-expanded');
+            const playlistCheckbox = this.expandedElement?.querySelector('#playlist-section input[type="checkbox"]') as HTMLInputElement;
+            const isPlaylistToggled = playlistCheckbox?.checked;
+
+            if (playlistExpanded || isPlaylistToggled) {
+              console.log('Track changed within same album, updating highlighting');
+              this.updatePlaylistHighlighting(track);
+            }
+          }
+
+          lastTrackId = track.id;
+        });
+
+      } catch (error) {
+        console.error('Failed to setup queue event listeners:', error);
+      }
+    }
+
+    private async refreshQueue() {
+      try {
+        // Only refresh queue if playlist is expanded
+        // This is called when playlist expands
+        const nowPlayingCard = document.getElementById('now-playing-card');
+        const playlistExpanded = nowPlayingCard?.classList.contains('playlist-expanded');
+
+        if (!playlistExpanded) {
+          console.log('🎵 Playlist not expanded, skipping queue refresh');
+          return;
+        }
+
+        const musicState = musicPlayer.getState();
+
+        // Use buildQueueFromOriginalOrder instead of MediaSession queue to avoid shuffle order
+        if (musicState.currentTrack && musicState.currentAlbum) {
+          this.buildQueueFromOriginalOrder(musicState);
+
+          // Auto-scroll to current track after a brief delay to ensure DOM is updated
+          setTimeout(() => {
+            this.scrollToCurrentTrackOnOpen(musicState);
+          }, 200);
+        } else {
+          console.warn('No current track/album for queue refresh');
+        }
+      } catch (error) {
+        console.error('Failed to refresh queue:', error);
+        this.showQueueError();
+      }
+    }
+
+    private scrollToCurrentTrackOnOpen(musicState: any) {
+      try {
+        const currentTrackElement = document.querySelector('.queue-track.current');
+        if (currentTrackElement) {
+          console.log('🎵 Auto-scrolling to current track on playlist open');
+          this.scrollToCurrentTrack(currentTrackElement, musicState.isShuffled);
+        }
+      } catch (error) {
+        console.error('Failed to scroll to current track on open:', error);
+      }
+    }
+
+    private async restoreQueueState() {
+      // Only restore queue if user has playlist expanded
+      // Respect user's choice
+      setTimeout(async () => {
+        try {
+          // Check if playlist is currently expanded
+          const nowPlayingCard = document.getElementById('now-playing-card');
+          const playlistExpanded = nowPlayingCard?.classList.contains('playlist-expanded');
+          const playlistCheckbox = this.expandedElement?.querySelector('#playlist-section input[type="checkbox"]') as HTMLInputElement;
+          const isPlaylistToggled = playlistCheckbox?.checked;
+
+          // Only render queue if playlist is actually expanded by user
+          if (!playlistExpanded && !isPlaylistToggled) {
+            console.log('🎵 Playlist is collapsed, skipping queue restoration to respect user choice');
+            return;
+          }
+
+          console.log('🎵 Playlist is expanded, restoring queue content...');
+
+          const queueInfo = mediaSessionManager.getQueue();
+
+          if (queueInfo.queue.length > 0) {
+            console.log('✅ Restoring existing queue after navigation:', queueInfo.queue.length, 'tracks');
+            const musicState = musicPlayer.getState();
+            this.renderQueue(queueInfo.queue, queueInfo.currentIndex, musicState.isPlaying);
+          } else {
+            // No existing queue, try to rebuild from current music player state
+            const musicState = musicPlayer.getState();
+            if (musicState.currentTrack && musicState.currentAlbum) {
+              console.log('🎵 No existing queue, rebuilding from music player state');
+              this.rebuildQueueFromState(musicState);
+            } else {
+              console.log('❌ No current track/album to restore queue from');
+            }
+          }
+        } catch (error) {
+          console.error('Failed to restore queue state:', error);
+        }
+      }, 100);
+    }
+
+    private async buildQueueFromOriginalOrder(musicState: any) {
+      try {
+        // Use the originalOrder array from MusicPlayerService to maintain consistent album order
+        const album = musicState.currentAlbum;
+        if (!album || !album.tracks || album.tracks.length === 0) {
+          console.error('Invalid album data for queue building:', album);
+          return;
+        }
+
+        // Generate true original order exactly like MusicPlayerService does in initializeShuffleOrder()
+        // This ensures we get the same [0, 1, 2, 3...] order that MusicPlayerService uses
+        const trueOriginalOrder = Array.from({ length: album.tracks.length }, (_, i) => i);
+
+        console.log('- musicState.originalOrder (might be corrupted):', musicState.originalOrder);
+        console.log('- True original order (recreated like MusicPlayerService):', trueOriginalOrder);
+
+        // Always use the true original order for visual display
+        const trackOrder = trueOriginalOrder;
+
+        console.log('🎵 Building queue from true sequential order:');
+        console.log('- Album:', album.title, `(${album.tracks.length} tracks)`);
+        console.log('- Track order (always sequential):', trackOrder);
+        console.log('- Current track:', musicState.currentTrack.title);
+        console.log('- Current track index:', musicState.currentTrackIndex);
+        console.log('- Is playing:', musicState.isPlaying);
+
+        const orderedQueue = trackOrder.map((trackIndex: number, displayIndex: number) => {
+          if (!album.tracks[trackIndex]) {
+            console.warn(`Track not found at index ${trackIndex} in album ${album.title}`);
+            return null;
+          }
+
+          return {
+            track: album.tracks[trackIndex],
+            album: album,
+            queueId: `${album.id}-${album.tracks[trackIndex].id}-${displayIndex}`,
+            originalIndex: trackIndex,
+            displayIndex: displayIndex + 1
+          };
+        }).filter(Boolean); // Remove null entries
+
+        // Find current track position using the originalOrder
+        const currentTrackIndex = musicState.currentTrackIndex;
+        const currentQueueIndex = trackOrder.indexOf(currentTrackIndex);
+
+        console.log('✅ Queue built successfully:');
+        console.log('- Queue length:', orderedQueue.length);
+        console.log('- Current position in queue:', currentQueueIndex);
+        console.log('- Queue tracks:', orderedQueue.map(item => item.track.title));
+
+        if (orderedQueue.length > 0) {
+          // Render the queue using the music player's original order
+          this.renderQueue(orderedQueue, Math.max(0, currentQueueIndex), musicState.isPlaying);
+
+          // Note: Queue broadcasting removed
+          // Simplified: AndroidBridge only handles notifications
+        } else {
+          console.error('No valid tracks in ordered queue');
+          this.showQueueError();
+        }
+
+      } catch (error) {
+        console.error('Failed to build queue from original order:', error);
+        this.showQueueError();
+      }
+    }
+
+    private async rebuildQueueFromState(musicState: any) {
+      try {
+
+        // Rebuild the queue using the current track and album information
+        console.log('🎵 Rebuilding queue for album:', musicState.currentAlbum.title);
+        console.log('- Track:', musicState.currentTrack.title);
+        console.log('- Shuffle state (actual):', musicState.isShuffled);
+        console.log('- Playlist display: Always original order (shuffle=false)');
+
+        // Always build queue in original order for playlist display
+        // The actual shuffle behavior is handled by the music player during playback
+        mediaSessionManager.updateQueue(
+          musicState.currentTrack,
+          musicState.currentAlbum,
+          false  // Always use original order for playlist display
+        );
+
+        // Get the newly built queue and render it
+        const queueInfo = mediaSessionManager.getQueue();
+        if (queueInfo.queue.length > 0) {
+          console.log('✅ Queue rebuilt successfully:', queueInfo.queue.length, 'tracks');
+
+          // Force visual display to use original album order instead of MediaSession queue order
+          console.log('🎵 Building visual queue from originalOrder to ensure correct display');
+          this.buildQueueFromOriginalOrder(musicState);
+        } else {
+          console.log('❌ MediaSession queue is empty, using originalOrder fallback');
+          this.buildQueueFromOriginalOrder(musicState);
+        }
+      } catch (error) {
+        console.error('Failed to rebuild queue from state:', error);
+      }
+    }
+
+    private async ensureQueueExists() {
+      try {
+        const queueInfo = mediaSessionManager.getQueue();
+
+        // If queue is empty but we have current track info, rebuild it
+        if (queueInfo.queue.length === 0) {
+          const musicState = musicPlayer.getState();
+          if (musicState.currentTrack && musicState.currentAlbum) {
+            console.log('Queue is empty, rebuilding from current playback state');
+            await this.rebuildQueueFromState(musicState);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to ensure queue exists:', error);
+      }
+    }
+
+    private renderQueue(queue: any[], currentIndex: number, isPlaying: boolean = false) {
+      const queueLoading = document.getElementById('queue-loading');
+      const queueEmpty = document.getElementById('queue-empty');
+      const queueTracks = document.getElementById('queue-tracks');
+
+      if (!queueTracks) return;
+
+      // Hide loading state
+      if (queueLoading) queueLoading.style.display = 'none';
+
+      if (queue.length === 0) {
+        // Show empty state
+        if (queueEmpty) queueEmpty.style.display = 'block';
+        queueTracks.style.display = 'none';
+        return;
+      }
+
+      // Hide empty state and show tracks
+      if (queueEmpty) queueEmpty.style.display = 'none';
+      queueTracks.style.display = 'block';
+
+      // Render queue tracks in simple format with accurate play/pause icons
+      queueTracks.innerHTML = queue.map((item, index) => {
+        const isCurrent = index === currentIndex;
+        let icon = 'icon-list-ul';
+
+        if (isCurrent) {
+          icon = isPlaying ? 'icon-pause' : 'icon-play-fill';
+        }
+
+        // Use global theme classes for current track highlighting
+        const currentClasses = isCurrent ? 'current bg-palette-200 dark:bg-palette-300 dark:text-black font-semibold' : '';
+
+        return `<p class="queue-track ${currentClasses}" data-queue-index="${index}"><i class="${icon}"></i> ${item.track.title}</p>`;
+      }).join('');
+
+      // Add click handlers for track selection
+      const trackElements = queueTracks.querySelectorAll('.queue-track');
+      trackElements.forEach((element) => {
+        element.addEventListener('click', (e) => {
+          console.log('Track clicked:', element.textContent);
+          e.preventDefault(); // Prevent default label behavior
+          e.stopPropagation(); // Prevent event bubbling to parent label
+
+          const queueIndex = parseInt(element.getAttribute('data-queue-index') || '0');
+          this.selectQueueTrack(queueIndex);
+        });
+      });
+    }
+
+    private async selectQueueTrack(queueIndex: number) {
+      try {
+        const musicState = musicPlayer.getState();
+
+        if (musicState.currentAlbum && musicState.currentTrack) {
+          // Use the same true original order logic as visual display
+          // This ensures clicks work on the same order as what's visually displayed
+          const trueOriginalOrder = Array.from({ length: musicState.currentAlbum.tracks.length }, (_, i) => i);
+
+          // Get the actual track index from the true original order
+          const actualTrackIndex = trueOriginalOrder[queueIndex];
+          const targetTrack = musicState.currentAlbum.tracks[actualTrackIndex];
+
+          console.log('🎵 Playlist track clicked:');
+          console.log('- Queue index clicked:', queueIndex);
+          console.log('- True original order:', trueOriginalOrder);
+          console.log('- Actual track index:', actualTrackIndex);
+          console.log('- Target track:', targetTrack?.title);
+          console.log('- Current track:', musicState.currentTrack.title);
+          console.log('- Current track index:', musicState.currentTrackIndex);
+          console.log('- Is same track:', actualTrackIndex === musicState.currentTrackIndex);
+          console.log('- Is playing:', musicState.isPlaying);
+
+          if (targetTrack) {
+            // Check if clicking on the current track
+            if (actualTrackIndex === musicState.currentTrackIndex) {
+              // Same track - just toggle play/pause
+              console.log('🎵 Clicking current track - toggling play/pause');
+              if (musicState.isPlaying) {
+                musicPlayer.pause();
+                // Update icon immediately for instant feedback
+                this.updatePlaylistTrackIcon(false);
+              } else {
+                musicPlayer.resume();
+                // Update icon immediately for instant feedback
+                this.updatePlaylistTrackIcon(true);
+              }
+            } else {
+              // Different track - switch to new track
+              console.log('🎵 Clicking different track - switching to:', targetTrack.title);
+              musicPlayer.play(targetTrack.id, musicState.currentAlbum.id, {
+                forceStart: true,
+                trackIndex: actualTrackIndex
+              });
+
+              // Manually trigger immediate visual feedback for clicked track
+              // The event listener will also fire, but this ensures immediate response
+              setTimeout(() => {
+                // Get the updated music state after track change
+                const updatedState = musicPlayer.getState();
+                this.updatePlaylistHighlighting(targetTrack);
+
+                // Force scroll and animation for the newly selected track (visual consistency)
+                const newCurrentElement = document.querySelector('.queue-track.current');
+                if (newCurrentElement) {
+                  console.log('🎵 Manual click - forcing scroll and animation for selected track');
+                  // Always force animation for manual clicks to provide visual feedback
+                  this.scrollToCurrentTrack(newCurrentElement, updatedState.isShuffled, true);
+                }
+              }, 150);
+            }
+          }
+        } else {
+          // Fallback to original behavior
+          musicPlayer.selectQueueTrack(queueIndex);
+        }
+      } catch (error) {
+        console.error('Failed to select queue track:', error);
+      }
+    }
+
+    private showQueueError() {
+      const queueLoading = document.getElementById('queue-loading');
+      const queueEmpty = document.getElementById('queue-empty');
+      const queueTracks = document.getElementById('queue-tracks');
+
+      if (queueLoading) queueLoading.style.display = 'none';
+      if (queueTracks) queueTracks.style.display = 'none';
+
+      if (queueEmpty) {
+        queueEmpty.innerHTML = '<i class="icon-alert"></i> Failed to load queue';
+        queueEmpty.style.display = 'block';
+      }
+    }
+
+    private closePlaylist() {
+      if (this.playlistCheckbox && this.playlistCheckbox.checked) {
+        this.playlistCheckbox.checked = false;
+        this.togglePlaylistExpanded(false);
+      }
     }
 
     private setupFooterOverlapPrevention() {
@@ -643,9 +1255,15 @@
         this.updateLoopButton(state.isLooping);
         this.updateVolumeSlider(state.volume);
 
-        if (state.isVisible) {
-          this.show();
-        }
+        // Show widget for any cached/paused track, not just when isVisible
+        // This allows access to playlist even when music is paused
+        this.show();
+
+        console.log(
+          'Now Playing widget shown for:',
+          state.currentTrack.title,
+          `(${state.isPlaying ? 'playing' : 'paused'})`
+        );
       } else if (this.isVisible) {
         this.hide();
       }
@@ -755,6 +1373,173 @@
       }
     }
 
+    private updatePlayPauseIconsOnly(isPlaying: boolean) {
+      // Update main play/pause button
+      this.updatePlayButton(isPlaying);
+
+      // Update playlist track icon for the currently playing track
+      this.updatePlaylistTrackIcon(isPlaying);
+    }
+
+    private updatePlaylistTrackIcon(isPlaying: boolean) {
+      try {
+        // Find the currently highlighted track in the playlist
+        const currentTrackElement = document.querySelector('.queue-track.current');
+        if (currentTrackElement) {
+          const iconElement = currentTrackElement.querySelector('i');
+          if (iconElement) {
+            // Remove existing icon classes
+            iconElement.className = '';
+            // Set the appropriate icon based on play state
+            iconElement.className = isPlaying ? 'icon-pause' : 'icon-play-fill';
+          }
+        }
+      } catch (error) {
+        console.error('Failed to update playlist track icon:', error);
+      }
+    }
+
+    private toggleCurrentTrackPlayPause() {
+      try {
+        const musicState = musicPlayer.getState();
+
+        if (musicState.currentTrack) {
+          if (musicState.isPlaying) {
+            musicPlayer.pause();
+            // Update icon immediately for instant feedback
+            this.updatePlaylistTrackIcon(false);
+          } else {
+            musicPlayer.resume();
+            // Update icon immediately for instant feedback
+            this.updatePlaylistTrackIcon(true);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to toggle current track play/pause:', error);
+      }
+    }
+
+    private navigatePlaylistUp() {
+      try {
+        musicPlayer.previousTrack();
+      } catch (error) {
+        console.error('Failed to navigate playlist up:', error);
+      }
+    }
+
+    private navigatePlaylistDown() {
+      try {
+        musicPlayer.nextTrack();
+      } catch (error) {
+        console.error('Failed to navigate playlist down:', error);
+      }
+    }
+
+    private updatePlaylistHighlighting(currentTrack: any) {
+      try {
+        const musicState = musicPlayer.getState();
+
+        // Find all queue track elements
+        const queueTracks = document.querySelectorAll('.queue-track');
+
+        if (!queueTracks.length || !musicState.currentAlbum) return;
+
+        // Generate the same true original order as used for display
+        const trueOriginalOrder = Array.from({ length: musicState.currentAlbum.tracks.length }, (_, i) => i);
+
+        // Find the current track's position in the true original order
+        const currentTrackIndex = musicState.currentTrackIndex;
+        const currentQueueIndex = trueOriginalOrder.indexOf(currentTrackIndex);
+
+        console.log('🎵 Updating playlist highlighting:');
+        console.log('- Current track:', currentTrack.title);
+        console.log('- Current track index:', currentTrackIndex);
+        console.log('- Current queue position:', currentQueueIndex);
+        console.log('- Is shuffled:', musicState.isShuffled);
+
+        let currentTrackElement: Element | null = null;
+
+        // Update all track elements
+        queueTracks.forEach((trackElement, index) => {
+          const iconElement = trackElement.querySelector('i');
+          const isCurrent = index === currentQueueIndex;
+
+          // Remove current class from all tracks
+          trackElement.classList.remove('current', 'bg-palette-200', 'dark:bg-palette-300', 'dark:text-black', 'font-semibold');
+
+          if (isCurrent) {
+            // Add current class and styling to the new current track
+            trackElement.classList.add('current', 'bg-palette-200', 'dark:bg-palette-300', 'dark:text-black', 'font-semibold');
+            currentTrackElement = trackElement;
+
+            // Update icon based on play state
+            if (iconElement) {
+              iconElement.className = musicState.isPlaying ? 'icon-pause' : 'icon-play-fill';
+            }
+          } else {
+            // Set default icon for non-current tracks
+            if (iconElement) {
+              iconElement.className = 'icon-list-ul';
+            }
+          }
+        });
+
+        // Auto-scroll to center the current track in the playlist
+        // This is especially important when shuffle is enabled and playback jumps around
+        if (currentTrackElement) {
+          this.scrollToCurrentTrack(currentTrackElement, musicState.isShuffled);
+        }
+
+      } catch (error) {
+        console.error('Failed to update playlist highlighting:', error);
+      }
+    }
+
+    private scrollToCurrentTrack(currentTrackElement: Element, isShuffled: boolean, forceAnimation: boolean = false) {
+      try {
+        // Find the playlist content container
+        const playlistContent = document.getElementById('playlist-content');
+        if (!playlistContent) return;
+
+        console.log('🎵 Auto-scrolling to current track:', {
+          isShuffled,
+          forceAnimation,
+          trackText: currentTrackElement.textContent?.substring(0, 30)
+        });
+
+        // Simple smooth scroll to center the current track
+        currentTrackElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'nearest'
+        });
+
+        // Add a subtle highlight animation to draw attention
+        // (especially useful for shuffle or when forced via manual click)
+        if (isShuffled || forceAnimation) {
+          this.addTrackHighlightAnimation(currentTrackElement);
+        }
+
+      } catch (error) {
+        console.error('Failed to scroll to current track:', error);
+      }
+    }
+
+    private addTrackHighlightAnimation(trackElement: Element) {
+      try {
+        // Add a subtle pulse animation to help users notice the track change
+        trackElement.classList.add('track-highlight-pulse');
+
+        // Remove the animation class after it completes
+        setTimeout(() => {
+          trackElement.classList.remove('track-highlight-pulse');
+        }, 1000);
+
+      } catch (error) {
+        console.error('Failed to add track highlight animation:', error);
+      }
+    }
+
     private updateLoopButton(isLooping: boolean) {
       const loopIcon = this.expandedElement?.querySelector('.expanded-loop-icon') as HTMLElement;
       const loopOneIcon = this.expandedElement?.querySelector(
@@ -815,7 +1600,6 @@
         nowPlayingManager.seek(percentage);
       }
     }
-
 
     private show() {
       if (this.isVisible) return;
@@ -883,6 +1667,10 @@
       if (!this.isExpanded) return;
 
       this.isExpanded = false;
+
+      // Close playlist when widget is collapsed
+      this.closePlaylist();
+
       this.expandedContainer?.classList.add('translate-y-full');
       this.expandedContainer?.classList.remove('translate-y-0');
 
@@ -1429,6 +2217,26 @@
   /* Pause animation on hover */
   .marquee-container:hover .marquee-text.scrolling {
     animation-play-state: paused;
+  }
+
+  /* Track highlight pulse animation for shuffle mode */
+  .track-highlight-pulse {
+    animation: trackPulse 1s ease-in-out;
+  }
+
+  @keyframes trackPulse {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    50% {
+      transform: scale(1.02);
+      box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.1);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
   }
 
   /* Clean widget styling with fixed positioning */

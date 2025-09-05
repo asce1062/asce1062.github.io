@@ -5,11 +5,19 @@ import musicData from '../data/music.json';
 
 export class mediaSessionTest {
   private static logEvent(message: string, data?: any): void {
-    const timestamp = new Date().toLocaleTimeString();
-    console.log(`🎵 [${timestamp}] ${message}`, data || '');
+    // Only log in development environment
+    if (process.env.NODE_ENV === 'development') {
+      const timestamp = new Date().toLocaleTimeString();
+      console.log(`🎵 [${timestamp}] ${message}`, data || '');
+    }
+  }
+
+  private static isProduction(): boolean {
+    return process.env.NODE_ENV === 'production';
   }
 
   public static setupLogging(): void {
+    if (this.isProduction()) return;
     // Log Media Session events
     mediaSessionManager.onMetadataUpdated((event) => {
       const { track, album } = event.detail;
@@ -63,6 +71,7 @@ export class mediaSessionTest {
   }
 
   public static getStatus(): object {
+    if (this.isProduction()) return {};
     const musicState = musicPlayer.getState();
     const mediaSessionSupported = mediaSessionManager.getIsSupported();
 
@@ -86,6 +95,7 @@ export class mediaSessionTest {
   }
 
   public static async testBasicPlayback(): Promise<void> {
+    if (this.isProduction()) return;
     this.logEvent('Starting basic playback test...');
 
     try {
@@ -120,6 +130,7 @@ export class mediaSessionTest {
   }
 
   public static logMediaSessionCapabilities(): void {
+    if (this.isProduction()) return;
     if (!mediaSessionManager.getIsSupported()) {
       this.logEvent('Media Session API not supported in this browser');
       return;
@@ -139,12 +150,14 @@ export class mediaSessionTest {
   }
 
   public static logDebugInfo(): object {
+    if (this.isProduction()) return {};
     const debugInfo = mediaSessionManager.getDebugInfo();
     this.logEvent('🔍 Media Session debug info:', debugInfo);
     return debugInfo;
   }
 
   public static logEnhancedMetadata(): ExtractedMetadata | null {
+    if (this.isProduction()) return null;
     const enhancedMetadata = mediaSessionManager.getEnhancedMetadata();
     if (enhancedMetadata) {
       this.logEvent('🎵 Enhanced metadata extraction:', {
@@ -162,6 +175,7 @@ export class mediaSessionTest {
   }
 
   public static testDeviceCompatibility(): void {
+    if (this.isProduction()) return;
     this.logEvent('🧪 Testing device compatibility enhancements...');
 
     if (!mediaSessionManager.getIsSupported()) {
@@ -203,6 +217,7 @@ export class mediaSessionTest {
   }
 
   public static testArtworkFallback(): void {
+    if (this.isProduction()) return;
     this.logEvent('🖼️ Testing enhanced artwork fallback system...');
 
     if (!mediaSessionManager.getIsSupported()) {
@@ -251,6 +266,7 @@ export class mediaSessionTest {
 
 
   public static testRemotePlaybackAPI(): void {
+    if (this.isProduction()) return;
     this.logEvent('📡 Testing Remote Playback API...');
 
     const remoteSupported = mediaSessionManager.getRemotePlaybackSupported();
@@ -283,6 +299,7 @@ export class mediaSessionTest {
   }
 
   public static async testCastingCapabilities(): Promise<void> {
+    if (this.isProduction()) return;
     this.logEvent('📺 Testing casting capabilities...');
 
     if (!mediaSessionManager.getRemotePlaybackSupported()) {
@@ -304,6 +321,7 @@ export class mediaSessionTest {
   }
 
   public static testPositionUpdates(): void {
+    if (this.isProduction()) return;
     if (!mediaSessionManager.getIsSupported()) {
       this.logEvent('❌ Cannot test position updates - Media Session not supported');
       return;
@@ -336,6 +354,7 @@ export class mediaSessionTest {
   }
 
   public static async testShuffleAndLoop(): Promise<void> {
+    if (this.isProduction()) return;
     this.logEvent('Starting shuffle and loop test...');
 
     try {
@@ -375,6 +394,7 @@ export class mediaSessionTest {
   }
 
   public static testQueueFunctionality(): void {
+    if (this.isProduction()) return;
     this.logEvent('🎵 Testing queue functionality...');
 
     if (!mediaSessionManager.getIsSupported()) {
@@ -437,6 +457,7 @@ export class mediaSessionTest {
   }
 
   public static testQueueReordering(): void {
+    if (this.isProduction()) return;
     this.logEvent('📋 Testing queue reordering...');
 
     if (!mediaSessionManager.getIsSupported()) {
@@ -484,6 +505,7 @@ export class mediaSessionTest {
   }
 
   public static displayCurrentQueue(): void {
+    if (this.isProduction()) return;
     this.logEvent('📋 Current queue status:');
 
     const queueInfo = mediaSessionManager.getQueue();
@@ -509,6 +531,7 @@ export class mediaSessionTest {
   }
 
   public static testQueueTrackSelection(): void {
+    if (this.isProduction()) return;
     this.logEvent('🎯 Testing queue track selection...');
 
     const queueInfo = mediaSessionManager.getQueue();
@@ -561,6 +584,7 @@ export class mediaSessionTest {
   }
 
   public static displayQueueTrackList(): void {
+    if (this.isProduction()) return;
     this.logEvent('📝 Displaying enhanced queue track list...');
 
     const trackList = mediaSessionManager.getQueueTrackList();
@@ -578,6 +602,7 @@ export class mediaSessionTest {
   }
 
   public static testEnhancedMetadata(): void {
+    if (this.isProduction()) return;
     this.logEvent('🎨 Testing enhanced metadata with queue context...');
 
     const currentTrack = mediaSessionManager.getCurrentTrack();
@@ -604,6 +629,7 @@ export class mediaSessionTest {
   }
 
   public static testQueueCounterAccuracy(): void {
+    if (this.isProduction()) return;
     this.logEvent('🔢 Testing queue counter accuracy...');
 
     const queueInfo = mediaSessionManager.getQueue();
@@ -660,6 +686,7 @@ export class mediaSessionTest {
   }
 
   public static testFullQueueWorkflow(): void {
+    if (this.isProduction()) return;
     this.logEvent('🎪 Starting comprehensive queue workflow test...');
 
     // Step 1: Display current state
@@ -693,6 +720,7 @@ export class mediaSessionTest {
   }
 
   public static debugQueueSynchronization(): void {
+    if (this.isProduction()) return;
     this.logEvent('🔍 Debugging queue synchronization...');
 
     const queueInfo = mediaSessionManager.getQueue();
@@ -740,7 +768,7 @@ export class mediaSessionTest {
   }
 }
 
-// Auto-enable logging in development
+// Auto-enable logging and global access only in development
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   mediaSessionTest.setupLogging();
   mediaSessionTest.logMediaSessionCapabilities();

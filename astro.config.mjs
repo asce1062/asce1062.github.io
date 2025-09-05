@@ -1,9 +1,10 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
+import { SITE_URL } from './src/consts';
 
 export default defineConfig({
-  site: 'https://asce1062.github.io',
+  site: SITE_URL,
   build: {
     assets: 'astro'
   },

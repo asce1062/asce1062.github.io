@@ -139,6 +139,17 @@
   }
 }
 
+@layer components {
+    a {
+        @apply underline-offset-4 hover:no-underline
+    }
+
+    details > :nth-child(n+2),
+    #expand-content p {
+        @apply pl-4 border-l p-2 cursor-pointer hover:no-underline hover:bg-palette-200 hover:dark:bg-palette-300 hover:dark:text-black
+    }
+}
+
 /* Responsive container */
 .container {
   padding-left: clamp(1rem, 2vw, 2rem);

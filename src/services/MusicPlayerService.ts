@@ -1,7 +1,13 @@
 import musicData from '../data/music.json';
-import type { Track, Album, PlaybackState, PlaybackOptions, MusicPlayerEventMap } from '../types/types';
+import type {
+  Track,
+  Album,
+  PlaybackState,
+  PlaybackOptions,
+  MusicPlayerEventMap,
+} from '../types/types';
 import { mediaSessionManager } from './MediaSessionService';
-
+import { androidBridgeService } from './AndroidBridgeService';
 
 class StateManager {
   private static readonly STORAGE_KEY = 'musicPlayerState';
@@ -52,7 +58,11 @@ export class MusicPlayerService extends EventTarget {
   private lastSavedTime = 0;
   private isTabActive = true;
   private activePlayRequest: AbortController | null = null;
-  private hasPendingRestoration = false;
+  // TODO: Future improvements
+  // Implement continuous audio with Astro View Transitions
+  // For seamless navigation without audio interruption
+  private androidSyncInProgress = false;
+  private lastAndroidBridgeUpdate = 0;
 
   private state: PlaybackState = {
     currentTrack: null,
@@ -75,11 +85,16 @@ export class MusicPlayerService extends EventTarget {
     this.createAudioContextIfNeeded();
     this.setupAudioEventListeners();
     this.setupVisibilityHandling();
-    this.setupUserInteractionDetection();
+    this.setupNotificationActionListener();
     this.setupMediaSessionIntegration();
+    this.setupNativeAudioDeviceHandling();
+    this.setupAndroidPlaybackSync();
+    this.setupAppTerminationHandler();
     this.startProgressUpdater();
     this.startStateChecker();
-    this.restoreState();
+    this.restoreState().catch((error) => {
+      console.warn('🎵 Failed to restore state:', error);
+    });
   }
 
   // Singleton pattern
@@ -126,34 +141,152 @@ export class MusicPlayerService extends EventTarget {
         duration: this.state.duration,
         percentage: this.state.duration ? (this.state.currentTime / this.state.duration) * 100 : 0,
       });
-      
+
       // Update Media Session position state periodically (throttled internally for Chrome)
+      if (this.state.duration > 0) {
+        mediaSessionManager.updatePositionState(this.state.currentTime, this.state.duration);
+      }
+
+      // Update AndroidBridge position state periodically (throttled to every 1 second)
+      if (this.state.isPlaying && this.state.currentTrack && this.state.currentAlbum) {
+        const now = Date.now();
+        if (!this.lastAndroidBridgeUpdate || now - this.lastAndroidBridgeUpdate >= 1000) {
+          // console.log(
+          //   '🔔 TIMEUPDATE: AndroidBridge position update -',
+          //   Math.round(this.state.currentTime),
+          //   's, playing:',
+          //   this.state.isPlaying
+          // );
+          // Use lightweight position-only update without triggering full MediaSession refresh
+          androidBridgeService.updatePlaybackState(
+            true,
+            this.state.currentTrack,
+            this.state.currentAlbum,
+            this.state.currentTime,
+            this.audioElement.duration
+          );
+          this.lastAndroidBridgeUpdate = now;
+        }
+      }
+    });
+
+    this.audioElement.addEventListener('play', () => {
+      console.log('🎵 Audio play event triggered');
+      this.state.isPlaying = true;
+      this.state.currentTime = this.audioElement.currentTime; // Ensure accurate position
+      console.log(
+        '🔔 PLAY: Position captured -',
+        Math.round(this.state.currentTime),
+        's, audio element:',
+        Math.round(this.audioElement.currentTime),
+        's'
+      );
+      this.createAudioContextIfNeeded();
+      this.emitStateChanged();
+      this.saveState();
+
+      // Update Media Session playback state
+      mediaSessionManager.updatePlaybackState(this.state);
+
+      // Update AndroidBridge when play actually starts
+      if (this.state.currentTrack && this.state.currentAlbum) {
+        console.log(
+          '🔔 PLAY: AndroidBridge update -',
+          Math.round(this.state.currentTime),
+          's, playing: true'
+        );
+        androidBridgeService.updatePlaybackState(
+          true,
+          this.state.currentTrack,
+          this.state.currentAlbum,
+          this.state.currentTime,
+          this.audioElement.duration
+        );
+      }
+    });
+
+    this.audioElement.addEventListener('pause', () => {
+      this.state.isPlaying = false;
+      this.state.currentTime = this.audioElement.currentTime; // Ensure accurate position
+      console.log(
+        '🔔 PAUSE: Position captured -',
+        Math.round(this.state.currentTime),
+        's, audio element:',
+        Math.round(this.audioElement.currentTime),
+        's'
+      );
+      this.emitStateChanged();
+      this.saveState();
+
+      // Update Media Session playback state
+      mediaSessionManager.updatePlaybackState(this.state);
+
+      // Update AndroidBridge state with accurate current position
+      console.log(
+        '🔔 PAUSE: AndroidBridge update -',
+        Math.round(this.state.currentTime),
+        's, playing: false'
+      );
+      androidBridgeService.updatePlaybackState(
+        false,
+        this.state.currentTrack,
+        this.state.currentAlbum,
+        this.state.currentTime,
+        this.audioElement.duration
+      );
+    });
+
+    this.audioElement.addEventListener('ended', () => {
+      this.handleTrackEnd();
+    });
+
+    this.audioElement.addEventListener('seeking', () => {
+      // Update position immediately when seeking starts (for responsive UI)
+      this.state.currentTime = this.audioElement.currentTime;
+      console.log(
+        '🔔 SEEKING: Position captured -',
+        Math.round(this.state.currentTime),
+        's, audio element:',
+        Math.round(this.audioElement.currentTime),
+        's'
+      );
+
+      // Update website MediaSession position for immediate feedback
       if (this.state.duration > 0) {
         mediaSessionManager.updatePositionState(this.state.currentTime, this.state.duration);
       }
     });
 
-    this.audioElement.addEventListener('play', () => {
-      this.state.isPlaying = true;
-      this.createAudioContextIfNeeded();
-      this.emitStateChanged();
-      this.saveState();
-      
-      // Update Media Session playback state
-      mediaSessionManager.updatePlaybackState(this.state);
-    });
+    this.audioElement.addEventListener('seeked', () => {
+      // Update position state after seek operation completes
+      this.state.currentTime = this.audioElement.currentTime;
+      console.log(
+        '🔔 SEEKED: Position captured -',
+        Math.round(this.state.currentTime),
+        's, audio element:',
+        Math.round(this.audioElement.currentTime),
+        's'
+      );
 
-    this.audioElement.addEventListener('pause', () => {
-      this.state.isPlaying = false;
-      this.emitStateChanged();
-      this.saveState();
-      
-      // Update Media Session playback state
-      mediaSessionManager.updatePlaybackState(this.state);
-    });
+      // Update website MediaSession position
+      if (this.state.duration > 0) {
+        mediaSessionManager.updatePositionState(this.state.currentTime, this.state.duration);
+      }
 
-    this.audioElement.addEventListener('ended', () => {
-      this.handleTrackEnd();
+      // Update AndroidBridge position for native notifications
+      if (this.state.currentTrack && this.state.currentAlbum) {
+        console.log(
+          '🔔 SEEKED: AndroidBridge forcePositionUpdate -',
+          Math.round(this.state.currentTime),
+          's, playing:',
+          this.state.isPlaying
+        );
+        androidBridgeService.forcePositionUpdate(
+          this.state.currentTime,
+          this.state.isPlaying,
+          this.audioElement.duration
+        );
+      }
     });
 
     this.audioElement.addEventListener('error', (error) => {
@@ -200,75 +333,118 @@ export class MusicPlayerService extends EventTarget {
     window.addEventListener('pagehide', () => this.saveState());
   }
 
-  private setupUserInteractionDetection(): void {
-    // Handle first user interaction to resume AudioContext and pending restoration
-    const handleFirstInteraction = () => {
-      this.createAudioContextIfNeeded();
+  private setupNotificationActionListener(): void {
+    // Listen for notification control actions from AndroidBridge
+    document.addEventListener('android-notification-action', (event: CustomEvent) => {
+      const { action, position } = event.detail;
+      console.log(
+        '🔔 Handling notification action:',
+        action,
+        position ? `at position ${Math.round(position / 1000)}s` : ''
+      );
 
-      // If we have a pending restoration, resume playback
-      if (this.hasPendingRestoration && this.state.currentTrack && this.state.currentAlbum) {
-        console.log('🎵 Resuming restored playback after user interaction');
-        this.hasPendingRestoration = false;
-        this.resume();
+      try {
+        switch (action) {
+          case 'play':
+            this.resume();
+            break;
+          case 'pause':
+            this.pause();
+            break;
+          case 'next':
+            this.nextTrack();
+            break;
+          case 'previous':
+            this.previousTrack();
+            break;
+          case 'shuffle':
+            this.toggleShuffle();
+            break;
+          case 'loop':
+            this.toggleLoop();
+            break;
+          case 'favorite':
+            // TODO: Implement favorite functionality
+            console.log('🔔 Favorite action - not implemented yet');
+            break;
+          case 'share':
+            // TODO: Implement share functionality
+            console.log('🔔 Share action - not implemented yet');
+            break;
+          case 'seekto':
+            // Handle seek from Android notification scrubbing
+            if (position !== undefined && position >= 0) {
+              const seekTimeSeconds = position / 1000;
+              console.log(
+                '🔔 Seeking to position:',
+                seekTimeSeconds,
+                'seconds via Android notification'
+              );
+              this.seek(seekTimeSeconds);
+            } else {
+              console.warn('🔔 Seek action received but no valid position provided');
+            }
+            break;
+          default:
+            console.warn('🔔 Unknown notification action:', action);
+        }
+      } catch (error) {
+        console.error('🔔 Failed to handle notification action:', action, error);
       }
-    };
-
-    document.addEventListener('click', handleFirstInteraction, { once: true });
-    document.addEventListener('keydown', handleFirstInteraction, { once: true });
-    document.addEventListener('touchstart', handleFirstInteraction, { once: true });
+    });
   }
 
   private setupMediaSessionIntegration(): void {
     // Listen to Media Session action events
     mediaSessionManager.onActionTriggered((event) => {
       const { action, details } = event.detail;
-      
+
       switch (action) {
         case 'play':
-          this.resume().catch(error => {
+          this.resume().catch((error) => {
             console.error('Failed to resume from Media Session:', error);
           });
           break;
-          
+
         case 'pause':
           this.pause();
           break;
-          
+
         case 'stop':
           this.stop();
           break;
-          
+
         case 'nexttrack':
           this.nextTrack();
           break;
-          
+
         case 'previoustrack':
           this.previousTrack();
           break;
-          
+
         case 'seekbackward':
           if (details?.seekOffset) {
             const newTime = Math.max(this.audioElement.currentTime - details.seekOffset, 0);
             this.seek(newTime);
           }
           break;
-          
+
         case 'seekforward':
           if (details?.seekOffset) {
             const newTime = Math.min(
-              this.audioElement.currentTime + details.seekOffset, 
+              this.audioElement.currentTime + details.seekOffset,
               this.audioElement.duration || 0
             );
             this.seek(newTime);
           }
           break;
-          
+
         case 'seekto':
           if (details?.seekTime !== undefined) {
             this.seek(details.seekTime);
           }
           break;
-          
+
         default:
           console.warn('🎵 Unhandled Media Session action:', action);
       }
@@ -277,24 +453,27 @@ export class MusicPlayerService extends EventTarget {
     // Listen to Media Session queue track selection events
     mediaSessionManager.onQueueTrackSelected((event) => {
       const { queueIndex, track, shouldTogglePlayback } = event.detail;
-      
-      console.log(`🎵 Queue track selected: ${track.title} at index ${queueIndex}, shouldTogglePlayback: ${shouldTogglePlayback}`);
-      
+
+      console.log(
+        `🎵 Queue track selected: ${track.title} at index ${queueIndex}, shouldTogglePlayback: ${shouldTogglePlayback}`
+      );
+
       if (shouldTogglePlayback && this.state.currentTrack?.id === track.id) {
         // If it's the same track and we should toggle playback, toggle play/pause
         if (this.state.isPlaying) {
           this.pause();
         } else {
-          this.resume().catch(error => {
+          this.resume().catch((error) => {
             console.error('Failed to resume from queue track selection:', error);
           });
         }
       } else {
         // Play the selected track
-        this.play(track.id, this.state.currentAlbum?.id || '', { forceStart: true })
-          .catch(error => {
+        this.play(track.id, this.state.currentAlbum?.id || '', { forceStart: true }).catch(
+          (error) => {
             console.error('Failed to play selected queue track:', error);
-          });
+          }
+        );
       }
     });
 
@@ -310,8 +489,269 @@ export class MusicPlayerService extends EventTarget {
     console.log('🎵 Media Session integration set up');
   }
 
-  private async createAudioContextIfNeeded(): Promise<boolean> {
+  private setupNativeAudioDeviceHandling(): void {
+    // Set up native audio device disconnect handling for Android WebView
 
+    // Primary method: Register callback for native Android app
+    if (typeof window !== 'undefined') {
+      (window as any).AndroidInterface = {
+        onAudioDeviceDisconnected: () => {
+          console.log('🎧 Audio device disconnected (native detection)');
+          this.pauseForDeviceDisconnect();
+        },
+      };
+    }
+
+    // Fallback method: Listen for custom event dispatched by native app
+    document.addEventListener('audioDeviceDisconnected', (event: CustomEvent) => {
+      console.log('🎧 Audio device disconnected event received:', event.detail);
+      this.pauseForDeviceDisconnect();
+    });
+
+    console.log('🎧 Native audio device disconnect handling set up');
+  }
+
+  private setupAndroidPlaybackSync(): void {
+    // Listen for Android background playback sync events
+    // This prevents duplicate audio when reopening the app after background playback
+    document.addEventListener('android-playback-sync', (event: CustomEvent) => {
+      console.log('🎵 Received Android playback sync event:', event.detail);
+
+      try {
+        const androidState = event.detail;
+
+        // Validate the sync data (Android sends individual fields, not track/album objects)
+        if (!androidState || !androidState.title || !androidState.artist || !androidState.trackId) {
+          console.warn(
+            '🎵 Invalid Android playback sync data - missing required fields:',
+            androidState
+          );
+          return;
+        }
+
+        console.log('🎵 Syncing with Android background playback:', {
+          title: androidState.title,
+          artist: androidState.artist,
+          album: androidState.album,
+          position: Math.round(androidState.position || 0) + 'ms',
+          isPlaying: androidState.isPlaying,
+          trackId: androidState.trackId,
+        });
+
+        // Sync the website player state with Android background playback
+        this.syncWithAndroidPlayback(androidState);
+      } catch (error) {
+        console.error('🎵 Failed to handle Android playback sync:', error);
+      }
+    });
+
+    console.log('🎵 Android playback sync handling set up');
+  }
+
+  private setupAppTerminationHandler(): void {
+    // Handle complete audio stop when app is terminated (swiped from recents)
+    document.addEventListener('app-terminated', () => {
+      console.log('🛑 App terminated - stopping all audio playback');
+      this.stopAllAudioPlayback();
+    });
+
+    // Also listen for the direct stop_all_playback notification action
+    document.addEventListener('android-notification-action', (event: CustomEvent) => {
+      const { action } = event.detail;
+      if (action === 'stop_all_playback') {
+        console.log('🛑 Received stop_all_playback - terminating all audio');
+        this.stopAllAudioPlayback();
+      }
+    });
+
+    // Make stopAllAudioPlayback available globally for Android to call directly
+    if (typeof window !== 'undefined') {
+      (window as any).onNotificationAction = (action: string) => {
+        if (action === 'stop') {
+          console.log('🛑 Global stop action received - stopping all playback');
+          this.stopAllAudioPlayback();
+        }
+      };
+    }
+
+    console.log('🛑 App termination handler set up for complete audio stop');
+  }
+
+  private stopAllAudioPlayback(): void {
+    try {
+      console.log('🛑 Stopping all audio playback for app termination...');
+
+      // Stop current music player audio
+      if (this.audioElement) {
+        this.audioElement.pause();
+        this.audioElement.currentTime = 0;
+        console.log('🛑 Stopped and reset main audio element');
+      }
+
+      // Find and stop ALL audio/video elements on the page
+      const audioElements = document.querySelectorAll('audio, video');
+      audioElements.forEach((element, index) => {
+        if (element instanceof HTMLAudioElement || element instanceof HTMLVideoElement) {
+          element.pause();
+          element.currentTime = 0;
+          console.log(`🛑 Stopped audio/video element ${index + 1}`);
+        }
+      });
+
+      // Clear all playback state
+      this.state.isPlaying = false;
+      this.state.currentTime = 0;
+
+      // Clear any active play requests
+      if (this.activePlayRequest) {
+        this.activePlayRequest.abort();
+        this.activePlayRequest = null;
+      }
+
+      // Clear intervals and timers
+      if (this.progressUpdateInterval) {
+        clearInterval(this.progressUpdateInterval);
+        this.progressUpdateInterval = null;
+      }
+
+      if (this.stateCheckInterval) {
+        clearInterval(this.stateCheckInterval);
+        this.stateCheckInterval = null;
+      }
+
+      // Update UI to reflect stopped state
+      this.emitStateChanged();
+      this.emitEvent('track-paused', { track: this.state.currentTrack });
+
+      // Clear saved state since app is terminating
+      this.saveState();
+
+      console.log('✅ All audio playback stopped for app termination');
+    } catch (error) {
+      console.error('❌ Failed to stop all audio playback:', error);
+    }
+  }
+
+  private async syncWithAndroidPlayback(androidState: any): Promise<void> {
+    try {
+      console.log('🎵 Starting sync with Android background playback...');
+
+      // Set flag to prevent conflicts with restoreState
+      this.androidSyncInProgress = true;
+
+      // Stop any current website playback to prevent conflicts
+      if (this.state.isPlaying) {
+        console.log('🎵 Pausing current website playback for sync');
+        this.pause();
+      }
+
+      // Android sends basic metadata, we need to match it with our current track
+      // Since Android was playing this track, it should match our current state
+      const currentTrack = this.state.currentTrack;
+      const currentAlbum = this.state.currentAlbum;
+
+      if (!currentTrack || currentTrack.id !== androidState.trackId) {
+        console.warn('🎵 Cannot sync - Android track does not match current website state');
+        console.warn('🎵 Android trackId:', androidState.trackId, 'title:', androidState.title);
+        console.warn(
+          '🎵 Website currentTrack:',
+          currentTrack?.id || 'none',
+          currentTrack?.title || 'none'
+        );
+
+        // Try to continue anyway - maybe the track is the same but IDs don't match
+        if (currentTrack && currentTrack.title === androidState.title) {
+          console.log('🎵 Track titles match - continuing sync despite ID mismatch');
+        } else {
+          console.error('🎵 Cannot sync - tracks do not match at all');
+          return;
+        }
+      }
+
+      console.log('🎵 Track match confirmed - syncing playback state');
+
+      // Convert Android position from ms to seconds
+      const positionSeconds = (androidState.position || 0) / 1000;
+
+      // Update internal state to match Android position only
+      this.state.currentTime = positionSeconds;
+      this.state.duration = (androidState.duration || 0) / 1000; // Convert ms to seconds
+      this.state.isPlaying = false; // Keep website paused - no takeover
+
+      // Set audio element position but don't start playback
+      this.audioElement.currentTime = positionSeconds;
+
+      // Update Media Session to reflect synced but paused state
+      if (currentTrack && currentAlbum) {
+        mediaSessionManager.updateMetadata(
+          currentTrack,
+          currentAlbum,
+          this.state.currentTrackIndex
+        );
+        mediaSessionManager.updatePlaybackState(this.state);
+      }
+
+      // Update UI to show the synced state
+      console.log('🎵 Synced website position with Android - website remains paused');
+
+      // Emit events to update UI
+      this.emitStateChanged();
+      if (currentTrack && currentAlbum) {
+        this.emitEvent('track-changed', {
+          track: currentTrack,
+          album: currentAlbum,
+          isAutoplay: false,
+        });
+      }
+
+      // Save the synced state
+      this.saveState();
+
+      console.log('🎵 Successfully synced with Android background playback:', {
+        track: androidState.title,
+        album: androidState.album,
+        position: Math.round(positionSeconds) + 's',
+        androidIsPlaying: androidState.isPlaying,
+        websiteIsPlaying: this.state.isPlaying,
+        trackMatch: androidState.trackId === currentTrack?.id,
+        note: 'Website synced position but remains paused to avoid duplicate audio',
+      });
+    } catch (error) {
+      console.error('🎵 Failed to sync with Android playback:', error);
+    } finally {
+      // Clear sync flag
+      this.androidSyncInProgress = false;
+    }
+  }
+
+  private pauseForDeviceDisconnect(): void {
+    if (this.state.isPlaying && this.state.currentTrack) {
+      console.log('🎧 Pausing due to audio device disconnect:', this.state.currentTrack.title);
+      this.pause();
+
+      // Emit a special event for device disconnect pause
+      this.emitEvent('track-paused', {
+        track: this.state.currentTrack,
+        reason: 'device-disconnect',
+      } as any);
+
+      // Show a brief notification or toast (if supported)
+      if ('Notification' in window && Notification.permission === 'granted') {
+        try {
+          new Notification('Music Paused', {
+            body: 'Playback paused due to audio device disconnect',
+            icon: this.state.currentAlbum?.coverArt || '/favicon.ico',
+            tag: 'device-disconnect',
+            requireInteraction: false,
+          });
+        } catch (error) {
+          console.log('Could not show disconnect notification:', error);
+        }
+      }
+    }
+  }
+
+  private async createAudioContextIfNeeded(): Promise<boolean> {
     if (!this.audioContext) {
       try {
         this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -356,6 +796,9 @@ export class MusicPlayerService extends EventTarget {
             : 0,
         });
 
+        // AndroidBridge now works like MediaSession - automatic progression without periodic updates
+        // Only send updates on state changes, track changes, or explicit seeks
+
         // Save progress periodically
         if (Math.abs(this.state.currentTime - this.lastSavedTime) > 5) {
           this.lastSavedTime = this.state.currentTime;
@@ -388,19 +831,29 @@ export class MusicPlayerService extends EventTarget {
     }
 
     if (this.state.isLooping && this.state.currentTrack) {
-      console.log(`🎵 Looping track: ${this.state.currentTrack.title} (Media Session sync: ${mediaSessionManager.getIsLooping()})`);
+      console.log(
+        `🎵 Looping track: ${
+          this.state.currentTrack.title
+        } (Media Session sync: ${mediaSessionManager.getIsLooping()})`
+      );
       this.audioElement.currentTime = 0;
       this.state.currentTime = 0;
-      
-      // Update Media Session position for loop
+
+      // Reset Media Session position to 0 for loop restart
       if (this.state.duration > 0) {
-        mediaSessionManager.updatePositionState(0, this.state.duration);
+        mediaSessionManager.resetPositionState(this.state.duration);
       }
-      
+
+      // Force AndroidBridge position reset for loop restart
+      if (this.state.currentAlbum) {
+        androidBridgeService.forcePositionUpdate(0, false); // Reset position and set to paused
+      }
+
       setTimeout(() => {
         this.audioElement.play().catch((error) => {
           console.error('Failed to loop track:', error);
         });
+        // Note: The 'play' event listener will handle updating AndroidBridge to playing state
       }, 50);
     } else {
       // Auto-advance to next track (will respect shuffle state)
@@ -465,14 +918,14 @@ export class MusicPlayerService extends EventTarget {
     if (!this.state.currentAlbum) return;
 
     this.state.shuffledOrder = [...this.state.originalOrder];
+    this.shuffleArray(this.state.shuffledOrder);
+  }
 
+  private shuffleArray(array: number[]): void {
     // Fisher-Yates shuffle
-    for (let i = this.state.shuffledOrder.length - 1; i > 0; i--) {
+    for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [this.state.shuffledOrder[i], this.state.shuffledOrder[j]] = [
-        this.state.shuffledOrder[j],
-        this.state.shuffledOrder[i],
-      ];
+      [array[i], array[j]] = [array[j], array[i]];
     }
   }
 
@@ -506,28 +959,52 @@ export class MusicPlayerService extends EventTarget {
     StateManager.save(this.state);
   }
 
-  private restoreState(): void {
+  private async restoreState(): Promise<void> {
     const savedState = StateManager.restore();
     if (savedState) {
       this.state = { ...this.state, ...savedState };
 
-      // If there was a playing track, restore the state but don't auto-play on page load
-      // This respects browser autoplay policies
-      if (savedState.isPlaying && savedState.currentTrack && savedState.currentAlbum) {
+      // If there was a playing track, restore and auto-resume playback
+      // Skip if Android sync is in progress to prevent conflicts
+      if (
+        savedState.isPlaying &&
+        savedState.currentTrack &&
+        savedState.currentAlbum &&
+        !this.androidSyncInProgress
+      ) {
         console.log('🎵 Restored state for:', savedState.currentTrack.title);
-        // Set up the audio element but don't play yet
+        // Set up the audio element and resume playback automatically
         this.audioElement.src = savedState.currentTrack.file;
         this.audioElement.currentTime = savedState.currentTime || 0;
-        // Set state to paused until user interaction
-        this.state.isPlaying = false;
-        this.hasPendingRestoration = true;
-        
+
         // Update Media Session with restored track info
-        mediaSessionManager.updateMetadata(savedState.currentTrack, savedState.currentAlbum, savedState.currentTrackIndex);
+        mediaSessionManager.updateMetadata(
+          savedState.currentTrack,
+          savedState.currentAlbum,
+          savedState.currentTrackIndex
+        );
+
+        // Ensure AudioContext is ready for progress tracking
+        await this.createAudioContextIfNeeded();
+        console.log('🎵 AudioContext prepared for restored playback');
+
+        // Auto-resume playback after navigation (small delay to ensure everything is initialized)
+        setTimeout(() => {
+          this.resume().catch((error) => {
+            console.warn(
+              '🎵 Auto-resume failed after navigation - user may need to interact:',
+              error
+            );
+            this.state.isPlaying = false;
+            this.emitStateChanged();
+          });
+        }, 100);
+      } else if (this.androidSyncInProgress) {
+        console.log('🎵 Skipping state restoration - Android sync in progress');
       }
 
       this.emitStateChanged();
-      
+
       // Update Media Session playback state and sync shuffle/loop
       mediaSessionManager.updatePlaybackState(this.state);
       mediaSessionManager.updateShuffleState(this.state.isShuffled);
@@ -602,6 +1079,7 @@ export class MusicPlayerService extends EventTarget {
     this.state.currentTrackIndex = index;
     this.state.isVisible = true;
 
+    // Position sync will be handled by play/pause events automatically
     // Initialize shuffle order if needed
     if (!this.state.originalOrder.length) {
       this.initializeShuffleOrder();
@@ -609,7 +1087,6 @@ export class MusicPlayerService extends EventTarget {
 
     // Load track state (loop, etc.)
     this.loadTrackState(trackId);
-
 
     try {
       // Check if request was aborted before starting audio operations
@@ -639,7 +1116,8 @@ export class MusicPlayerService extends EventTarget {
         this.audioElement.src = track.file;
 
         // Preserve position if requested and this is the same track
-        const shouldPreservePosition = options.preservePosition && isSameTrack && this.state.currentTime > 0;
+        const shouldPreservePosition =
+          options.preservePosition && isSameTrack && this.state.currentTime > 0;
         const targetTime = shouldPreservePosition ? this.state.currentTime : 0;
 
         this.audioElement.currentTime = targetTime;
@@ -660,10 +1138,20 @@ export class MusicPlayerService extends EventTarget {
       this.emitEvent('track-started', { track, album, options });
       this.emitStateChanged();
       this.saveState();
-      
-      // Update Media Session metadata and state
+
+      // Update Media Session metadata, queue, and state
       mediaSessionManager.updateMetadata(track, album, this.state.currentTrackIndex);
+      mediaSessionManager.updateQueue(track, album, this.state.isShuffled);
       mediaSessionManager.updatePlaybackState(this.state);
+
+      // Update AndroidBridge state (updatePlaybackState handles notification internally)
+      androidBridgeService.updatePlaybackState(
+        this.state.isPlaying,
+        track,
+        album,
+        this.state.currentTime,
+        this.audioElement.duration
+      );
 
       // Clear the active request on successful completion
       this.activePlayRequest = null;
@@ -684,7 +1172,20 @@ export class MusicPlayerService extends EventTarget {
     if (!this.audioElement.paused) {
       this.audioElement.pause();
       if (this.state.currentTrack) {
+        // Sync state with audio element's actual current time before pausing
+        this.state.currentTime = this.audioElement.currentTime;
+        console.log('🎵 PAUSE: Captured position =', this.state.currentTime, 'seconds');
         this.emitEvent('track-paused', { track: this.state.currentTrack });
+        // Update AndroidBridge state (updatePlaybackState handles notification internally)
+        if (this.state.currentAlbum) {
+          androidBridgeService.updatePlaybackState(
+            false,
+            this.state.currentTrack,
+            this.state.currentAlbum,
+            this.state.currentTime,
+            this.audioElement.duration
+          );
+        }
       }
     }
   }
@@ -701,15 +1202,29 @@ export class MusicPlayerService extends EventTarget {
 
     try {
       // Check if we need to load/reload the track
-      const needsReload = this.state.currentTrack && this.state.currentAlbum &&
+      const needsReload =
+        this.state.currentTrack &&
+        this.state.currentAlbum &&
         (!this.audioElement.src || this.audioElement.src !== this.state.currentTrack.file);
 
       if (needsReload) {
-        console.log('🎵 Reloading track for resume:', this.state.currentTrack.title);
+        console.log(
+          '🎵 Reloading track for resume:',
+          this.state.currentTrack.title,
+          'at position:',
+          this.state.currentTime
+        );
 
         if (!signal.aborted) {
           this.audioElement.src = this.state.currentTrack.file;
-          this.audioElement.currentTime = this.state.currentTime || 0;
+          // Ensure we don't reset position - only set if we have a valid saved time
+          const savedTime = this.state.currentTime;
+          if (savedTime && savedTime > 0) {
+            this.audioElement.currentTime = savedTime;
+            console.log('🎵 Restored position to:', savedTime, 'seconds');
+          } else {
+            console.log('🎵 No saved position, starting from beginning');
+          }
           await this.createAudioContextIfNeeded();
         }
       }
@@ -717,6 +1232,7 @@ export class MusicPlayerService extends EventTarget {
       // Always try to play if we have a current track and audio is paused
       if (this.state.currentTrack && this.audioElement.paused && !signal.aborted) {
         console.log('🎵 Starting playback from resume');
+        await this.createAudioContextIfNeeded();
         await this.safePlay(signal);
 
         if (!signal.aborted) {
@@ -725,9 +1241,31 @@ export class MusicPlayerService extends EventTarget {
           this.emitEvent('track-resumed', { track: this.state.currentTrack });
           this.emitStateChanged();
           this.saveState();
-          
+
           // Update Media Session state
           mediaSessionManager.updatePlaybackState(this.state);
+
+          // Update AndroidBridge state (like MediaSession - simple state update)
+          if (this.state.currentAlbum) {
+            // For resume: always use saved state time to avoid timing issues
+            const positionToUse = this.state.currentTime;
+            console.log(
+              '🎵 RESUME: Using saved position =',
+              positionToUse,
+              'seconds (audio element shows:',
+              this.audioElement.currentTime,
+              ')'
+            );
+
+            // Keep using saved position
+            androidBridgeService.updatePlaybackState(
+              true,
+              this.state.currentTrack,
+              this.state.currentAlbum,
+              positionToUse,
+              this.audioElement.duration
+            );
+          }
         }
       }
 
@@ -746,9 +1284,16 @@ export class MusicPlayerService extends EventTarget {
     this.state.currentTime = 0;
     this.state.isPlaying = false;
     this.emitStateChanged();
-    
+
     // Update Media Session state
     mediaSessionManager.updatePlaybackState(this.state);
+
+    // Update AndroidBridge state (position updates handled by progress updater)
+    androidBridgeService.updatePlaybackState(false, null, null, 0, 0);
+    // androidBridgeService.stopPositionUpdates();
+
+    // Clear notification when stopped
+    androidBridgeService.clearNotification();
   }
 
   public nextTrack(): void {
@@ -758,8 +1303,15 @@ export class MusicPlayerService extends EventTarget {
     this.saveTrackState();
 
     // Ensure orders are initialized and match current album length
-    if (!this.state.originalOrder.length || this.state.originalOrder.length !== this.state.currentAlbum.tracks.length) {
-      console.log('🎵 Reinitializing orders for album with', this.state.currentAlbum.tracks.length, 'tracks');
+    if (
+      !this.state.originalOrder.length ||
+      this.state.originalOrder.length !== this.state.currentAlbum.tracks.length
+    ) {
+      console.log(
+        '🎵 Reinitializing orders for album with',
+        this.state.currentAlbum.tracks.length,
+        'tracks'
+      );
       this.initializeShuffleOrder();
     }
 
@@ -784,7 +1336,9 @@ export class MusicPlayerService extends EventTarget {
 
       // If still not found, default to first track
       if (currentPositionInOrder === -1) {
-        console.error('🎵 Track index still not found after reinitialization, defaulting to first track');
+        console.error(
+          '🎵 Track index still not found after reinitialization, defaulting to first track'
+        );
         console.error('🎵 Debug - currentTrackIndex:', this.state.currentTrackIndex);
         console.error('🎵 Debug - newCurrentOrder:', newCurrentOrder);
         currentPositionInOrder = 0;
@@ -826,8 +1380,15 @@ export class MusicPlayerService extends EventTarget {
     this.saveTrackState();
 
     // Ensure orders are initialized and match current album length
-    if (!this.state.originalOrder.length || this.state.originalOrder.length !== this.state.currentAlbum.tracks.length) {
-      console.log('🎵 Reinitializing orders for album with', this.state.currentAlbum.tracks.length, 'tracks');
+    if (
+      !this.state.originalOrder.length ||
+      this.state.originalOrder.length !== this.state.currentAlbum.tracks.length
+    ) {
+      console.log(
+        '🎵 Reinitializing orders for album with',
+        this.state.currentAlbum.tracks.length,
+        'tracks'
+      );
       this.initializeShuffleOrder();
     }
 
@@ -852,7 +1413,9 @@ export class MusicPlayerService extends EventTarget {
 
       // If still not found, default to last track
       if (currentPositionInOrder === -1) {
-        console.error('🎵 Track index still not found after reinitialization, defaulting to last track');
+        console.error(
+          '🎵 Track index still not found after reinitialization, defaulting to last track'
+        );
         console.error('🎵 Debug - currentTrackIndex:', this.state.currentTrackIndex);
         console.error('🎵 Debug - newCurrentOrder:', newCurrentOrder);
         currentPositionInOrder = currentOrder.length - 1;
@@ -875,7 +1438,9 @@ export class MusicPlayerService extends EventTarget {
     }
 
     console.log(
-      `🎵 Previous track: ${targetTrack.title} (${this.state.isShuffled ? 'shuffled' : 'normal'} order)`
+      `🎵 Previous track: ${targetTrack.title} (${
+        this.state.isShuffled ? 'shuffled' : 'normal'
+      } order)`
     );
 
     this.play(targetTrack.id, this.state.currentAlbum.id, { forceStart: true });
@@ -889,9 +1454,69 @@ export class MusicPlayerService extends EventTarget {
 
   public seek(time: number): void {
     if (this.audioElement.duration && !isNaN(this.audioElement.duration)) {
-      this.audioElement.currentTime = Math.max(0, Math.min(time, this.audioElement.duration));
-      this.state.currentTime = this.audioElement.currentTime;
+      const targetTime = Math.max(0, Math.min(time, this.audioElement.duration));
+      console.log(
+        '🔔 SEEK METHOD: Seeking to -',
+        Math.round(targetTime),
+        's, current audio element:',
+        Math.round(this.audioElement.currentTime),
+        's'
+      );
+
+      this.audioElement.currentTime = targetTime;
+      this.state.currentTime = targetTime;
       this.saveState();
+
+      console.log(
+        '🔔 SEEKING: Position captured -',
+        Math.round(targetTime),
+        's, audio element:',
+        Math.round(this.audioElement.currentTime),
+        's'
+      );
+
+      // Listen for seeked event to confirm position is set
+      const handleSeeked = () => {
+        console.log(
+          '🔔 SEEKED: Position captured -',
+          Math.round(this.audioElement.currentTime),
+          's, audio element:',
+          Math.round(this.audioElement.currentTime),
+          's'
+        );
+
+        // Force AndroidBridge position update after seek completes
+        console.log(
+          '🔔 SEEKED: AndroidBridge forcePositionUpdate -',
+          Math.round(this.audioElement.currentTime),
+          's, playing:',
+          this.state.isPlaying
+        );
+        androidBridgeService.forcePositionUpdate(
+          this.audioElement.currentTime,
+          this.state.isPlaying,
+          this.audioElement.duration
+        );
+
+        this.audioElement.removeEventListener('seeked', handleSeeked);
+      };
+
+      this.audioElement.addEventListener('seeked', handleSeeked);
+
+      // Fallback update in case seeked event doesn't fire
+      setTimeout(() => {
+        console.log(
+          '🔔 SEEK METHOD: AndroidBridge forcePositionUpdate (delayed) -',
+          Math.round(targetTime),
+          's, playing:',
+          this.state.isPlaying
+        );
+        androidBridgeService.forcePositionUpdate(
+          targetTime,
+          this.state.isPlaying,
+          this.audioElement.duration
+        );
+      }, 50);
     }
   }
 
@@ -905,6 +1530,8 @@ export class MusicPlayerService extends EventTarget {
 
     this.emitEvent('volume-changed', { volume: this.state.volume });
     this.saveState();
+
+    // Note: Volume updates removed - simplified AndroidBridge only handles notifications
   }
 
   public toggleLoop(): void {
@@ -916,6 +1543,16 @@ export class MusicPlayerService extends EventTarget {
         isLooping: this.state.isLooping,
         trackTitle: this.state.currentTrack.title,
       });
+    }
+
+    // Update AndroidBridge state (updatePlaybackState handles notification internally)
+    if (this.state.currentTrack && this.state.currentAlbum) {
+      androidBridgeService.updatePlaybackState(
+        this.state.isPlaying,
+        this.state.currentTrack,
+        this.state.currentAlbum,
+        this.state.currentTime
+      );
     }
 
     console.log(`🎵 Loop ${this.state.isLooping ? 'enabled' : 'disabled'}`);
@@ -933,6 +1570,25 @@ export class MusicPlayerService extends EventTarget {
       order: this.getCurrentOrder(),
     });
 
+    // Update queue when shuffle state changes
+    if (this.state.currentTrack && this.state.currentAlbum) {
+      mediaSessionManager.updateQueue(
+        this.state.currentTrack,
+        this.state.currentAlbum,
+        this.state.isShuffled
+      );
+
+      // Update AndroidBridge state (updatePlaybackState handles notification internally)
+      if (this.state.currentTrack && this.state.currentAlbum) {
+        androidBridgeService.updatePlaybackState(
+          this.state.isPlaying,
+          this.state.currentTrack,
+          this.state.currentAlbum,
+          this.state.currentTime
+        );
+      }
+    }
+
     console.log(`🎵 Shuffle ${this.state.isShuffled ? 'enabled' : 'disabled'}`);
     this.saveState();
   }
@@ -944,7 +1600,7 @@ export class MusicPlayerService extends EventTarget {
   public selectQueueTrack(queueIndex: number): void {
     try {
       console.log(`🎵 Selecting queue track at index: ${queueIndex}`);
-      
+
       const success = mediaSessionManager.selectTrackFromQueue(queueIndex);
       if (!success) {
         console.error(`Failed to select track from queue at index: ${queueIndex}`);
@@ -956,7 +1612,9 @@ export class MusicPlayerService extends EventTarget {
     } catch (error) {
       console.error('Error selecting queue track:', error);
       this.emitEvent('playback-error', {
-        error: `Failed to select queue track: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        error: `Failed to select queue track: ${
+          error instanceof Error ? error.message : 'Unknown error'
+        }`,
         track: this.state.currentTrack || undefined,
       });
     }

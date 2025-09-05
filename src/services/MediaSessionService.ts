@@ -348,14 +348,11 @@ class MediaSessionManager extends EventTarget {
       ? `${window.location.origin}${album.coverArt}`
       : album.coverArt;
 
-    // Generate multiple artwork sizes for optimal device compatibility
+    // Generate artwork sizes - MediaSession has limits on number of images
     const artwork: ArtworkInfo[] = [
       { src: baseArtworkUrl, sizes: '512x512', type: 'image/png' },
       { src: baseArtworkUrl, sizes: '256x256', type: 'image/png' },
       { src: baseArtworkUrl, sizes: '128x128', type: 'image/png' },
-      { src: baseArtworkUrl, sizes: '96x96', type: 'image/png' },
-      { src: baseArtworkUrl, sizes: '64x64', type: 'image/png' },
-      { src: baseArtworkUrl, sizes: '32x32', type: 'image/png' },
     ];
 
     // Enhanced fallback artwork system using actual directory structure
@@ -506,7 +503,9 @@ class MediaSessionManager extends EventTarget {
     this.currentQueueIndex = this.findTrackInQueue(currentTrack.id);
 
     console.log(
-      `🎵 Queue updated: ${this.currentQueue.length} tracks, current position: ${this.currentQueueIndex + 1}/${this.currentQueue.length}`
+      `🎵 Queue updated: ${this.currentQueue.length} tracks, current position: ${
+        this.currentQueueIndex + 1
+      }/${this.currentQueue.length}`
     );
 
     // Emit queue update event
@@ -550,7 +549,9 @@ class MediaSessionManager extends EventTarget {
       this.currentQueueIndex = newIndex;
 
       console.log(
-        `🎵 Queue index updated from ${oldIndex + 1} to ${newIndex + 1}/${this.currentQueue.length} for track: ${trackId}`
+        `🎵 Queue index updated from ${oldIndex + 1} to ${newIndex + 1}/${
+          this.currentQueue.length
+        } for track: ${trackId}`
       );
 
       // Emit queue navigation event to notify about the index change
@@ -560,7 +561,9 @@ class MediaSessionManager extends EventTarget {
       });
     } else {
       console.log(
-        `🎵 Queue index unchanged: already at position ${newIndex + 1}/${this.currentQueue.length} for track: ${trackId}`
+        `🎵 Queue index unchanged: already at position ${newIndex + 1}/${
+          this.currentQueue.length
+        } for track: ${trackId}`
       );
     }
   }
@@ -591,7 +594,9 @@ class MediaSessionManager extends EventTarget {
     this.currentQueueIndex = newCurrentIndex;
 
     console.log(
-      `🎵 Queue reordered: current position now ${this.currentQueueIndex + 1}/${this.currentQueue.length}`
+      `🎵 Queue reordered: current position now ${this.currentQueueIndex + 1}/${
+        this.currentQueue.length
+      }`
     );
 
     // Emit reorder event
@@ -657,7 +662,9 @@ class MediaSessionManager extends EventTarget {
     const isCurrentTrack = queueIndex === this.currentQueueIndex;
 
     console.log(
-      `🎵 Selecting track from queue: position ${queueIndex + 1}/${this.currentQueue.length}, isCurrent: ${isCurrentTrack}`
+      `🎵 Selecting track from queue: position ${queueIndex + 1}/${
+        this.currentQueue.length
+      }, isCurrent: ${isCurrentTrack}`
     );
 
     // Update current queue position
@@ -952,7 +959,9 @@ class MediaSessionManager extends EventTarget {
       const metadata = new MediaMetadata({
         title: enhancedTitle,
         artist: extractedMetadata.artist,
-        album: `${extractedMetadata.album}${totalTracks > 1 ? ` • Track ${position} of ${totalTracks}` : ''}`,
+        album: `${extractedMetadata.album}${
+          totalTracks > 1 ? ` • Track ${position} of ${totalTracks}` : ''
+        }`,
         artwork: extractedMetadata.artwork.map((art) => ({
           src: art.src,
           sizes: art.sizes,
@@ -961,6 +970,28 @@ class MediaSessionManager extends EventTarget {
       });
 
       navigator.mediaSession.metadata = metadata;
+
+      // Reset position state for new track to prevent showing stale position from previous track
+      this.lastKnownPosition = 0;
+      this.lastKnownDuration = 0;
+      this.lastPositionUpdate = 0;
+
+      // Clear any existing position timer to prevent conflicts
+      if (this.positionUpdateTimer) {
+        clearTimeout(this.positionUpdateTimer);
+        this.positionUpdateTimer = null;
+      }
+
+      // Explicitly set position to 0 for new track
+      try {
+        navigator.mediaSession.setPositionState({
+          duration: 0, // Will be updated when playback state is set
+          playbackRate: 1.0, // Cannot be zero per MediaSession API spec
+          position: 0,
+        });
+      } catch (error) {
+        console.warn('🎵 Failed to reset position state for new track:', error);
+      }
 
       console.log('🎵 Media Session metadata updated:', {
         title: extractedMetadata.title,
@@ -971,6 +1002,7 @@ class MediaSessionManager extends EventTarget {
         artworkSizes: extractedMetadata.artwork.length,
         trackPosition: `${position}/${totalTracks}`,
       });
+      console.log('🎵 Reset position state for new track');
 
       this.emitEvent('metadata-updated', { track, album, metadata });
     } catch (error) {
@@ -1031,6 +1063,36 @@ class MediaSessionManager extends EventTarget {
       this.isLooping = isLooping;
       console.log('🎵 Media Session loop state updated:', isLooping);
       this.emitEvent('loop-state-changed', { isLooping });
+    }
+  }
+
+  public resetPositionState(duration: number = 0): void {
+    if (!this.isSupported) return;
+
+    try {
+      // Clear any existing position timer to prevent conflicts
+      if (this.positionUpdateTimer) {
+        clearTimeout(this.positionUpdateTimer);
+        this.positionUpdateTimer = null;
+      }
+
+      // Reset position tracking state
+      this.lastKnownPosition = 0;
+      this.lastPositionUpdate = 0;
+      if (duration > 0) {
+        this.lastKnownDuration = duration;
+      }
+
+      // Set MediaSession position to 0
+      navigator.mediaSession.setPositionState({
+        duration: duration > 0 ? duration : this.lastKnownDuration,
+        playbackRate: this.currentPlaybackState === 'playing' ? 1.0 : 0.0,
+        position: 0,
+      });
+
+      console.log('🎵 Media Session position state reset to 0');
+    } catch (error) {
+      console.warn('🎵 Error resetting Media Session position state:', error);
     }
   }
 
