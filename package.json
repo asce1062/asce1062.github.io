@@ -6,7 +6,7 @@
   "scripts": {
     "updatemusic": "node scripts/updateMusicJson.js",
     "predeploy": "astro check && astro build",
-    "deploy": "gh-pages -d dist --branch aleximmer --nojekyll --dotfiles",
+    "deploy": "gh-pages -d dist --branch aleximmer --nojekyll --cname music.alexmbugua.me --dotfiles",
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
