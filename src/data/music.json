@@ -2012,6 +2012,57 @@
           ],
           "file": "/audio/Half of iT/Extras/05.Bubble Bobble.mp3",
           "size": 4.11
+        },
+        {
+          "id": "elvira",
+          "title": "Elvira",
+          "format": "mp3",
+          "duration": "2:58",
+          "description": "Chip Music",
+          "genre": [
+            "Bonus",
+            "8-Bit",
+            "Chiptune",
+            "Electronic",
+            "Experimental",
+            "Synthwave"
+          ],
+          "file": "/audio/Half of iT/Extras/06.Elvira.mp3",
+          "size": 7.1
+        },
+        {
+          "id": "dusk-till-dawn",
+          "title": "Dusk Till Dawn",
+          "format": "mp3",
+          "duration": "0:58",
+          "description": "Chip Music",
+          "genre": [
+            "Bonus",
+            "8-Bit",
+            "Chiptune",
+            "Electronic",
+            "Experimental",
+            "Synthwave"
+          ],
+          "file": "/audio/Half of iT/Extras/07.Dusk Till Dawn.mp3",
+          "size": 2.51
+        },
+        {
+          "id": "day-and-night",
+          "title": "Day and Night",
+          "format": "mp3",
+          "duration": "1:34",
+          "description": "Chip Music",
+          "genre": [
+            "Bonus",
+            "8-Bit",
+            "Chiptune",
+            "Electronic",
+            "Experimental",
+            "Synthwave"
+          ],
+          "file": "/audio/Half of iT/Extras/08.Day and Night.mp3",
+          "size": 3.88
         }
       ]
     }
